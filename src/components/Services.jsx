@@ -102,7 +102,9 @@ function Services() {
                 <span className="services__tab-info">
                   <span>
                     <span className="services__tab-name">{label ?? name}</span>
-                    <span className="services__tab-count">{count} services</span>
+                    <span className="services__tab-count">
+                      {count} service{count === 1 ? '' : 's'}
+                    </span>
                   </span>
                   <span className="services__tab-icon">
                     <Icon />
@@ -176,7 +178,7 @@ function Services() {
                     <span>
                       <span className="services__card-name">{name}</span>
                       <span className="services__card-count">
-                        {count} services
+                        {count} service{count === 1 ? '' : 's'}
                       </span>
                     </span>
                     <span className="services__card-icon">

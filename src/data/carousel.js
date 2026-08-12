@@ -12,12 +12,15 @@ export function useCarousel(signal = 0) {
   const trackRef = useRef(null)
   const [pages, setPages] = useState(1)
   const [page, setPage] = useState(0)
+  // mirrors `page` for callbacks that must not go stale between renders
+  const pageRef = useRef(0)
 
   const measure = useCallback(() => {
     const track = trackRef.current
     if (!track || !track.clientWidth) return
     setPages(Math.max(1, Math.round(track.scrollWidth / track.clientWidth)))
-    setPage(Math.round(track.scrollLeft / track.clientWidth))
+    pageRef.current = Math.round(track.scrollLeft / track.clientWidth)
+    setPage(pageRef.current)
   }, [])
 
   useEffect(() => {
@@ -39,11 +42,7 @@ export function useCarousel(signal = 0) {
 
   /** Advances one page, wrapping back to the start at the end. */
   const next = useCallback(() => {
-    setPage((current) => {
-      const target = current + 1 >= pages ? 0 : current + 1
-      goTo(target)
-      return current
-    })
+    goTo(pageRef.current + 1 >= pages ? 0 : pageRef.current + 1)
   }, [goTo, pages])
 
   return { trackRef, page, pages, goTo, next, measure }

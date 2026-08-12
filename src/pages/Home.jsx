@@ -1,6 +1,7 @@
 import Hero from '../components/Hero.jsx'
 import About from '../components/About.jsx'
 import Services from '../components/Services.jsx'
+import Reviews from '../components/Reviews.jsx'
 import Story from '../components/Story.jsx'
 import Gallery from '../components/Gallery.jsx'
 import Booking from '../components/Booking.jsx'
@@ -12,6 +13,7 @@ function Home() {
       <Hero />
       <About />
       <Services />
+      <Reviews />
       <Story />
       <Gallery />
       <Booking />

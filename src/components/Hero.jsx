@@ -1,6 +1,11 @@
 import './Hero.css'
 
-const NAV_LINKS = ['About Us', 'Services', 'Blog', 'Contacts']
+const NAV_LINKS = [
+  { label: 'About Us', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Contacts', href: '#contact' },
+]
 
 function Hero() {
   return (
@@ -18,14 +23,14 @@ function Hero() {
         </a>
 
         <nav className="hero__links">
-          {NAV_LINKS.map((link) => (
-            <a key={link} href="#">
-              {link}
+          {NAV_LINKS.map(({ label, href }) => (
+            <a key={label} href={href}>
+              {label}
             </a>
           ))}
         </nav>
 
-        <a href="#" className="hero__cta-button">
+        <a href="#book" className="hero__cta-button">
           Book an Appointment
         </a>
       </header>
@@ -38,7 +43,7 @@ function Hero() {
             </span>
           </span>
         </p>
-        <a href="#" className="hero__cta-link">
+        <a href="#book" className="hero__cta-link">
           Book an Appointment
         </a>
       </div>

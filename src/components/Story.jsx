@@ -64,7 +64,11 @@ function Story() {
   }, [])
 
   return (
-    <section ref={sectionRef} className={`story ${visible ? 'is-visible' : ''}`}>
+    <section
+      id="story"
+      ref={sectionRef}
+      className={`story ${visible ? 'is-visible' : ''}`}
+    >
       <div className="story__bg" />
       <div className="story__overlay" />
 
@@ -106,7 +110,7 @@ function Story() {
           ))}
         </dl>
 
-        <a href="#" className="story__read-more">
+        <a href="#gallery" className="story__read-more">
           Read More
         </a>
       </div>

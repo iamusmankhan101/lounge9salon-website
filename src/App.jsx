@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react'
 import ComingSoon from './components/ComingSoon.jsx'
-import Hero from './components/Hero.jsx'
-import About from './components/About.jsx'
-import Services from './components/Services.jsx'
-import Story from './components/Story.jsx'
-import Gallery from './components/Gallery.jsx'
+import Home from './pages/Home.jsx'
 import './App.css'
 
 /**
- * The holding page is the front door. The finished site stays reachable at
- * ?preview (or #preview) so it can be reviewed before launch — swap the
+ * The holding page is the front door. The finished home page stays reachable
+ * at ?preview (or #preview) so it can be reviewed before launch — swap the
  * default here when the salon is ready to open.
  */
 const isPreview = () =>
@@ -20,7 +16,9 @@ function App() {
   const [preview, setPreview] = useState(isPreview)
 
   useEffect(() => {
-    const sync = () => setPreview(isPreview())
+    // Sticky once on: in-page anchors change the hash, and dropping back to
+    // the holding page mid-scroll would be jarring.
+    const sync = () => setPreview((current) => current || isPreview())
     window.addEventListener('hashchange', sync)
     window.addEventListener('popstate', sync)
     return () => {
@@ -29,17 +27,7 @@ function App() {
     }
   }, [])
 
-  if (!preview) return <ComingSoon />
-
-  return (
-    <>
-      <Hero />
-      <About />
-      <Services />
-      <Story />
-      <Gallery />
-    </>
-  )
+  return preview ? <Home /> : <ComingSoon />
 }
 
 export default App

@@ -23,7 +23,11 @@ function About() {
   const lineDelay = (i) => ({ transitionDelay: `${i * 0.18}s` })
 
   return (
-    <section ref={sectionRef} className={`about ${visible ? 'is-visible' : ''}`}>
+    <section
+      id="about"
+      ref={sectionRef}
+      className={`about ${visible ? 'is-visible' : ''}`}
+    >
       <h2 className="about__title">
         <span className="about__line-mask">
           <span className="about__line" style={lineDelay(0)}>
@@ -58,7 +62,7 @@ function About() {
         treatments that precisely address each client&apos;s individual needs.
       </p>
 
-      <a href="#" className="about__read-more">
+      <a href="#story" className="about__read-more">
         Read More
       </a>
     </section>

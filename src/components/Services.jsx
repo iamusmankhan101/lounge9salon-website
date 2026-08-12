@@ -61,6 +61,7 @@ function Services() {
 
   return (
     <section
+      id="services"
       ref={sectionRef}
       className={`services ${visible ? 'is-visible' : ''}`}
     >

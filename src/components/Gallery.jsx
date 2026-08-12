@@ -104,7 +104,7 @@ function Gallery() {
   const [titleRef, titleInView] = useInView(0.6)
 
   return (
-    <section className="gallery">
+    <section id="gallery" className="gallery">
       <div className="gallery__grid">
         {SHOTS.slice(0, 3).map((shot, i) => (
           <Shot key={shot.id} shot={shot} index={i} />

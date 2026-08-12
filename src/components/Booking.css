@@ -1,0 +1,260 @@
+.booking {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  padding: clamp(4rem, 10vh, 8rem) clamp(1.5rem, 4vw, 4.5rem);
+  color: #fff;
+  background: #16110d;
+}
+
+/* ---------- left column ---------- */
+
+.booking__title {
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.booking__mask {
+  display: block;
+  overflow: hidden;
+  padding-top: 0.06em;
+  margin-top: -0.06em;
+}
+
+.booking__line {
+  display: block;
+  transform: translateY(115%);
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--delay, 0s);
+}
+
+.booking.is-visible .booking__line {
+  transform: translateY(0);
+}
+
+.booking__text {
+  max-width: 32rem;
+  margin-top: 1.75rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.booking__contact {
+  margin-top: 2.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.booking__contact-row {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.booking__contact-row dt {
+  flex: 0 0 6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  padding-top: 0.15rem;
+}
+
+.booking__contact-row dd {
+  font-size: 1rem;
+}
+
+.booking__contact-row a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  transition: border-color 0.25s ease;
+}
+
+.booking__contact-row a:hover {
+  border-bottom-color: #fff;
+}
+
+/* staged fade-up for everything under the heading */
+.booking__text,
+.booking__contact,
+.booking__panel {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 1s ease,
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.booking__text {
+  transition-delay: 0.35s;
+}
+.booking__contact {
+  transition-delay: 0.5s;
+}
+.booking__panel {
+  transition-delay: 0.4s;
+}
+
+.booking.is-visible .booking__text,
+.booking.is-visible .booking__contact,
+.booking.is-visible .booking__panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- form ---------- */
+
+.booking__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.booking__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.booking__field--wide {
+  grid-column: 1 / -1;
+}
+
+.booking__field > span {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.booking__field input,
+.booking__field select,
+.booking__field textarea {
+  width: 100%;
+  padding: 0.7rem 0;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.25s ease;
+}
+
+.booking__field input::placeholder,
+.booking__field textarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.booking__field input:focus,
+.booking__field select:focus,
+.booking__field textarea:focus {
+  border-bottom-color: #fff;
+}
+
+/* the native dropdown renders its list in the OS palette, so options need
+   explicit colours to stay readable against this dark field */
+.booking__field select option {
+  color: #111;
+  background: #fff;
+}
+
+.booking__field input[type='date'] {
+  color-scheme: dark;
+}
+
+.booking__submit {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: 0.5rem;
+  padding: 1rem 2.5rem;
+  color: #16110d;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.booking__submit:hover {
+  background: #e8d5b5;
+}
+
+/* ---------- confirmation ---------- */
+
+.booking__sent {
+  padding: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.booking__sent-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.booking__sent-text {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.booking__reset {
+  margin-top: 1.75rem;
+  padding: 0;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+.booking__reset:hover {
+  opacity: 0.7;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  .booking {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .booking__form {
+    grid-template-columns: 1fr;
+  }
+
+  .booking__submit {
+    justify-self: stretch;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .booking__line,
+  .booking__text,
+  .booking__contact,
+  .booking__panel {
+    transition: none;
+  }
+}

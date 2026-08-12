@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { summarizeHours, useSalon } from '../data/salon.js'
 import { buildCatalog, formatPrice } from '../data/services.js'
+import {
+  EMPTY_FORM,
+  formatTime,
+  submitBooking,
+  today,
+  useTimeSlots,
+} from '../data/booking.js'
 import './Booking.css'
 
 const CONTACT = [
@@ -8,44 +15,6 @@ const CONTACT = [
   { label: 'Email', value: 'hello@lounge8.com', href: 'mailto:hello@lounge8.com' },
   { label: 'Address', value: 'Lahore, Pakistan' },
 ]
-
-const EMPTY_FORM = {
-  name: '',
-  phone: '',
-  email: '',
-  serviceId: '',
-  date: '',
-  time: '',
-  notes: '',
-}
-
-const today = () => new Date().toISOString().split('T')[0]
-
-/** Half-hour starts that still leave room for the treatment before closing. */
-function timeSlots(from, to, durationMin) {
-  const toMinutes = (t) => {
-    const [h, m] = t.split(':').map(Number)
-    return h * 60 + m
-  }
-  const end = toMinutes(to)
-  const slots = []
-  for (
-    let t = toMinutes(from);
-    t + Math.max(durationMin, 30) <= end;
-    t += 30
-  ) {
-    slots.push(
-      `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`,
-    )
-  }
-  return slots
-}
-
-function formatTime(value) {
-  const [h, m] = value.split(':').map(Number)
-  const hour = h % 12 === 0 ? 12 : h % 12
-  return `${hour}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`
-}
 
 function Booking() {
   const sectionRef = useRef(null)
@@ -84,19 +53,11 @@ function Booking() {
     [categories, form.serviceId],
   )
 
-  // the salon is not open the same hours every day, so slots follow the date
-  const slots = useMemo(() => {
-    if (!form.date) return []
-    const [y, m, d] = form.date.split('-').map(Number)
-    const dayName = new Date(y, m - 1, d).toLocaleDateString('en-US', {
-      weekday: 'long',
-    })
-    const hours = catalog.hours.find((entry) => entry.day === dayName)
-    if (!hours || !hours.open) return []
-    return timeSlots(hours.from, hours.to, service?.durationMin || 60)
-  }, [form.date, catalog.hours, service])
-
-  const closedThatDay = Boolean(form.date && catalog.hours.length && !slots.length)
+  const { slots, closed: closedThatDay } = useTimeSlots(
+    form.date,
+    catalog.hours,
+    service?.durationMin,
+  )
 
   const update = (field) => (event) => {
     const { value } = event.target
@@ -116,19 +77,10 @@ function Booking() {
     setError('')
 
     try {
-      const response = await fetch('/api/book', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          serviceName: service?.name || 'Not sure yet',
-        }),
+      await submitBooking({
+        ...form,
+        serviceName: service?.name || 'Not sure yet',
       })
-
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}))
-        throw new Error(data.error || 'We could not send that request.')
-      }
 
       setStatus('sent')
       setForm(EMPTY_FORM)

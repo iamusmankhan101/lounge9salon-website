@@ -190,20 +190,130 @@
 
 .modal__book {
   display: block;
+  width: 100%;
   margin-top: 2rem;
   padding: 1rem 2rem;
   color: #fff;
+  font: inherit;
   font-size: 1.05rem;
   font-weight: 600;
   text-align: center;
   text-decoration: none;
   background: #111;
+  border: none;
+  cursor: pointer;
   transition: background 0.25s ease;
 }
 
 .modal__book:hover {
   background: #333;
 }
+
+.modal__book:hover:disabled {
+  background: #111;
+}
+
+.modal__book:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+/* ---------- in-popup booking form ---------- */
+
+.modal__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid #e4e0da;
+}
+
+.modal__form-title {
+  grid-column: 1 / -1;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+.modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modal__field--wide {
+  grid-column: 1 / -1;
+}
+
+.modal__field > span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #777;
+}
+
+.modal__field input,
+.modal__field select,
+.modal__field textarea {
+  width: 100%;
+  padding: 0.55rem 0;
+  color: #111;
+  font: inherit;
+  font-size: 0.98rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #d4cfc8;
+  border-radius: 0;
+  outline: none;
+  resize: vertical;
+}
+
+.modal__field input:focus,
+.modal__field select:focus,
+.modal__field textarea:focus {
+  border-bottom-color: #111;
+}
+
+.modal__field select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modal__form .modal__book {
+  grid-column: 1 / -1;
+}
+
+.modal__error {
+  grid-column: 1 / -1;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #b3261e;
+}
+
+/* ---------- confirmation ---------- */
+
+.modal__done {
+  margin-top: 1.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid #e4e0da;
+}
+
+.modal__done-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.modal__done-text {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
 
 /* ---------- animations ---------- */
 
@@ -240,6 +350,10 @@
 
   .modal__image {
     flex: 1;
+  }
+
+  .modal__form {
+    grid-template-columns: 1fr;
   }
 
   .modal__body {

@@ -1,10 +1,160 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ClockIcon, CloseIcon, StarIcon } from './icons.jsx'
 import { formatPrice } from '../data/services.js'
+import { useSalon } from '../data/salon.js'
+import {
+  EMPTY_FORM,
+  formatTime,
+  submitBooking,
+  today,
+  useTimeSlots,
+} from '../data/booking.js'
 import './TreatmentModal.css'
+
+/** Books the treatment the popup is already showing, so no service picker. */
+function TreatmentBooking({ treatment, onDone }) {
+  const { hours } = useSalon()
+  const [form, setForm] = useState({ ...EMPTY_FORM, serviceId: treatment.id })
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [error, setError] = useState('')
+
+  const { slots, closed } = useTimeSlots(form.date, hours, treatment.durationMin)
+
+  const update = (field) => (event) => {
+    const { value } = event.target
+    setForm((current) => ({
+      ...current,
+      [field]: value,
+      ...(field === 'date' ? { time: '' } : null),
+    }))
+  }
+
+  const onSubmit = async (event) => {
+    event.preventDefault()
+    if (status === 'sending') return
+
+    setStatus('sending')
+    setError('')
+
+    try {
+      await submitBooking({ ...form, serviceName: treatment.name })
+      setStatus('sent')
+    } catch (submitError) {
+      setStatus('error')
+      setError(
+        submitError.message ||
+          'Something went wrong. Please try again or call us.',
+      )
+    }
+  }
+
+  if (status === 'sent') {
+    return (
+      <div className="modal__done" role="status">
+        <p className="modal__done-title">Appointment booked</p>
+        <p className="modal__done-text">
+          {treatment.name} on {form.date}
+          {form.time ? ` at ${formatTime(form.time)}` : ''}. A confirmation is on
+          its way to your WhatsApp.
+        </p>
+        <button type="button" className="modal__book" onClick={onDone}>
+          Done
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <form className="modal__form" onSubmit={onSubmit}>
+      <p className="modal__form-title">
+        Booking <strong>{treatment.name}</strong>
+      </p>
+
+      <label className="modal__field">
+        <span>Name</span>
+        <input
+          type="text"
+          required
+          value={form.name}
+          onChange={update('name')}
+          placeholder="Your full name"
+        />
+      </label>
+
+      <label className="modal__field">
+        <span>Phone</span>
+        <input
+          type="tel"
+          required
+          value={form.phone}
+          onChange={update('phone')}
+          placeholder="+92 300 000 0000"
+        />
+      </label>
+
+      <label className="modal__field">
+        <span>Date</span>
+        <input
+          type="date"
+          required
+          min={today()}
+          value={form.date}
+          onChange={update('date')}
+        />
+      </label>
+
+      <label className="modal__field">
+        <span>Time</span>
+        <select
+          value={form.time}
+          onChange={update('time')}
+          disabled={!form.date || closed}
+        >
+          <option value="">
+            {!form.date
+              ? 'Pick a date first'
+              : closed
+                ? 'Closed that day'
+                : 'First available'}
+          </option>
+          {slots.map((slot) => (
+            <option key={slot} value={slot}>
+              {formatTime(slot)}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="modal__field modal__field--wide">
+        <span>Notes</span>
+        <textarea
+          rows="2"
+          value={form.notes}
+          onChange={update('notes')}
+          placeholder="Anything we should know?"
+        />
+      </label>
+
+      {status === 'error' && (
+        <p className="modal__error" role="alert">
+          {error}
+        </p>
+      )}
+
+      <button
+        type="submit"
+        className="modal__book"
+        disabled={status === 'sending'}
+      >
+        {status === 'sending' ? 'Booking…' : 'Confirm Booking'}
+      </button>
+    </form>
+  )
+}
 
 function TreatmentModal({ treatment, onClose }) {
   const closeRef = useRef(null)
+  const [booking, setBooking] = useState(false)
 
   // Close on Escape and hold the page still while the dialog is open.
   useEffect(() => {
@@ -78,32 +228,42 @@ function TreatmentModal({ treatment, onClose }) {
             </span>
           </p>
 
-          <p className="modal__summary">{treatment.summary}</p>
-
-          {treatment.idealFor && (
+          {booking ? (
+            <TreatmentBooking treatment={treatment} onDone={onClose} />
+          ) : (
             <>
-              <h4 className="modal__label">Ideal For:</h4>
-              <p className="modal__ideal">{treatment.idealFor}</p>
+              <p className="modal__summary">{treatment.summary}</p>
+
+              {treatment.idealFor && (
+                <>
+                  <h4 className="modal__label">Ideal For:</h4>
+                  <p className="modal__ideal">{treatment.idealFor}</p>
+                </>
+              )}
+
+              {treatment.steps?.length > 0 && (
+                <>
+                  <h4 className="modal__label">What&apos;s Involved:</h4>
+                  <ul className="modal__steps">
+                    {treatment.steps.map((step) => (
+                      <li key={step.name} className="modal__step">
+                        <p className="modal__step-name">{step.name}</p>
+                        <p className="modal__step-text">{step.text}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              <button
+                type="button"
+                className="modal__book"
+                onClick={() => setBooking(true)}
+              >
+                Book Now
+              </button>
             </>
           )}
-
-          {treatment.steps?.length > 0 && (
-            <>
-              <h4 className="modal__label">What&apos;s Involved:</h4>
-              <ul className="modal__steps">
-                {treatment.steps.map((step) => (
-                  <li key={step.name} className="modal__step">
-                    <p className="modal__step-name">{step.name}</p>
-                    <p className="modal__step-text">{step.text}</p>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-
-          <a href="#book" className="modal__book" onClick={onClose}>
-            Book Now
-          </a>
         </div>
       </div>
     </div>

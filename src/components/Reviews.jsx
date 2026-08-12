@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Badge from './Badge.jsx'
 import { StarIcon } from './icons.jsx'
+import { useCarousel } from '../data/carousel.js'
 import './Reviews.css'
 
 const REVIEWS = [
@@ -92,10 +93,8 @@ function ReviewCard({ review }) {
 
 function Reviews() {
   const sectionRef = useRef(null)
-  const trackRef = useRef(null)
   const [visible, setVisible] = useState(false)
-  const [pages, setPages] = useState(1)
-  const [page, setPage] = useState(0)
+  const { trackRef, page, pages, goTo, next, measure } = useCarousel()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -110,30 +109,6 @@ function Reviews() {
     observer.observe(sectionRef.current)
     return () => observer.disconnect()
   }, [])
-
-  // one "page" is a full width of the track, so the count follows the breakpoint
-  const measure = useCallback(() => {
-    const track = trackRef.current
-    if (!track) return
-    setPages(Math.max(1, Math.round(track.scrollWidth / track.clientWidth)))
-    setPage(Math.round(track.scrollLeft / track.clientWidth))
-  }, [])
-
-  useEffect(() => {
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [measure])
-
-  const goTo = (index) => {
-    const track = trackRef.current
-    track.scrollTo({
-      left: index * track.clientWidth,
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        ? 'auto'
-        : 'smooth',
-    })
-  }
 
   return (
     <section
@@ -206,7 +181,7 @@ function Reviews() {
             type="button"
             className="reviews__next"
             aria-label="Next reviews"
-            onClick={() => goTo(page + 1 >= pages ? 0 : page + 1)}
+            onClick={next}
           >
             <svg viewBox="0 0 48 16" aria-hidden="true">
               <path

@@ -35,6 +35,16 @@ function slotsBetween(from, to, durationMin) {
   return slots
 }
 
+/** "2026-08-18" as "Tuesday, 18 August" — dates are for reading, not parsing. */
+export function formatDate(value) {
+  const [y, m, d] = String(value).split('-').map(Number)
+  return new Date(y, m - 1, d).toLocaleDateString('en-GB', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  })
+}
+
 /** Bookable start times for a date, following that day's opening hours. */
 export function useTimeSlots(date, hours, durationMin = 60) {
   return useMemo(() => {

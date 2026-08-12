@@ -476,7 +476,9 @@
 /* ---------- view all ---------- */
 
 .services__view-all {
+  display: inline-block;
   margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  text-decoration-color: currentColor;
   padding: 0;
   color: #111;
   font: inherit;

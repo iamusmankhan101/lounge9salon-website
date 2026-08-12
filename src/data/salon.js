@@ -40,7 +40,7 @@ const FALLBACK_HOURS = [
   { day: 'Sunday', open: true, from: '11:00', to: '18:00' },
 ]
 
-const EMPTY = { services: [], hours: FALLBACK_HOURS }
+const EMPTY = { services: [], hours: FALLBACK_HOURS, ok: false }
 
 // one request per page load, shared by every component that asks
 let pending
@@ -50,7 +50,11 @@ function load() {
     .then((response) => (response.ok ? response.json() : null))
     .then((data) =>
       data
-        ? { services: data.services || [], hours: data.hours?.length ? data.hours : FALLBACK_HOURS }
+        ? {
+            services: data.services || [],
+            hours: data.hours?.length ? data.hours : FALLBACK_HOURS,
+            ok: true,
+          }
         : EMPTY,
     )
     .catch(() => EMPTY)

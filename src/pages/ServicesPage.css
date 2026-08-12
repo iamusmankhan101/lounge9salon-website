@@ -1,0 +1,277 @@
+.menu-page {
+  background: #fff;
+  color: #111;
+}
+
+/* ---------- header ---------- */
+
+.menu__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem clamp(1.5rem, 4vw, 4.5rem);
+  border-bottom: 1px solid #e4e0da;
+}
+
+.menu__logo img {
+  height: 3.25rem;
+}
+
+.menu__nav {
+  display: flex;
+  gap: clamp(1.25rem, 2.5vw, 2.5rem);
+}
+
+.menu__nav a {
+  color: #333;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.menu__nav a:hover {
+  color: #111;
+}
+
+.menu__cta {
+  padding: 0.8rem 1.5rem;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: #111;
+  transition: background 0.25s ease;
+}
+
+.menu__cta:hover {
+  background: #333;
+}
+
+/* ---------- intro ---------- */
+
+.menu__intro {
+  padding: clamp(3rem, 8vh, 5.5rem) clamp(1.5rem, 4vw, 4.5rem) 0;
+}
+
+.menu__title {
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.menu__lead {
+  max-width: 38rem;
+  margin-top: 1.25rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #444;
+}
+
+.menu__controls {
+  margin-top: 2.5rem;
+}
+
+.menu__search {
+  width: min(28rem, 100%);
+  padding: 0.75rem 0;
+  color: #111;
+  font: inherit;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #d4cfc8;
+  border-radius: 0;
+  outline: none;
+}
+
+.menu__search:focus {
+  border-bottom-color: #111;
+}
+
+.menu__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
+}
+
+.menu__filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  color: #111;
+  font: inherit;
+  font-size: 0.9rem;
+  background: none;
+  border: 1px solid #d4cfc8;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.menu__filter:hover {
+  border-color: #111;
+}
+
+.menu__filter.is-active {
+  color: #fff;
+  background: #111;
+  border-color: #111;
+}
+
+.menu__filter-count {
+  font-size: 0.78rem;
+  opacity: 0.65;
+}
+
+/* ---------- listing ---------- */
+
+.menu__body {
+  padding: clamp(2.5rem, 6vh, 4rem) clamp(1.5rem, 4vw, 4.5rem)
+    clamp(4rem, 10vh, 7rem);
+}
+
+.menu__empty {
+  padding: 3rem 0;
+  font-size: 1.05rem;
+  color: #666;
+}
+
+.menu__group + .menu__group {
+  margin-top: clamp(3rem, 7vh, 5rem);
+}
+
+.menu__group-head {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #111;
+}
+
+.menu__group-image {
+  flex: 0 0 auto;
+  width: 5.5rem;
+  height: 5.5rem;
+  object-fit: cover;
+}
+
+.menu__group-name {
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.menu__group-text {
+  max-width: 46rem;
+  margin-top: 0.4rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: #555;
+}
+
+.menu__rows {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 clamp(2rem, 4vw, 4rem);
+}
+
+.menu__row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid #e4e0da;
+}
+
+.menu__row-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu__row-name {
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.menu__row-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.menu__row-clock {
+  display: inline-flex;
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.menu__row-clock svg {
+  width: 100%;
+  height: 100%;
+}
+
+.menu__row-price {
+  flex: 0 0 auto;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.menu__row-book {
+  flex: 0 0 auto;
+  padding: 0.55rem 1.1rem;
+  color: #111;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  background: none;
+  border: 1px solid #111;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
+}
+
+.menu__row-book:hover {
+  color: #fff;
+  background: #111;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1000px) {
+  .menu__rows {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .menu__header {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .menu__nav {
+    order: 3;
+    width: 100%;
+  }
+
+  .menu__group-image {
+    width: 4rem;
+    height: 4rem;
+  }
+}

@@ -4,6 +4,7 @@ import { formatPrice } from '../data/services.js'
 import { formatTime, useSalon } from '../data/salon.js'
 import {
   EMPTY_FORM,
+  formatDate,
   submitBooking,
   today,
   useTimeSlots,
@@ -52,7 +53,7 @@ function TreatmentBooking({ treatment, onDone }) {
       <div className="modal__done" role="status">
         <p className="modal__done-title">Appointment booked</p>
         <p className="modal__done-text">
-          {treatment.name} on {form.date}
+          {treatment.name} on {formatDate(form.date)}
           {form.time ? ` at ${formatTime(form.time)}` : ''}. A confirmation is on
           its way to your WhatsApp.
         </p>

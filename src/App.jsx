@@ -1,27 +1,34 @@
 import { useEffect, useState } from 'react'
 import ComingSoon from './components/ComingSoon.jsx'
 import Home from './pages/Home.jsx'
+import ServicesPage from './pages/ServicesPage.jsx'
 import './App.css'
 
 /**
- * The holding page is the front door at "/". The finished home page lives at
- * "/home" so it can be reviewed before launch — swap the default here when
- * the salon is ready to open.
+ * The holding page is the front door at "/". The finished site lives behind
+ * named routes so it can be reviewed before launch — swap the fallback here
+ * when the salon is ready to open.
  */
-const isHomeRoute = () =>
-  window.location.pathname.replace(/\/+$/, '').toLowerCase() === '/home'
+const ROUTES = {
+  '/home': Home,
+  '/services': ServicesPage,
+}
+
+const currentPath = () =>
+  window.location.pathname.replace(/\/+$/, '').toLowerCase()
 
 function App() {
-  const [home, setHome] = useState(isHomeRoute)
+  const [path, setPath] = useState(currentPath)
 
   useEffect(() => {
     // keep the view in step with browser back/forward
-    const sync = () => setHome(isHomeRoute())
+    const sync = () => setPath(currentPath())
     window.addEventListener('popstate', sync)
     return () => window.removeEventListener('popstate', sync)
   }, [])
 
-  return home ? <Home /> : <ComingSoon />
+  const Page = ROUTES[path] ?? ComingSoon
+  return <Page />
 }
 
 export default App

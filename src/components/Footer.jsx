@@ -3,11 +3,17 @@ import './Footer.css'
 
 const SITE_LINKS = [
   { label: 'About Us', href: '#about' },
-  { label: 'Services', href: '#services' },
+  { label: 'Services', href: '/services' },
   { label: 'Our Story', href: '#story' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'Book an Appointment', href: '#book' },
 ]
+
+/** In-page anchors only work on the home page — elsewhere they need the path. */
+const resolve = (href) =>
+  href.startsWith('#') && !window.location.pathname.startsWith('/home')
+    ? `/home${href}`
+    : href
 
 function Footer() {
   // opening hours come from the salon software, never a hardcoded copy
@@ -33,7 +39,7 @@ function Footer() {
           <ul>
             {SITE_LINKS.map(({ label, href }) => (
               <li key={label}>
-                <a href={href}>{label}</a>
+                <a href={resolve(href)}>{label}</a>
               </li>
             ))}
           </ul>
@@ -67,7 +73,7 @@ function Footer() {
 
       <div className="footer__bottom">
         <p>© {new Date().getFullYear()} Lounge 8 Salon. All rights reserved.</p>
-        <a href="#book" className="footer__cta">
+        <a href={resolve('#book')} className="footer__cta">
           Book an Appointment
         </a>
       </div>

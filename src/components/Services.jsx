@@ -223,13 +223,9 @@ function Services() {
             )}
           </div>
 
-          <button
-            type="button"
-            className="services__view-all"
-            onClick={() => setActiveId('all')}
-          >
+          <a href="/services" className="services__view-all">
             View All
-          </button>
+          </a>
         </>
       )}
 

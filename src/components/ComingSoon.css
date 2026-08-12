@@ -58,8 +58,6 @@
 }
 
 .soon__logo img {
-  display: block;
-  width: auto;
   height: clamp(3.25rem, 5vw, 4.25rem);
 }
 

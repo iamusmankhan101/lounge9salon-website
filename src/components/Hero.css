@@ -75,8 +75,6 @@
 }
 
 .hero__logo img {
-  display: block;
-  width: auto;
   height: clamp(3rem, 4.5vw, 3.75rem);
 }
 

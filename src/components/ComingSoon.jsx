@@ -46,13 +46,17 @@ function ComingSoon() {
 
       <header className="soon__header">
         <p className="soon__logo">
-          <img src="/lounge-8-salon-logo.png" alt="Lounge 8 Salon" />
+          <img
+            src="/lounge-8-salon-logo.png"
+            alt="Lounge 8 Salon"
+            className="brand-logo"
+          />
         </p>
         <p className="soon__location">Pakistan</p>
       </header>
 
       <div className="soon__center">
-        <p className="soon__eyebrow">Beauty Salon — Opening Soon</p>
+        <p className="soon__eyebrow">Website Launching Soon</p>
 
         <h1 className="soon__title">
           <span className="soon__mask">

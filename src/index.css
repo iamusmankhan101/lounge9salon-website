@@ -18,3 +18,8 @@ body {
   min-height: 100vh;
   background: #111;
 }
+
+.brand-logo {
+  display: block;
+  width: auto;
+}

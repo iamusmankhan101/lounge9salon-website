@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import './ComingSoon.css'
 
-/** Placeholder launch date — set this to the real one before going live. */
-const LAUNCH_DATE = new Date('2026-10-01T09:00:00')
+/** Launch date — ten days out. Set this to the real one before going live. */
+const LAUNCH_DATE = new Date('2026-08-22T09:00:00')
 
 const UNITS = ['days', 'hours', 'minutes', 'seconds']
 
@@ -46,9 +46,9 @@ function ComingSoon() {
 
       <header className="soon__header">
         <p className="soon__logo">
-          LOUNGE<span className="soon__logo-eight">8</span>
+          <img src="/lounge-8-salon-logo.png" alt="Lounge 8 Salon" />
         </p>
-        <p className="soon__location">Dubai</p>
+        <p className="soon__location">Pakistan</p>
       </header>
 
       <div className="soon__center">
@@ -110,11 +110,6 @@ function ComingSoon() {
         <a href="mailto:hello@lounge8.com" className="soon__contact">
           hello@lounge8.com
         </a>
-        <nav className="soon__social">
-          <a href="#">Instagram</a>
-          <a href="#">Facebook</a>
-          <a href="#">WhatsApp</a>
-        </nav>
       </footer>
     </main>
   )

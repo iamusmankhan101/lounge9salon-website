@@ -57,14 +57,10 @@
   animation: soon-fade 1s ease 0.2s both;
 }
 
-.soon__logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.soon__logo-eight {
-  color: #e8d5b5;
+.soon__logo img {
+  display: block;
+  width: auto;
+  height: clamp(3.25rem, 5vw, 4.25rem);
 }
 
 .soon__location {
@@ -226,7 +222,7 @@
   z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
   font-size: 0.9rem;
@@ -241,21 +237,6 @@
 
 .soon__contact:hover {
   color: #fff;
-}
-
-.soon__social {
-  display: flex;
-  gap: 1.75rem;
-}
-
-.soon__social a {
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-
-.soon__social a:hover {
-  color: #e8d5b5;
 }
 
 /* ---------- animations ---------- */
@@ -311,7 +292,6 @@
   }
 
   .soon__footer {
-    justify-content: center;
     text-align: center;
   }
 }

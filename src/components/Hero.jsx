@@ -10,7 +10,7 @@ function Hero() {
 
       <header className="hero__nav">
         <a href="#" className="hero__logo">
-          LOUNGE<span className="hero__logo-eight">8</span>
+          <img src="/lounge-8-salon-logo.png" alt="Lounge 8 Salon" />
         </a>
 
         <nav className="hero__links">

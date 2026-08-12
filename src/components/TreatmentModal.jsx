@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { ClockIcon, CloseIcon, StarIcon } from './icons.jsx'
 import { formatPrice } from '../data/services.js'
-import { useSalon } from '../data/salon.js'
+import { formatTime, useSalon } from '../data/salon.js'
 import {
   EMPTY_FORM,
-  formatTime,
   submitBooking,
   today,
   useTimeSlots,

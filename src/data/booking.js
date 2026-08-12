@@ -35,12 +35,6 @@ function slotsBetween(from, to, durationMin) {
   return slots
 }
 
-export function formatTime(value) {
-  const [h, m] = value.split(':').map(Number)
-  const hour = h % 12 === 0 ? 12 : h % 12
-  return `${hour}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`
-}
-
 /** Bookable start times for a date, following that day's opening hours. */
 export function useTimeSlots(date, hours, durationMin = 60) {
   return useMemo(() => {

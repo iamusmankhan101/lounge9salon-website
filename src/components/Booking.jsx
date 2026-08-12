@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { summarizeHours, useSalon } from '../data/salon.js'
+import { formatTime, summarizeHours, useSalon } from '../data/salon.js'
 import { buildCatalog, formatPrice } from '../data/services.js'
 import {
   EMPTY_FORM,
-  formatTime,
   submitBooking,
   today,
   useTimeSlots,

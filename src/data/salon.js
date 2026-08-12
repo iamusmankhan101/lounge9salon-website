@@ -74,12 +74,23 @@ export function useSalon() {
   return salon
 }
 
+/**
+ * 24-hour "14:30" as the clock people actually read it. Whole hours drop the
+ * minutes, so an opening time reads "11 AM" rather than "11:00 AM".
+ */
+export function formatTime(value) {
+  const [h, m] = String(value).split(':').map(Number)
+  const hour = h % 12 === 0 ? 12 : h % 12
+  const suffix = h < 12 ? 'AM' : 'PM'
+  return m ? `${hour}:${String(m).padStart(2, '0')} ${suffix}` : `${hour} ${suffix}`
+}
+
 const sameSlot = (a, b) =>
   a.open === b.open && (!a.open || (a.from === b.from && a.to === b.to))
 
 /**
  * Collapses consecutive days that share the same hours into one row, so seven
- * near-identical lines read as "Tuesday – Friday, 11:00 – 20:00".
+ * near-identical lines read as "Tuesday – Friday, 11 AM – 8 PM".
  */
 export function groupHours(hours) {
   const ordered = DAY_ORDER.map((day) =>
@@ -102,11 +113,13 @@ export function groupHours(hours) {
         ? SHORT_DAY[days[0]]
         : `${SHORT_DAY[days[0]]}–${SHORT_DAY[days[days.length - 1]]}`,
     open: entry.open,
-    time: entry.open ? `${entry.from} – ${entry.to}` : 'Closed',
+    time: entry.open
+      ? `${formatTime(entry.from)} – ${formatTime(entry.to)}`
+      : 'Closed',
   }))
 }
 
-/** One-line summary for tight spots, e.g. "Tue–Fri 11:00 – 20:00 · Mon closed". */
+/** One-line summary for tight spots, e.g. "Tue–Fri 11 AM – 8 PM · Mon closed". */
 export function summarizeHours(hours) {
   const rows = groupHours(hours)
   const open = rows.filter((row) => row.open)

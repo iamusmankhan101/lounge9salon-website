@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Badge from './Badge.jsx'
 import TreatmentModal from './TreatmentModal.jsx'
 import { ClockIcon } from './icons.jsx'
-import { CATEGORIES, TABS } from '../data/services.js'
+import { buildCatalog, formatPrice } from '../data/services.js'
+import { useSalon } from '../data/salon.js'
 import './Services.css'
 
 function TreatmentCard({ treatment, index, onOpen }) {
@@ -14,7 +15,7 @@ function TreatmentCard({ treatment, index, onOpen }) {
       <h4 className="services__item-name">{treatment.name}</h4>
 
       <p className="services__item-meta">
-        <span className="services__item-price">${treatment.price}</span>
+        <span className="services__item-price">{formatPrice(treatment)}</span>
         <span className="services__item-duration">
           <span className="services__item-clock">
             <ClockIcon />
@@ -42,6 +43,7 @@ function Services() {
   const [visible, setVisible] = useState(false)
   const [activeId, setActiveId] = useState(null)
   const [openTreatment, setOpenTreatment] = useState(null)
+  const { services } = useSalon()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -57,7 +59,9 @@ function Services() {
     return () => observer.disconnect()
   }, [])
 
-  const active = TABS.find((tab) => tab.id === activeId)
+  // the menu is the salon's live catalogue, curated for public display
+  const { categories, tabs } = useMemo(() => buildCatalog(services), [services])
+  const active = tabs.find((tab) => tab.id === activeId)
 
   return (
     <section
@@ -78,7 +82,7 @@ function Services() {
       {active ? (
         <>
           <div className="services__tabs">
-            {TABS.map(({ id, name, label, count, Icon, image }) => (
+            {tabs.map(({ id, name, label, count, Icon, image }) => (
               <button
                 key={id}
                 type="button"
@@ -149,7 +153,7 @@ function Services() {
       ) : (
         <>
           <div className="services__grid">
-            {CATEGORIES.map(({ id, name, count, Icon, image }, i) => (
+            {categories.map(({ id, name, count, Icon, image }, i) => (
               <button
                 key={id}
                 type="button"

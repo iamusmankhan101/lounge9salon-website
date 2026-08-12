@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { summarizeHours, useSalon } from '../data/salon.js'
+import { buildCatalog, formatPrice } from '../data/services.js'
 import './Booking.css'
 
 const CONTACT = [
   { label: 'Phone', value: '+92 300 000 0000', href: 'tel:+923000000000' },
   { label: 'Email', value: 'hello@lounge8.com', href: 'mailto:hello@lounge8.com' },
   { label: 'Address', value: 'Lahore, Pakistan' },
-  { label: 'Hours', value: 'Mon–Sat 10:00–20:00 · Sun closed' },
 ]
 
 const EMPTY_FORM = {
@@ -52,7 +53,7 @@ function Booking() {
   const [form, setForm] = useState(EMPTY_FORM)
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const [error, setError] = useState('')
-  const [catalog, setCatalog] = useState({ services: [], hours: [] })
+  const catalog = useSalon()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -68,34 +69,20 @@ function Booking() {
     return () => observer.disconnect()
   }, [])
 
-  // live services and opening hours out of the salon's booking software
-  useEffect(() => {
-    let cancelled = false
-    fetch('/api/salon')
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => {
-        if (data && !cancelled) setCatalog(data)
-      })
-      .catch(() => {
-        // the form still submits without a catalogue — staff confirm the detail
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [])
+  // the same curated menu the services section shows — never the raw
+  // catalogue, which holds private client packages and till-only entries
+  const { categories } = useMemo(
+    () => buildCatalog(catalog.services),
+    [catalog.services],
+  )
 
-  const service = catalog.services.find((item) => item.id === form.serviceId)
-
-  // the salon runs 100+ services, so the dropdown groups them by category
-  const grouped = useMemo(() => {
-    const groups = new Map()
-    for (const item of catalog.services) {
-      const key = item.category || 'other'
-      if (!groups.has(key)) groups.set(key, [])
-      groups.get(key).push(item)
-    }
-    return [...groups.entries()]
-  }, [catalog.services])
+  const service = useMemo(
+    () =>
+      categories
+        .flatMap((category) => category.treatments)
+        .find((treatment) => treatment.id === form.serviceId),
+    [categories, form.serviceId],
+  )
 
   // the salon is not open the same hours every day, so slots follow the date
   const slots = useMemo(() => {
@@ -180,7 +167,10 @@ function Booking() {
         </p>
 
         <dl className="booking__contact">
-          {CONTACT.map(({ label, value, href }) => (
+          {[
+            ...CONTACT,
+            { label: 'Hours', value: summarizeHours(catalog.hours) },
+          ].map(({ label, value, href }) => (
             <div key={label} className="booking__contact-row">
               <dt>{label}</dt>
               <dd>
@@ -245,16 +235,13 @@ function Booking() {
               <span>Service</span>
               <select required value={form.serviceId} onChange={update('serviceId')}>
                 <option value="" disabled>
-                  {catalog.services.length ? 'Choose a service' : 'Loading services…'}
+                  {categories.length ? 'Choose a service' : 'Loading services…'}
                 </option>
-                {grouped.map(([category, items]) => (
-                  <optgroup key={category} label={category}>
-                    {items.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                        {item.price
-                          ? ` — PKR ${item.price.toLocaleString()}`
-                          : ''}
+                {categories.map((category) => (
+                  <optgroup key={category.id} label={category.name}>
+                    {category.treatments.map((treatment) => (
+                      <option key={treatment.id} value={treatment.id}>
+                        {treatment.name} — {formatPrice(treatment)}
                       </option>
                     ))}
                   </optgroup>

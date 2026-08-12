@@ -5,539 +5,308 @@ import {
   WaveIcon,
 } from '../components/icons.jsx'
 
-const RAW_CATEGORIES = [
-  {
-    id: 'skin',
-    name: 'Skin Care',
-    count: 24,
+/**
+ * The public service menu is built from the salon's live Salon Central
+ * catalogue rather than a hand-kept copy, so prices and treatments on the
+ * website can never drift from the till.
+ *
+ * That catalogue is an internal working list, though — it also holds one-off
+ * client packages, POS scratch entries, and typos that were never meant for
+ * customers. Everything below is the thin editorial layer between the two:
+ * what to hide, what to rename, and the photography and copy the software has
+ * no concept of.
+ */
+
+/* ------------------------------------------------------------------ *
+ * Curation — the only part that needs editing by hand
+ * ------------------------------------------------------------------ */
+
+/**
+ * Whole categories kept off the website. "package" is every bespoke deal
+ * arranged for a named client ("Rabia pkg", "Khala Naheeda"), so publishing it
+ * would put customers' names and their bills on a public page.
+ */
+const HIDDEN_CATEGORIES = ['package']
+
+/** Individual entries that exist for the till, not for customers. */
+const HIDDEN_SERVICES = [
+  'test',
+  'meeting with ashan j',
+  'pay back amount',
+  'roots application',
+  'shampoo + conditioner',
+]
+
+/** Anything named like a personal package, wherever it is filed. */
+const PRIVATE_NAME = /\bpkg\b|\bpackage\b|\(\s*mother in law\s*\)/i
+
+/** Corrections for names that would look careless on a public menu. */
+const RENAMED = {
+  'hyaluronic aciad facial': 'Hyaluronic Acid Facial',
+  'nail failing': 'Nail Filing',
+  'parafin manicure & pedicure': 'Paraffin Manicure & Pedicure',
+  'grey steark': 'Grey Streak',
+  'protein treament': 'Protein Treatment',
+  'nail extention refill': 'Nail Extension Refill',
+  'nail coloru application': 'Nail Colour Application',
+  'nail removel': 'Nail Removal',
+  'ombre"': 'Ombré',
+  'simple mani & pedi': 'Simple Manicure & Pedicure',
+  'whitening manicure &  pediure': 'Whitening Manicure & Pedicure',
+  'boy hair cut (0-13 year old )': "Boys' Haircut (ages 0–13)",
+  'full dye application ( only application) dye will be from client':
+    'Full Dye Application (client’s own dye)',
+  'roots application ( dye will be from client)':
+    'Roots Application (client’s own dye)',
+  'funky colour ( streak & chunk )': 'Funky Colour (Streaks & Chunks)',
+  'with our bleach red balayage': 'Red Balayage',
+  'full body waxing (sugar wax )': 'Full Body Waxing (Sugar Wax)',
+  'full body waxing ( honey wax)': 'Full Body Waxing (Honey Wax)',
+  'living serum': 'Living Serum',
+}
+
+/**
+ * The software files manicures, massages, and waxing all under "skin", so the
+ * public menu re-sorts by treatment name first and only falls back to the
+ * software's own category. First match wins.
+ */
+const ROUTES = [
+  { id: 'nails', test: /nail|mani|pedi|french|acrylic|gel|polygel/i },
+  { id: 'waxing', test: /wax|thread/i },
+  { id: 'skin', test: /facial|face polisher|cleansing|back treatment/i },
+  { id: 'massage', test: /massage|body polish|polisher|scrub|spa\b/i },
+  { id: 'bridal', test: /bridal|party makeup|makeup/i },
+  { id: 'skin', test: /skin/i },
+]
+
+/** How the software's own categories map when no name rule matches. */
+const FALLBACK_CATEGORY = {
+  skin: 'skin',
+  hair: 'hair',
+  nails: 'nails',
+  piercing: 'piercing',
+  bridal: 'bridal',
+}
+
+/* ------------------------------------------------------------------ *
+ * Presentation — photography and copy the software does not hold
+ * ------------------------------------------------------------------ */
+
+const CATEGORY_META = {
+  skin: {
+    name: 'Skin & Facials',
     Icon: WaveIcon,
     image:
       'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop',
     listImage:
       'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1400&auto=format&fit=crop',
+    blurb:
+      'A considered facial, tailored to your skin on the day rather than to a fixed menu.',
     description: [
       'Inspired by nature, light, and the soft rhythm of self-care, our skin treatments are designed to restore balance, nourish deeply, and reveal your natural radiance.',
       'Whether you seek a glow before a big event or long-term skin health, each treatment is performed with intention and care.',
     ],
-    treatments: [
-      {
-        name: 'The Really Good Facial',
-        price: 140,
-        duration: '60min',
-        rating: 4.9,
-        summary:
-          'The 60-minute personalized facial that transforms your skin and renews your confidence.',
-        idealFor: 'Monthly maintenance and promoting overall skin health',
-        steps: [
-          {
-            name: 'Double Cleanse',
-            text: 'Removes makeup, sweat, and dirt, leaving your skin fresh and ready for treatment.',
-          },
-          {
-            name: 'Skin Analysis',
-            text: 'Your therapist reads your skin under magnification to shape the rest of the session.',
-          },
-          {
-            name: 'Customized Treatments',
-            text: 'The most effective products and techniques are used to address your unique skin concerns.',
-          },
-        ],
-      },
-      {
-        name: 'Dermaplaning',
-        price: 120,
-        duration: '60min',
-        rating: 4.8,
-        summary:
-          'Removes dead skin and peach fuzz for a soft, smooth, radiant finish.',
-        idealFor: 'Dull texture, peach fuzz, and flawless makeup application',
-        steps: [
-          {
-            name: 'Prep Cleanse',
-            text: 'Skin is cleansed and dried completely so the blade glides safely.',
-          },
-          {
-            name: 'Blade Exfoliation',
-            text: 'A sterile blade lifts away dead cells and fine vellus hair at a precise angle.',
-          },
-          {
-            name: 'Soothing Mask',
-            text: 'A calming mask settles the skin and locks in immediate softness.',
-          },
-        ],
-      },
-      {
-        name: 'Enzyme Exfoliation',
-        price: 110,
-        duration: '45min',
-        rating: 4.7,
-        summary:
-          'Manual pore cleansing to remove blackheads, congestion, and impurities.',
-        idealFor: 'Congested pores, blackheads, and uneven texture',
-        steps: [
-          {
-            name: 'Warm Steam',
-            text: 'Gentle steam softens the surface and opens pores for easier release.',
-          },
-          {
-            name: 'Enzyme Peel',
-            text: 'Fruit enzymes dissolve the bonds holding dead skin in place.',
-          },
-          {
-            name: 'Manual Extraction',
-            text: 'Careful, controlled extraction clears congestion without trauma.',
-          },
-        ],
-      },
-      {
-        name: 'High Frequency',
-        price: 90,
-        duration: '30min',
-        rating: 4.8,
-        summary:
-          'Calms acne, boosts healing, and improves circulation using gentle electrical currents.',
-        idealFor: 'Active breakouts and post-blemish healing',
-        steps: [
-          {
-            name: 'Targeted Cleanse',
-            text: 'Affected areas are cleared and prepared without stripping the barrier.',
-          },
-          {
-            name: 'High-Frequency Pass',
-            text: 'A glass electrode delivers current that reduces bacteria and speeds healing.',
-          },
-          {
-            name: 'Calming Serum',
-            text: 'Anti-inflammatory serum settles redness before you leave.',
-          },
-        ],
-      },
-      {
-        name: 'PureLift Technology',
-        price: 160,
-        duration: '60min',
-        rating: 4.9,
-        summary:
-          'Microcurrent lifts and tones facial muscles for firmer, younger-looking skin.',
-        idealFor: 'Loss of firmness along the jawline and cheekbones',
-        steps: [
-          {
-            name: 'Conductive Prep',
-            text: 'A conductive gel is applied so current reaches the muscle evenly.',
-          },
-          {
-            name: 'Microcurrent Lift',
-            text: 'Low-level current re-educates facial muscles for visible lift.',
-          },
-          {
-            name: 'Cooling Finish',
-            text: 'Chilled globes set the result and reduce any residual warmth.',
-          },
-        ],
-      },
-      {
-        name: 'Cryo Globe Massage',
-        price: 95,
-        duration: '30min',
-        rating: 4.7,
-        summary:
-          'Cooling globes reduce puffiness, soothe inflammation, and boost circulation.',
-        idealFor: 'Morning puffiness and tired, inflamed skin',
-        steps: [
-          {
-            name: 'Lymphatic Warm-Up',
-            text: 'Light drainage strokes open the pathways fluid needs to move through.',
-          },
-          {
-            name: 'Cryo Globe Sculpt',
-            text: 'Chilled globes contour the face while calming heat and redness.',
-          },
-          {
-            name: 'Hydration Seal',
-            text: 'A humectant layer holds the de-puffed result in place.',
-          },
-        ],
-      },
-      {
-        name: 'Muscle Tension Relief',
-        price: 160,
-        duration: '60min',
-        rating: 4.8,
-        summary:
-          'Deep facial massage releases muscle tension and supports skin elasticity.',
-        idealFor: 'Jaw clenching, tension headaches, and daily stress',
-        steps: [
-          {
-            name: 'Pressure Point Release',
-            text: 'Held points along the jaw and temples begin to let go.',
-          },
-          {
-            name: 'Deep Facial Massage',
-            text: 'Sustained work through the masseter and brow relieves stored tension.',
-          },
-          {
-            name: 'Restorative Wrap',
-            text: 'A warm wrap closes the session and extends the release.',
-          },
-        ],
-      },
-      {
-        name: 'LED Light Therapy',
-        price: 85,
-        duration: '30min',
-        rating: 4.6,
-        summary:
-          'Clinical wavelengths target breakouts and stimulate collagen production.',
-        idealFor: 'Breakout-prone skin and early fine lines',
-        steps: [
-          {
-            name: 'Clarifying Cleanse',
-            text: 'Skin is cleared so light reaches it without interference.',
-          },
-          {
-            name: 'Wavelength Session',
-            text: 'Blue and red light are selected for your concern and layered.',
-          },
-          {
-            name: 'Barrier Repair',
-            text: 'A ceramide finish supports the skin through the following days.',
-          },
-        ],
-      },
+  },
+  hair: {
+    name: 'Hair',
+    Icon: SparkIcon,
+    image:
+      'https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200&auto=format&fit=crop',
+    listImage:
+      'https://images.unsplash.com/photo-1521783593447-5702b9bfd267?q=80&w=1400&auto=format&fit=crop',
+    blurb:
+      'Cut, colour, and treatment work by stylists who plan around the hair you actually have.',
+    description: [
+      'From a precise trim to full balayage, our colour and cutting work starts with a proper consultation — what your hair can hold, and what you will realistically maintain at home.',
+      'Colour services are quoted from a starting price, as length and density change the work involved.',
     ],
   },
-  {
-    id: 'body',
-    name: 'Body Rituals',
-    count: 18,
+  nails: {
+    name: 'Nails, Mani & Pedi',
+    Icon: RingIcon,
+    image:
+      'https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1200&auto=format&fit=crop',
+    listImage:
+      'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1400&auto=format&fit=crop',
+    blurb:
+      'Hands and feet, from a simple file and polish to full extensions and art.',
+    description: [
+      'Manicures, pedicures, gel, acrylic, and nail art — finished properly, with the prep and cuticle work that makes the difference between a set that lasts a week and one that lasts three.',
+      'Tools are sterilised between every client, without exception.',
+    ],
+  },
+  waxing: {
+    name: 'Waxing & Threading',
     Icon: HourglassIcon,
+    image:
+      'https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=1200&auto=format&fit=crop',
+    listImage:
+      'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=1400&auto=format&fit=crop',
+    blurb: 'Sugar wax, honey wax, and threading — quick, clean, and unhurried.',
+    description: [
+      'Sugar and honey wax for the body, threading for the face and brows. Both are done in a private room at a pace that does not rush you.',
+      'Full-body pricing varies with coverage, so treat listed prices as a starting point.',
+    ],
+  },
+  massage: {
+    name: 'Massage & Body',
+    Icon: WaveIcon,
     image:
       'https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=1200&auto=format&fit=crop',
     listImage:
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1400&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1583416750470-965b2707b355?q=80&w=1400&auto=format&fit=crop',
+    blurb:
+      'Pressure, oil, and quiet — the part of the visit that is purely for you.',
     description: [
-      'Slow, deliberate rituals that release tension and reconnect you with your body. Warm oils, considered pressure, and unhurried time in a space built for stillness.',
-      'From deep tissue work to restorative wraps, every session is adapted to how you arrive and what you need that day.',
-    ],
-    treatments: [
-      {
-        name: 'Deep Tissue Massage',
-        price: 150,
-        duration: '75min',
-        rating: 4.9,
-        summary:
-          'Firm, sustained pressure that reaches long-held tension in the back and shoulders.',
-        idealFor: 'Chronic back and shoulder tension',
-        steps: [
-          {
-            name: 'Consultation',
-            text: 'We map where you hold tension and agree on pressure before we start.',
-          },
-          {
-            name: 'Deep Pressure Work',
-            text: 'Slow, sustained pressure works through the deeper muscle layers.',
-          },
-          {
-            name: 'Stretch & Release',
-            text: 'Assisted stretches lock in the length you have just gained.',
-          },
-        ],
-      },
-      {
-        name: 'Warm Oil Ritual',
-        price: 135,
-        duration: '60min',
-        rating: 4.8,
-        summary:
-          'Slow strokes with heated botanical oils to quiet the nervous system.',
-        idealFor: 'Stress, poor sleep, and nervous system overload',
-        steps: [
-          {
-            name: 'Oil Selection',
-            text: 'You choose from botanical blends warmed to body temperature.',
-          },
-          {
-            name: 'Slow Full-Body Strokes',
-            text: 'Unhurried, rhythmic strokes signal the body it is safe to switch off.',
-          },
-          {
-            name: 'Quiet Rest',
-            text: 'Ten minutes of stillness before you get up, undisturbed.',
-          },
-        ],
-      },
-      {
-        name: 'Body Polish & Wrap',
-        price: 170,
-        duration: '90min',
-        rating: 4.8,
-        summary:
-          'Mineral scrub followed by a nourishing wrap for soft, replenished skin.',
-        idealFor: 'Dry, dull skin before an event or holiday',
-        steps: [
-          {
-            name: 'Mineral Scrub',
-            text: 'A fine salt and oil polish lifts away rough, dull surface skin.',
-          },
-          {
-            name: 'Nourishing Wrap',
-            text: 'A warm wrap drives butters and botanicals deep into the skin.',
-          },
-          {
-            name: 'Hydrating Finish',
-            text: 'A closing layer of body cream seals the softness in.',
-          },
-        ],
-      },
-      {
-        name: 'Lymphatic Drainage',
-        price: 145,
-        duration: '60min',
-        rating: 4.7,
-        summary:
-          'Light rhythmic technique that reduces fluid retention and leaves you lighter.',
-        idealFor: 'Fluid retention, bloating, and heaviness',
-        steps: [
-          {
-            name: 'Dry Brushing',
-            text: 'Brief brushing wakes the surface circulation before hands-on work.',
-          },
-          {
-            name: 'Rhythmic Drainage',
-            text: 'Feather-light repeated strokes move fluid toward the lymph nodes.',
-          },
-          {
-            name: 'Hydration',
-            text: 'Water and herbal tea afterward help the body finish the job.',
-          },
-        ],
-      },
-      {
-        name: 'Hot Stone Therapy',
-        price: 165,
-        duration: '75min',
-        rating: 4.9,
-        summary:
-          'Heated basalt stones melt deep muscular tightness without heavy pressure.',
-        idealFor: 'Deep tightness when firm pressure feels like too much',
-        steps: [
-          {
-            name: 'Stone Placement',
-            text: 'Heated basalt is placed along the spine to begin softening muscle.',
-          },
-          {
-            name: 'Heated Gliding',
-            text: 'Stones are worked over the body, carrying heat into tight areas.',
-          },
-          {
-            name: 'Cool Down',
-            text: 'A cool cloth and slow return bring your temperature back to baseline.',
-          },
-        ],
-      },
-      {
-        name: 'Scalp & Shoulder Release',
-        price: 80,
-        duration: '30min',
-        rating: 4.6,
-        summary: 'A focused reset for desk-bound shoulders, neck, and scalp.',
-        idealFor: 'Desk workers, screen fatigue, and tension headaches',
-        steps: [
-          {
-            name: 'Shoulder Unwind',
-            text: 'Focused work across the traps where screen posture collects.',
-          },
-          {
-            name: 'Neck Release',
-            text: 'Gentle traction and pressure free the base of the skull.',
-          },
-          {
-            name: 'Scalp Massage',
-            text: 'Fingertip work across the scalp finishes the reset.',
-          },
-        ],
-      },
+      'Back, leg, and full-body work, with or without scrubbing and polishing. Tell your therapist where you hold tension and how firm you like it; they will work to that.',
+      'Our spa and body treatments pair well with a facial if you would rather make an afternoon of it.',
     ],
   },
-  {
-    id: 'hair',
-    name: 'Hair Treatments',
-    count: 12,
+  piercing: {
+    name: 'Piercing',
+    Icon: RingIcon,
+    image:
+      'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1200&auto=format&fit=crop',
+    listImage:
+      'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1400&auto=format&fit=crop',
+    blurb: 'Ear piercing, done cleanly, with proper aftercare advice.',
+    description: [
+      'Sterile, single-use equipment and clear aftercare instructions before you leave.',
+      'We will talk you through placement and healing time before anything happens.',
+    ],
+  },
+  bridal: {
+    name: 'Bridal & Party',
     Icon: SparkIcon,
     image:
-      'https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop',
     listImage:
-      'https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1400&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1400&auto=format&fit=crop',
+    blurb: 'Makeup for the days that get photographed.',
     description: [
-      'Precision cutting, tonal colour, and repair treatments led by stylists who read hair before they touch it. Structure, shine, and movement that lasts past the appointment.',
-      'We finish every visit with the routine to keep it — honest advice on products and the care your hair actually needs.',
-    ],
-    treatments: [
-      {
-        name: 'Precision Cut',
-        price: 110,
-        duration: '60min',
-        rating: 4.9,
-        summary:
-          'A shape built around your growth pattern, texture, and how you style it at home.',
-        idealFor: 'Growing out a shape or starting completely fresh',
-        steps: [
-          {
-            name: 'Consultation',
-            text: 'We look at growth pattern, density, and the time you actually have.',
-          },
-          {
-            name: 'Precision Cut',
-            text: 'The shape is built section by section, dry-checked as we go.',
-          },
-          {
-            name: 'Styling Lesson',
-            text: 'You leave knowing how to recreate it with what you own.',
-          },
-        ],
-      },
-      {
-        name: 'Tonal Gloss',
-        price: 95,
-        duration: '45min',
-        rating: 4.7,
-        summary:
-          'Semi-permanent shine and tone correction with no lift and no commitment.',
-        idealFor: 'Brassiness and faded colour between appointments',
-        steps: [
-          {
-            name: 'Tone Match',
-            text: 'We read your current tone in natural light before mixing.',
-          },
-          {
-            name: 'Gloss Application',
-            text: 'A demi-permanent gloss corrects tone without lifting the base.',
-          },
-          {
-            name: 'Shine Seal',
-            text: 'An acidic rinse closes the cuticle for maximum reflection.',
-          },
-        ],
-      },
-      {
-        name: 'Bond Repair Treatment',
-        price: 130,
-        duration: '60min',
-        rating: 4.8,
-        summary:
-          'Rebuilds internal bonds weakened by colour, heat, and daily wear.',
-        idealFor: 'Colour-damaged and heat-stressed hair',
-        steps: [
-          {
-            name: 'Porosity Test',
-            text: 'We measure how damaged the hair actually is before choosing strength.',
-          },
-          {
-            name: 'Bond Builder',
-            text: 'Active repair is applied and processed under controlled heat.',
-          },
-          {
-            name: 'Sealing Rinse',
-            text: 'A pH-balancing rinse locks the rebuilt structure in place.',
-          },
-        ],
-      },
-      {
-        name: 'Full Balayage',
-        price: 260,
-        duration: '150min',
-        rating: 4.9,
-        summary:
-          'Hand-painted dimension that grows out softly, with no harsh regrowth line.',
-        idealFor: 'Soft dimension with genuinely low upkeep',
-        steps: [
-          {
-            name: 'Placement Map',
-            text: 'We plan where light falls on your face before any product is mixed.',
-          },
-          {
-            name: 'Hand Painting',
-            text: 'Lightener is painted freehand for a diffused, natural grow-out.',
-          },
-          {
-            name: 'Toning & Finish',
-            text: 'A custom toner sets the final shade and the hair is cut in.',
-          },
-        ],
-      },
-      {
-        name: 'Scalp Detox',
-        price: 75,
-        duration: '30min',
-        rating: 4.6,
-        summary:
-          'Clears product buildup and rebalances the scalp for healthier growth.',
-        idealFor: 'Product buildup, flaking, and oily roots',
-        steps: [
-          {
-            name: 'Clarifying Wash',
-            text: 'A deep wash strips residue that regular shampoo leaves behind.',
-          },
-          {
-            name: 'Exfoliating Scrub',
-            text: 'A granular scrub clears the follicle without irritating the skin.',
-          },
-          {
-            name: 'Balancing Tonic',
-            text: 'A lightweight tonic resets oil production at the root.',
-          },
-        ],
-      },
-      {
-        name: 'Keratin Smoothing',
-        price: 290,
-        duration: '120min',
-        rating: 4.8,
-        summary:
-          'Reduces frizz and cuts drying time for months, keeping natural movement.',
-        idealFor: 'Frizz, humidity, and long drying times',
-        steps: [
-          {
-            name: 'Clarify & Prep',
-            text: 'The cuticle is opened so the treatment can bond evenly.',
-          },
-          {
-            name: 'Keratin Seal',
-            text: 'Keratin is worked through in fine sections for consistent results.',
-          },
-          {
-            name: 'Heat Activation',
-            text: 'Flat-iron heat locks the smoothing in for up to three months.',
-          },
-        ],
-      },
+      'Party and event makeup built to hold through a long night and to photograph the way it looks in the mirror.',
+      'Bridal work is quoted individually — talk to us and we will plan the day around you.',
     ],
   },
-]
-
-/** Treatments inherit their category's photos unless they define their own. */
-const withTreatmentImages = (category) => ({
-  ...category,
-  treatments: category.treatments.map((treatment) => ({
-    ...treatment,
-    images: treatment.images ?? [category.listImage, category.image],
-  })),
-})
-
-export const CATEGORIES = RAW_CATEGORIES.map(withTreatmentImages)
-
-export const ALL = {
-  id: 'all',
-  name: 'All Services',
-  label: 'All',
-  count: CATEGORIES.reduce((sum, category) => sum + category.count, 0),
-  Icon: RingIcon,
-  listImage: CATEGORIES[0].listImage,
-  description: [
-    'Fifty-four treatments across skin, body, and hair — built around consultation rather than a menu. We start by understanding your goals, then shape a plan from there.',
-    'Every service shares the same standard: expert hands, considered products, and a room designed to let you exhale.',
-  ],
-  treatments: CATEGORIES.flatMap((category) => category.treatments),
 }
 
-export const TABS = [ALL, ...CATEGORIES]
+const ORDER = [
+  'hair',
+  'skin',
+  'nails',
+  'waxing',
+  'massage',
+  'bridal',
+  'piercing',
+]
+
+/* ------------------------------------------------------------------ *
+ * Building the menu
+ * ------------------------------------------------------------------ */
+
+const key = (name) => name.trim().toLowerCase().replace(/\s+/g, ' ')
+
+const MINOR_WORD = /^(with|by|and|or|of|the|for|in|on|only|a)$/i
+
+const titleCase = (name) =>
+  name
+    .trim()
+    .replace(/\s+/g, ' ')
+    .split(' ')
+    .map((word, i) =>
+      i > 0 && MINOR_WORD.test(word)
+        ? word.toLowerCase()
+        : word.replace(/^[a-z]/, (letter) => letter.toUpperCase()),
+    )
+    .join(' ')
+
+/** RENAMED is written by hand, so its keys go through the same normaliser. */
+const RENAMES = new Map(
+  Object.entries(RENAMED).map(([from, to]) => [key(from), to]),
+)
+
+const isPublic = (service) =>
+  !HIDDEN_CATEGORIES.includes(service.category) &&
+  !HIDDEN_SERVICES.includes(key(service.name)) &&
+  !PRIVATE_NAME.test(service.name) &&
+  service.price > 0
+
+const categoryFor = (service) =>
+  ROUTES.find((route) => route.test.test(service.name))?.id ??
+  FALLBACK_CATEGORY[service.category] ??
+  'skin'
+
+/**
+ * Turns the live catalogue into the tabs the services section renders.
+ * Same-named services priced differently (four "Blowdry" tiers, say) collapse
+ * into one entry quoted from the lowest price.
+ */
+export function buildCatalog(services = []) {
+  const byCategory = new Map()
+
+  for (const service of services) {
+    if (!isPublic(service)) continue
+
+    const id = categoryFor(service)
+    if (!byCategory.has(id)) byCategory.set(id, new Map())
+    const treatments = byCategory.get(id)
+
+    const name = RENAMES.get(key(service.name)) ?? titleCase(service.name)
+    const existing = treatments.get(key(name))
+
+    if (existing) {
+      // a second price for the same treatment means it is a "from" price
+      existing.from = true
+      if (service.price < existing.price) existing.price = service.price
+      continue
+    }
+
+    treatments.set(key(name), {
+      id: service.id,
+      name,
+      price: service.price,
+      from: Boolean(service.variablePrice),
+      durationMin: service.durationMin,
+      duration: `${service.durationMin}min`,
+    })
+  }
+
+  const categories = ORDER.filter((id) => byCategory.get(id)?.size).map((id) => {
+    const meta = CATEGORY_META[id]
+    const treatments = [...byCategory.get(id).values()].sort(
+      (a, b) => b.price - a.price,
+    )
+
+    return {
+      ...meta,
+      id,
+      count: treatments.length,
+      treatments: treatments.map((treatment) => ({
+        ...treatment,
+        summary: meta.blurb,
+        images: [meta.listImage, meta.image],
+      })),
+    }
+  })
+
+  const all = {
+    id: 'all',
+    name: 'All Services',
+    label: 'All',
+    Icon: RingIcon,
+    count: categories.reduce((sum, category) => sum + category.count, 0),
+    listImage: categories[0]?.listImage,
+    description: [
+      'Every treatment we offer across hair, skin, nails, and body — priced exactly as it is at the till, straight from our booking system.',
+      'Not sure what you need? Book a consultation and we will shape a plan around your hair and skin rather than sell you a package.',
+    ],
+    treatments: categories.flatMap((category) => category.treatments),
+  }
+
+  return { categories, tabs: [all, ...categories] }
+}
+
+/** Prices are in Pakistani rupees, e.g. "PKR 4,000" or "from PKR 1,200". */
+export function formatPrice({ price, from }) {
+  return `${from ? 'from ' : ''}PKR ${price.toLocaleString('en-US')}`
+}

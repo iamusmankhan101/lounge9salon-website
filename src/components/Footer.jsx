@@ -1,3 +1,4 @@
+import { groupHours, useSalon } from '../data/salon.js'
 import './Footer.css'
 
 const SITE_LINKS = [
@@ -8,13 +9,10 @@ const SITE_LINKS = [
   { label: 'Book an Appointment', href: '#book' },
 ]
 
-const HOURS = [
-  { days: 'Monday – Friday', time: '10:00 – 20:00' },
-  { days: 'Saturday', time: '10:00 – 18:00' },
-  { days: 'Sunday', time: 'Closed' },
-]
-
 function Footer() {
+  // opening hours come from the salon software, never a hardcoded copy
+  const { hours } = useSalon()
+
   return (
     <footer id="contact" className="footer">
       <div className="footer__top">
@@ -44,8 +42,8 @@ function Footer() {
         <div className="footer__col">
           <h3 className="footer__heading">Opening Hours</h3>
           <ul>
-            {HOURS.map(({ days, time }) => (
-              <li key={days} className="footer__hours-row">
+            {groupHours(hours).map(({ key, days, time }) => (
+              <li key={key} className="footer__hours-row">
                 <span>{days}</span>
                 <span className="footer__hours-time">{time}</span>
               </li>

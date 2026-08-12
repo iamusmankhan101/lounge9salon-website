@@ -164,9 +164,14 @@
 
 /* the native dropdown renders its list in the OS palette, so options need
    explicit colours to stay readable against this dark field */
-.booking__field select option {
+.booking__field select option,
+.booking__field select optgroup {
   color: #111;
   background: #fff;
+}
+
+.booking__field select optgroup {
+  text-transform: capitalize;
 }
 
 .booking__field input[type='date'] {
@@ -188,8 +193,26 @@
   transition: background 0.25s ease;
 }
 
-.booking__submit:hover {
+.booking__submit:hover:not(:disabled) {
   background: #e8d5b5;
+}
+
+.booking__submit:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.booking__field select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.booking__error {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #f0a9a0;
 }
 
 /* ---------- confirmation ---------- */

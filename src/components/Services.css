@@ -1,0 +1,530 @@
+.services {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(4rem, 10vh, 8rem) clamp(1.5rem, 3.5vw, 3.5rem);
+  background: #fff;
+  color: #111;
+}
+
+/* ---------- title ---------- */
+
+.services__title {
+  font-size: clamp(2.8rem, 6.5vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 6vh, 4.5rem);
+}
+
+.services__title-mask {
+  display: block;
+  overflow: hidden;
+}
+
+.services__title-line {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 1.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.services.is-visible .services__title-line {
+  transform: translateY(0);
+}
+
+/* ---------- shared tile chrome ---------- */
+
+.services__card,
+.services__tab {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  font: inherit;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.services__card-info,
+.services__tab-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.services__card-name,
+.services__tab-name {
+  display: block;
+  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.services__card-count,
+.services__tab-count {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 400;
+  opacity: 0.8;
+  margin-top: 0.2rem;
+}
+
+.services__card-icon,
+.services__tab-icon {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.services__card-icon svg,
+.services__tab-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- overview grid (default state) ---------- */
+
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2vw, 2rem);
+  width: 100%;
+}
+
+.services__card {
+  aspect-ratio: 1 / 1.08;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition:
+    opacity 1s ease,
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.services.is-visible .services__card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.services__card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.services__card:hover .services__card-image {
+  transform: scale(1.06);
+}
+
+/* readability gradient behind the label */
+.services__card::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+.services__card:hover .services__card-icon {
+  transform: rotate(90deg);
+}
+
+/* ---------- tab row (selected state) ---------- */
+
+.services__tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  width: 100%;
+  animation: services-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.services__tab {
+  aspect-ratio: 16 / 10;
+  color: #111;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #111;
+  transition:
+    color 0.5s ease,
+    background 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+.services__tab:hover {
+  background: #f2f2f2;
+}
+
+.services__tab.is-active {
+  color: #fff;
+  background: #111;
+  box-shadow: none;
+}
+
+.services__tab-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: services-fade 0.7s ease both;
+}
+
+/* gradient only under the active tile, where text sits over a photo */
+.services__tab.is-active::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+.services__tab:hover .services__tab-icon {
+  transform: rotate(90deg);
+}
+
+/* ---------- detail panel ---------- */
+
+.services__detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  width: 100%;
+  margin-top: clamp(3rem, 9vh, 7rem);
+  animation: services-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.services__detail-name {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.services__detail-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 42rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #333;
+  animation: services-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+/* ---------- treatment list ---------- */
+
+.services__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  width: 100%;
+  margin-top: clamp(2.5rem, 7vh, 5rem);
+}
+
+.services__item {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.25rem, 1.8vw, 1.85rem);
+  box-shadow: inset 0 0 0 1px #dcdcdc;
+  animation: services-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: box-shadow 0.4s ease;
+}
+
+.services__item:hover {
+  box-shadow: inset 0 0 0 1px #111;
+}
+
+.services__item-name {
+  font-size: clamp(1rem, 1.15vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 1.25;
+}
+
+.services__item-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.55rem;
+}
+
+.services__item-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.services__item-summary {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #555;
+}
+
+.services__item-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* pinned to the bottom so buttons line up across cards of unequal height */
+.services__item-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: auto;
+  padding-top: 1.75rem;
+}
+
+.services__book {
+  padding: 0.75rem 1.5rem;
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: #111;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.services__book:hover {
+  background: #333;
+}
+
+.services__learn {
+  padding: 0;
+  color: #111;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+}
+
+.services__learn:hover {
+  opacity: 0.55;
+}
+
+.services__item-clock {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: #666;
+}
+
+.services__item-clock svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* wide photo tile filling two columns and two rows of the grid */
+.services__list-image {
+  grid-column: span 2;
+  grid-row: span 2;
+  width: 100%;
+  height: 100%;
+  min-height: 18rem;
+  object-fit: cover;
+  animation: services-fade 0.9s ease 0.15s both;
+}
+
+/* bracketed label cell sitting between the photo and the cards */
+.services__list-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  animation: services-fade 0.9s ease 0.25s both;
+}
+
+.services__list-frame {
+  position: absolute;
+  inset: 0.5rem;
+  animation: badge-pulse 2.6s ease-in-out infinite;
+}
+
+.services__list-frame::before,
+.services__list-frame::after {
+  content: '';
+  position: absolute;
+  width: 0.9rem;
+  height: 1.1rem;
+  border: 3px solid currentColor;
+}
+
+.services__list-frame--top::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+  border-top-left-radius: 0.55rem;
+}
+
+.services__list-frame--top::after {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+  border-top-right-radius: 0.55rem;
+}
+
+.services__list-frame--bottom::before {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+  border-bottom-left-radius: 0.55rem;
+}
+
+.services__list-frame--bottom::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 0.55rem;
+}
+
+/* ---------- view all ---------- */
+
+.services__view-all {
+  margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  padding: 0;
+  color: #111;
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 1.5px;
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 1s ease 0.75s,
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.75s;
+}
+
+.services.is-visible .services__view-all {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.services.is-visible .services__view-all:hover {
+  opacity: 0.6;
+}
+
+/* ---------- animations ---------- */
+
+@keyframes services-rise {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes services-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1100px) {
+  .services__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services__list-image {
+    grid-row: span 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .services__grid {
+    grid-template-columns: 1fr;
+    max-width: 32rem;
+    margin: 0 auto;
+  }
+
+  .services__card {
+    aspect-ratio: 1 / 1;
+  }
+
+  .services__tabs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services__detail {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .services__list {
+    grid-template-columns: 1fr;
+  }
+
+  .services__list-image {
+    grid-column: span 1;
+    min-height: 14rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services__tabs,
+  .services__detail,
+  .services__detail-text,
+  .services__tab-image,
+  .services__item,
+  .services__list-image,
+  .services__list-label {
+    animation: none;
+  }
+
+  .services__list-frame {
+    animation: none;
+  }
+}

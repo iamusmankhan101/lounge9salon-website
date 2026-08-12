@@ -110,22 +110,10 @@
   color: #333;
 }
 
-.review__shots {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-top: auto;
-  padding-top: 1.75rem;
-}
-
-.review__shots img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-}
-
+/* pinned to the bottom so names line up across cards of uneven quote length */
 .review__meta {
-  margin-top: 1.5rem;
+  margin-top: auto;
+  padding-top: 2rem;
   font-size: 0.95rem;
   line-height: 1.5;
 }

@@ -12,10 +12,6 @@ const REVIEWS = [
     name: 'Mellisa P.',
     treatment: 'Enzyme Exfoliation',
     date: 'Jun 28th, 2025',
-    before:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop',
-    after:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=600&auto=format&fit=crop',
   },
   {
     id: 'sophie',
@@ -25,10 +21,6 @@ const REVIEWS = [
     name: 'Sophie L.',
     treatment: 'Glow Revival Facial',
     date: 'Jul 6th, 2025',
-    before:
-      'https://images.unsplash.com/photo-1499651681375-8afc5a4db253?q=80&w=600&auto=format&fit=crop',
-    after:
-      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=600&auto=format&fit=crop',
   },
   {
     id: 'amira',
@@ -38,10 +30,6 @@ const REVIEWS = [
     name: 'Amira K.',
     treatment: 'Signature Cut & Style',
     date: 'Aug 2nd, 2025',
-    before:
-      'https://images.unsplash.com/photo-1516726817505-f5ed825624d8?q=80&w=600&auto=format&fit=crop',
-    after:
-      'https://images.unsplash.com/photo-1512310604669-443f26c35f52?q=80&w=600&auto=format&fit=crop',
   },
   {
     id: 'nadia',
@@ -51,10 +39,6 @@ const REVIEWS = [
     name: 'Nadia R.',
     treatment: 'Luxury Manicure',
     date: 'Aug 19th, 2025',
-    before:
-      'https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=600&auto=format&fit=crop',
-    after:
-      'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?q=80&w=600&auto=format&fit=crop',
   },
   {
     id: 'yasmin',
@@ -64,10 +48,6 @@ const REVIEWS = [
     name: 'Yasmin A.',
     treatment: 'Skin Renewal Program',
     date: 'Sep 11th, 2025',
-    before:
-      'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=600&auto=format&fit=crop',
-    after:
-      'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=600&auto=format&fit=crop',
   },
   {
     id: 'leila',
@@ -77,10 +57,6 @@ const REVIEWS = [
     name: 'Leila M.',
     treatment: 'Hydrating Glow Ritual',
     date: 'Oct 4th, 2025',
-    before:
-      'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=600&auto=format&fit=crop',
-    after:
-      'https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?q=80&w=600&auto=format&fit=crop',
   },
 ]
 
@@ -103,11 +79,6 @@ function ReviewCard({ review }) {
       <Stars rating={review.rating} />
 
       <p className="review__quote">{review.quote}</p>
-
-      <div className="review__shots">
-        <img src={review.before} alt="" loading="lazy" />
-        <img src={review.after} alt="" loading="lazy" />
-      </div>
 
       <footer className="review__meta">
         <p className="review__name">{review.name}</p>

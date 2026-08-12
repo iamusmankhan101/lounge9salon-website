@@ -4,30 +4,24 @@ import Home from './pages/Home.jsx'
 import './App.css'
 
 /**
- * The holding page is the front door. The finished home page stays reachable
- * at ?preview (or #preview) so it can be reviewed before launch — swap the
- * default here when the salon is ready to open.
+ * The holding page is the front door at "/". The finished home page lives at
+ * "/home" so it can be reviewed before launch — swap the default here when
+ * the salon is ready to open.
  */
-const isPreview = () =>
-  new URLSearchParams(window.location.search).has('preview') ||
-  window.location.hash === '#preview'
+const isHomeRoute = () =>
+  window.location.pathname.replace(/\/+$/, '').toLowerCase() === '/home'
 
 function App() {
-  const [preview, setPreview] = useState(isPreview)
+  const [home, setHome] = useState(isHomeRoute)
 
   useEffect(() => {
-    // Sticky once on: in-page anchors change the hash, and dropping back to
-    // the holding page mid-scroll would be jarring.
-    const sync = () => setPreview((current) => current || isPreview())
-    window.addEventListener('hashchange', sync)
+    // keep the view in step with browser back/forward
+    const sync = () => setHome(isHomeRoute())
     window.addEventListener('popstate', sync)
-    return () => {
-      window.removeEventListener('hashchange', sync)
-      window.removeEventListener('popstate', sync)
-    }
+    return () => window.removeEventListener('popstate', sync)
   }, [])
 
-  return preview ? <Home /> : <ComingSoon />
+  return home ? <Home /> : <ComingSoon />
 }
 
 export default App

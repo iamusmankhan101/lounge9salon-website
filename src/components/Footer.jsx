@@ -1,5 +1,5 @@
 import { OPENING_HOURS, groupHours } from '../data/salon.js'
-import { ADDRESS, PHONE, PHONE_HREF } from '../data/contact.js'
+import { ADDRESS_LINES, MAP_URL, PHONE, PHONE_HREF } from '../data/contact.js'
 import './Footer.css'
 
 const SITE_LINKS = [
@@ -63,7 +63,16 @@ function Footer() {
             <li>
               <a href={PHONE_HREF}>{PHONE}</a>
             </li>
-            <li className="footer__address">{ADDRESS}</li>
+            <li className="footer__address">
+              <address>
+                {ADDRESS_LINES.map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
+              </address>
+              <a href={MAP_URL} target="_blank" rel="noreferrer">
+                View on map
+              </a>
+            </li>
           </ul>
         </div>
       </div>

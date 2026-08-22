@@ -77,6 +77,18 @@
   color: #666;
 }
 
+/* the address reads as written — one line of it per line on screen */
+.footer__address address {
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+}
+
+.footer__address a {
+  display: inline-block;
+  margin-top: 0.4rem;
+}
+
 /* ---------- bottom bar ---------- */
 
 .footer__bottom {

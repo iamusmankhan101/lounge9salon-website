@@ -1,5 +1,5 @@
 import { OPENING_HOURS, groupHours } from '../data/salon.js'
-import { ADDRESS, EMAIL, PHONE, PHONE_HREF } from '../data/contact.js'
+import { ADDRESS, PHONE, PHONE_HREF } from '../data/contact.js'
 import './Footer.css'
 
 const SITE_LINKS = [
@@ -62,9 +62,6 @@ function Footer() {
           <ul>
             <li>
               <a href={PHONE_HREF}>{PHONE}</a>
-            </li>
-            <li>
-              <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
             </li>
             <li className="footer__address">{ADDRESS}</li>
           </ul>

@@ -3,14 +3,16 @@
  * booking panel, the services page, and inside every WhatsApp booking message,
  * and those must never disagree.
  *
- * TODO: replace the placeholder number and address with the real ones. WHATSAPP
- * is the same line in international format with no "+" or spaces, which is the
- * only shape wa.me accepts.
+ * WHATSAPP is the same line as PHONE in international format with no "+" and
+ * no spaces, which is the only shape wa.me accepts — every booking opens a
+ * chat with it, so the three must be kept in step.
+ *
+ * TODO: EMAIL and ADDRESS are still placeholders.
  */
 
-export const PHONE = '+92 300 000 0000'
-export const PHONE_HREF = 'tel:+923000000000'
-export const WHATSAPP = '923000000000'
+export const PHONE = '+92 300 808 5211'
+export const PHONE_HREF = 'tel:+923008085211'
+export const WHATSAPP = '923008085211'
 export const EMAIL = 'hello@lounge8.com'
 export const ADDRESS = 'Lahore, Pakistan'
 

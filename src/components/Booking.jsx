@@ -1,26 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { formatTime, summarizeHours, useSalon } from '../data/salon.js'
 import { buildCatalog, formatPrice } from '../data/services.js'
+import { CONTACT, PHONE, PHONE_HREF } from '../data/contact.js'
 import {
   EMPTY_FORM,
-  submitBooking,
+  sendBooking,
   today,
   useTimeSlots,
 } from '../data/booking.js'
 import './Booking.css'
 
-const CONTACT = [
-  { label: 'Phone', value: '+92 300 000 0000', href: 'tel:+923000000000' },
-  { label: 'Email', value: 'hello@lounge8.com', href: 'mailto:hello@lounge8.com' },
-  { label: 'Address', value: 'Lahore, Pakistan' },
-]
-
 function Booking() {
   const sectionRef = useRef(null)
   const [visible, setVisible] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
-  const [status, setStatus] = useState('idle') // idle | sending | sent | error
-  const [error, setError] = useState('')
+  const [status, setStatus] = useState('idle') // idle | sent
   const catalog = useSalon()
 
   useEffect(() => {
@@ -68,29 +62,14 @@ function Booking() {
     }))
   }
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault()
-    if (status === 'sending') return
 
-    setStatus('sending')
-    setError('')
+    sendBooking({ ...form, serviceName: service?.name || 'Not sure yet' })
 
-    try {
-      await submitBooking({
-        ...form,
-        serviceName: service?.name || 'Not sure yet',
-      })
-
-      setStatus('sent')
-      setForm(EMPTY_FORM)
-    } catch (submitError) {
-      // the form keeps its values so nothing typed is lost on a failure
-      setStatus('error')
-      setError(
-        submitError.message ||
-          'Something went wrong. Please try again or call us.',
-      )
-    }
+    // the answers stay put: if WhatsApp does not open, or they come back to
+    // change something, nothing they typed has to be typed again
+    setStatus('sent')
   }
 
   return (
@@ -112,9 +91,10 @@ function Booking() {
         </h2>
 
         <p className="booking__text">
-          Tell us what you are after and when suits you. Your slot goes straight
-          into our diary and we will send a WhatsApp confirmation — or call us
-          and we will book you in on the spot.
+          Tell us what you are after and when suits you. We will open WhatsApp
+          with your request already written — send it and we will confirm the
+          slot in that chat, usually within the hour. Or call us and we will
+          book you in on the spot.
         </p>
 
         <dl className="booking__contact">
@@ -135,15 +115,19 @@ function Booking() {
       <div className="booking__panel">
         {status === 'sent' ? (
           <div className="booking__sent" role="status">
-            <p className="booking__sent-title">Appointment booked</p>
+            <p className="booking__sent-title">Over to WhatsApp</p>
             <p className="booking__sent-text">
-              Thank you — your slot is in the diary and a confirmation is on its
-              way to your WhatsApp.
+              Your request is written out and waiting in WhatsApp — send it and
+              we will confirm your slot in that chat. If nothing opened, call us
+              on <a href={PHONE_HREF}>{PHONE}</a>.
             </p>
             <button
               type="button"
               className="booking__reset"
-              onClick={() => setStatus('idle')}
+              onClick={() => {
+                setForm(EMPTY_FORM)
+                setStatus('idle')
+              }}
             >
               Book another
             </button>
@@ -168,7 +152,7 @@ function Booking() {
                 required
                 value={form.phone}
                 onChange={update('phone')}
-                placeholder="+92 300 000 0000"
+                placeholder={PHONE}
               />
             </label>
 
@@ -244,18 +228,8 @@ function Booking() {
               />
             </label>
 
-            {status === 'error' && (
-              <p className="booking__error" role="alert">
-                {error}
-              </p>
-            )}
-
-            <button
-              type="submit"
-              className="booking__submit"
-              disabled={status === 'sending'}
-            >
-              {status === 'sending' ? 'Booking…' : 'Book Appointment'}
+            <button type="submit" className="booking__submit">
+              Book on WhatsApp
             </button>
           </form>
         )}

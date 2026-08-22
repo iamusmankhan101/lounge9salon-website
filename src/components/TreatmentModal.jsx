@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { ClockIcon, CloseIcon, StarIcon } from './icons.jsx'
 import { formatPrice } from '../data/services.js'
-import { formatTime, useSalon } from '../data/salon.js'
+import { OPENING_HOURS, formatTime } from '../data/salon.js'
+import { PHONE, PHONE_HREF } from '../data/contact.js'
 import {
   EMPTY_FORM,
   formatDate,
-  submitBooking,
+  sendBooking,
   today,
   useTimeSlots,
 } from '../data/booking.js'
@@ -13,12 +14,14 @@ import './TreatmentModal.css'
 
 /** Books the treatment the popup is already showing, so no service picker. */
 function TreatmentBooking({ treatment, onDone }) {
-  const { hours } = useSalon()
   const [form, setForm] = useState({ ...EMPTY_FORM, serviceId: treatment.id })
-  const [status, setStatus] = useState('idle') // idle | sending | sent | error
-  const [error, setError] = useState('')
+  const [status, setStatus] = useState('idle') // idle | sent
 
-  const { slots, closed } = useTimeSlots(form.date, hours, treatment.durationMin)
+  const { slots, closed } = useTimeSlots(
+    form.date,
+    OPENING_HOURS,
+    treatment.durationMin,
+  )
 
   const update = (field) => (event) => {
     const { value } = event.target
@@ -29,33 +32,21 @@ function TreatmentBooking({ treatment, onDone }) {
     }))
   }
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault()
-    if (status === 'sending') return
-
-    setStatus('sending')
-    setError('')
-
-    try {
-      await submitBooking({ ...form, serviceName: treatment.name })
-      setStatus('sent')
-    } catch (submitError) {
-      setStatus('error')
-      setError(
-        submitError.message ||
-          'Something went wrong. Please try again or call us.',
-      )
-    }
+    sendBooking({ ...form, serviceName: treatment.name })
+    setStatus('sent')
   }
 
   if (status === 'sent') {
     return (
       <div className="modal__done" role="status">
-        <p className="modal__done-title">Appointment booked</p>
+        <p className="modal__done-title">Over to WhatsApp</p>
         <p className="modal__done-text">
           {treatment.name} on {formatDate(form.date)}
-          {form.time ? ` at ${formatTime(form.time)}` : ''}. A confirmation is on
-          its way to your WhatsApp.
+          {form.time ? ` at ${formatTime(form.time)}` : ''} — your request is
+          written out and waiting in WhatsApp. Send it and we will confirm the
+          slot in that chat, or call us on <a href={PHONE_HREF}>{PHONE}</a>.
         </p>
         <button type="button" className="modal__book" onClick={onDone}>
           Done
@@ -88,7 +79,7 @@ function TreatmentBooking({ treatment, onDone }) {
           required
           value={form.phone}
           onChange={update('phone')}
-          placeholder="+92 300 000 0000"
+          placeholder={PHONE}
         />
       </label>
 
@@ -135,18 +126,8 @@ function TreatmentBooking({ treatment, onDone }) {
         />
       </label>
 
-      {status === 'error' && (
-        <p className="modal__error" role="alert">
-          {error}
-        </p>
-      )}
-
-      <button
-        type="submit"
-        className="modal__book"
-        disabled={status === 'sending'}
-      >
-        {status === 'sending' ? 'Booking…' : 'Confirm Booking'}
+      <button type="submit" className="modal__book">
+        Book on WhatsApp
       </button>
     </form>
   )

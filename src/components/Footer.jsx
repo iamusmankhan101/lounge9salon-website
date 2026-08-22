@@ -1,4 +1,5 @@
-import { groupHours, useSalon } from '../data/salon.js'
+import { OPENING_HOURS, groupHours } from '../data/salon.js'
+import { ADDRESS, EMAIL, PHONE, PHONE_HREF } from '../data/contact.js'
 import './Footer.css'
 
 const SITE_LINKS = [
@@ -16,8 +17,7 @@ const resolve = (href) =>
     : href
 
 function Footer() {
-  // opening hours come from the salon software, never a hardcoded copy
-  const { hours } = useSalon()
+  const hours = OPENING_HOURS
 
   return (
     <footer id="contact" className="footer">
@@ -61,12 +61,12 @@ function Footer() {
           <h3 className="footer__heading">Get in Touch</h3>
           <ul>
             <li>
-              <a href="tel:+923000000000">+92 300 000 0000</a>
+              <a href={PHONE_HREF}>{PHONE}</a>
             </li>
             <li>
-              <a href="mailto:hello@lounge8.com">hello@lounge8.com</a>
+              <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
             </li>
-            <li className="footer__address">Lahore, Pakistan</li>
+            <li className="footer__address">{ADDRESS}</li>
           </ul>
         </div>
       </div>

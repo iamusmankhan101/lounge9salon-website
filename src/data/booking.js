@@ -1,9 +1,15 @@
 import { useMemo } from 'react'
+import { WHATSAPP } from './contact.js'
+import { formatTime } from './salon.js'
 
 /**
  * Everything the two booking surfaces share — the appointment section and the
  * quick form inside a treatment popup — so they cannot drift apart in what
  * they send or which slots they offer.
+ *
+ * A booking is not stored anywhere: the form composes a message and hands the
+ * customer off to WhatsApp with it already written, and the salon confirms the
+ * slot in that thread. Nothing is promised to the customer until they do.
  */
 
 export const EMPTY_FORM = {
@@ -62,20 +68,37 @@ export function useTimeSlots(date, hours, durationMin = 60) {
 }
 
 /**
- * Sends the appointment to Salon Central through the site's own proxy.
- * Throws with a message fit to show the customer.
+ * The request as the salon will read it in WhatsApp — one labelled line per
+ * answer, so a member of staff can act on it without asking anything back.
  */
-export async function submitBooking(payload) {
-  const response = await fetch('/api/book', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+export function bookingMessage({ name, phone, email, serviceName, date, time, notes }) {
+  const lines = [
+    `Service: ${serviceName || 'Not sure yet'}`,
+    date && `Date: ${formatDate(date)}`,
+    `Time: ${time ? formatTime(time) : 'First available'}`,
+    `Name: ${name}`,
+    `Phone: ${phone}`,
+    email && `Email: ${email}`,
+    notes && `Notes: ${notes}`,
+  ].filter(Boolean)
 
-  if (!response.ok) {
-    const data = await response.json().catch(() => ({}))
-    throw new Error(data.error || 'We could not send that request.')
-  }
+  // the blank line survives the filter above, which would drop it as falsy
+  return ['Hi Lounge 8, I would like to book an appointment.', '', ...lines].join(
+    '\n',
+  )
+}
 
-  return response.json().catch(() => ({ ok: true }))
+/** wa.me link for a booking, with the message already written. */
+export const bookingLink = (payload) =>
+  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(bookingMessage(payload))}`
+
+/**
+ * Hands the booking to WhatsApp. Opens a tab where it can — the site stays put
+ * behind it — and navigates in place when a blocker refuses the tab, so the
+ * message is never simply lost.
+ */
+export function sendBooking(payload) {
+  const url = bookingLink(payload)
+  const tab = window.open(url, '_blank', 'noopener,noreferrer')
+  if (!tab) window.location.href = url
 }

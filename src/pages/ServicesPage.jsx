@@ -4,6 +4,7 @@ import TreatmentModal from '../components/TreatmentModal.jsx'
 import { ClockIcon } from '../components/icons.jsx'
 import { useSalon } from '../data/salon.js'
 import { buildCatalog, formatPrice } from '../data/services.js'
+import { PHONE, PHONE_HREF } from '../data/contact.js'
 import './ServicesPage.css'
 
 function Row({ treatment, onOpen }) {
@@ -132,8 +133,7 @@ function ServicesPage() {
         {unavailable && (
           <p className="menu__empty">
             Our menu is briefly unavailable. Please call{' '}
-            <a href="tel:+923000000000">+92 300 000 0000</a> and we will book
-            you in.
+            <a href={PHONE_HREF}>{PHONE}</a> and we will book you in.
           </p>
         )}
 

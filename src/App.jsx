@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import ComingSoon from './components/ComingSoon.jsx'
+import AdminPage from './pages/AdminPage.jsx'
 import Home from './pages/Home.jsx'
 import ServicesPage from './pages/ServicesPage.jsx'
 import './App.css'
@@ -12,6 +13,7 @@ import './App.css'
 const ROUTES = {
   '/home': Home,
   '/services': ServicesPage,
+  '/admin': AdminPage,
 }
 
 const currentPath = () =>

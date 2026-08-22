@@ -1,0 +1,107 @@
+.handoff {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.handoff__open {
+  padding: 0.95rem 2rem;
+  background: #111;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+
+.handoff__open:hover {
+  background: #333;
+}
+
+.handoff__details {
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.handoff__details summary {
+  color: #666;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.handoff__details summary:hover {
+  color: #111;
+}
+
+.handoff__text {
+  margin-top: 0.85rem;
+  color: #666;
+  line-height: 1.55;
+}
+
+.handoff__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.9rem;
+}
+
+.handoff__copy {
+  padding: 0.6rem 1.1rem;
+  border: 1px solid #ddd8d1;
+  background: none;
+  color: #111;
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.handoff__copy:hover {
+  border-color: #111;
+}
+
+.handoff__call {
+  color: #666;
+  font-size: 0.88rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.handoff__call:hover {
+  color: #111;
+}
+
+.handoff__message {
+  max-height: 11rem;
+  margin-top: 0.9rem;
+  padding: 0.85rem 1rem;
+  overflow: auto;
+  border-left: 2px solid #e4e0da;
+  background: #faf8f5;
+  color: #555;
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.handoff__done {
+  border: none;
+  background: none;
+  padding: 0;
+  color: #666;
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.handoff__done:hover {
+  color: #111;
+}

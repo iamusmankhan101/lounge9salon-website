@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { formatTime, summarizeHours, useSalon } from '../data/salon.js'
 import { buildCatalog, formatPrice } from '../data/services.js'
-import { CONTACT, PHONE, PHONE_HREF } from '../data/contact.js'
+import { CONTACT, PHONE } from '../data/contact.js'
+import WhatsAppHandoff from './WhatsAppHandoff.jsx'
 import {
   EMPTY_FORM,
+  bookingLink,
+  bookingMessage,
   sendBooking,
   today,
   useTimeSlots,
@@ -15,6 +18,9 @@ function Booking() {
   const [visible, setVisible] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
   const [status, setStatus] = useState('idle') // idle | sent
+  // the exact request that was handed over, so the confirmation can offer the
+  // very same message again rather than rebuilding it from a changed form
+  const [sent, setSent] = useState(null)
   const catalog = useSalon()
 
   useEffect(() => {
@@ -65,10 +71,12 @@ function Booking() {
   const onSubmit = (event) => {
     event.preventDefault()
 
-    sendBooking({ ...form, serviceName: service?.name || 'Not sure yet' })
+    const payload = { ...form, serviceName: service?.name || 'Not sure yet' }
+    sendBooking(payload)
 
     // the answers stay put: if WhatsApp does not open, or they come back to
     // change something, nothing they typed has to be typed again
+    setSent({ link: bookingLink(payload), message: bookingMessage(payload) })
     setStatus('sent')
   }
 
@@ -117,20 +125,20 @@ function Booking() {
           <div className="booking__sent" role="status">
             <p className="booking__sent-title">Over to WhatsApp</p>
             <p className="booking__sent-text">
-              Your request is written out and waiting in WhatsApp — send it and
-              we will confirm your slot in that chat. If nothing opened, call us
-              on <a href={PHONE_HREF}>{PHONE}</a>.
+              Your request is written out and waiting in WhatsApp. Nothing is
+              booked until you send it — then we will confirm your slot in that
+              chat.
             </p>
-            <button
-              type="button"
-              className="booking__reset"
-              onClick={() => {
+            <WhatsAppHandoff
+              link={sent.link}
+              message={sent.message}
+              doneLabel="Book another"
+              onDone={() => {
                 setForm(EMPTY_FORM)
+                setSent(null)
                 setStatus('idle')
               }}
-            >
-              Book another
-            </button>
+            />
           </div>
         ) : (
           <form className="booking__form" onSubmit={onSubmit}>

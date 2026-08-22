@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { ClockIcon, CloseIcon, StarIcon } from './icons.jsx'
 import { formatPrice } from '../data/services.js'
 import { OPENING_HOURS, formatTime } from '../data/salon.js'
-import { PHONE, PHONE_HREF } from '../data/contact.js'
+import { PHONE } from '../data/contact.js'
+import WhatsAppHandoff from './WhatsAppHandoff.jsx'
 import {
   EMPTY_FORM,
-  formatDate,
+  bookingLink,
+  bookingMessage,
   sendBooking,
+  formatDate,
   today,
   useTimeSlots,
 } from '../data/booking.js'
@@ -16,6 +19,7 @@ import './TreatmentModal.css'
 function TreatmentBooking({ treatment, onDone }) {
   const [form, setForm] = useState({ ...EMPTY_FORM, serviceId: treatment.id })
   const [status, setStatus] = useState('idle') // idle | sent
+  const [sent, setSent] = useState(null)
 
   const { slots, closed } = useTimeSlots(
     form.date,
@@ -34,7 +38,9 @@ function TreatmentBooking({ treatment, onDone }) {
 
   const onSubmit = (event) => {
     event.preventDefault()
-    sendBooking({ ...form, serviceName: treatment.name })
+    const payload = { ...form, serviceName: treatment.name }
+    sendBooking(payload)
+    setSent({ link: bookingLink(payload), message: bookingMessage(payload) })
     setStatus('sent')
   }
 
@@ -45,12 +51,14 @@ function TreatmentBooking({ treatment, onDone }) {
         <p className="modal__done-text">
           {treatment.name} on {formatDate(form.date)}
           {form.time ? ` at ${formatTime(form.time)}` : ''} — your request is
-          written out and waiting in WhatsApp. Send it and we will confirm the
-          slot in that chat, or call us on <a href={PHONE_HREF}>{PHONE}</a>.
+          written out and waiting in WhatsApp. Nothing is booked until you send
+          it.
         </p>
-        <button type="button" className="modal__book" onClick={onDone}>
-          Done
-        </button>
+        <WhatsAppHandoff
+          link={sent.link}
+          message={sent.message}
+          onDone={onDone}
+        />
       </div>
     )
   }

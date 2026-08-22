@@ -87,7 +87,7 @@ function ServicesPage() {
         <h1 className="menu__title">Our Services</h1>
         <p className="menu__lead">
           Every treatment we offer, priced exactly as it is at the salon. Tap
-          any service to book it — your slot goes straight into our diary.
+          any service to request it — we will confirm your slot on WhatsApp.
         </p>
 
         <div className="menu__controls">

@@ -26,7 +26,10 @@
 }
 
 .admin-gate__logo {
-  height: 3rem;
+  /* the form is a flex column, whose default align-items: stretch would pull
+     a square logo out into an ellipse — width: auto does not override it */
+  align-self: flex-start;
+  height: 4rem;
   margin-bottom: 0.5rem;
 }
 

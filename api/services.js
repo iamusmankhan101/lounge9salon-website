@@ -22,8 +22,12 @@ export default async function handler(req, res) {
   try {
     const rows = await listServices({ activeOnly: true })
 
-    // the menu changes rarely; let the edge hold it briefly
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300')
+    // The edge holds the menu briefly so a burst of visitors is one query,
+    // but never longer than the admin panel promises: a price changed here is
+    // on the website within a minute, worst case (30s fresh + 30s stale).
+    // stale-while-revalidate is what makes the window long, not s-maxage —
+    // keep the two in step with that promise if either is ever changed.
+    res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate=30')
     return res.status(200).json({ services: rows.map(toService) })
   } catch (error) {
     console.error('Could not load services', error)

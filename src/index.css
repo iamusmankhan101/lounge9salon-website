@@ -1,4 +1,9 @@
 :root {
+  /* buttons: sage is too light to carry white text (1.5:1), so labels are ink */
+  --button-bg: #c5dbc7;
+  --button-bg-hover: #b2cdb5;
+  --button-ink: #111;
+
   font-family: 'Archivo', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

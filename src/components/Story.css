@@ -13,7 +13,7 @@
 .story__bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?q=80&w=2200&auto=format&fit=crop');
+  background-image: url('/WhatsApp%20Image%202026-08-23%20at%2013.13.07.jpeg');
   background-size: cover;
   background-position: center;
   transform: scale(1.08);
@@ -82,36 +82,85 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* ---------- stats ---------- */
+/* ---------- owner ---------- */
 
-.story__stats-label {
-  margin-top: 3rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.story__stats {
+.story__owner {
   display: flex;
-  flex-wrap: wrap;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  margin-top: 1.25rem;
+  align-items: center;
+  gap: 1.35rem;
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.story__stat-label {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.75);
+.story__owner-photo,
+.story__owner-monogram {
+  flex-shrink: 0;
+  width: 5.75rem;
+  height: 5.75rem;
+  border-radius: 50%;
 }
 
-.story__stat-value {
-  margin-top: 0.3rem;
-  font-size: clamp(1.8rem, 2.6vw, 2.5rem);
+/* full-length portrait: pull the crop up to the face, not the midsection */
+.story__owner-photo {
+  object-fit: cover;
+  object-position: center 8%;
+}
+
+/* stands in for the portrait until one is supplied */
+.story__owner-monogram {
+  display: grid;
+  place-items: center;
+  font-size: 1.45rem;
   font-weight: 700;
-  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.story__owner-name {
+  font-size: 1.15rem;
+  font-weight: 700;
   letter-spacing: -0.01em;
   text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
+}
+
+.story__owner-role {
+  margin-top: 0.2rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.story__owner-bio {
+  margin-top: 0.65rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* a button rather than the underlined link below, so the two Read Mores
+   in this section stay visually distinct */
+.story__owner-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.4rem;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(120, 105, 80, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 2px;
+  transition: background 0.2s ease;
+}
+
+.story__owner-link:hover {
+  background: rgba(120, 105, 80, 0.55);
 }
 
 /* ---------- link ---------- */
@@ -135,8 +184,7 @@
 /* ---------- staged fade-up for everything below the title ---------- */
 
 .story__text,
-.story__stats-label,
-.story__stats,
+.story__owner,
 .story__read-more {
   opacity: 0;
   transform: translateY(1.5rem);
@@ -148,19 +196,15 @@
 .story__text {
   transition-delay: 0.35s;
 }
-.story__stats-label {
+.story__owner {
   transition-delay: 0.5s;
 }
-.story__stats {
-  transition-delay: 0.6s;
-}
 .story__read-more {
-  transition-delay: 0.75s;
+  transition-delay: 0.65s;
 }
 
 .story.is-visible .story__text,
-.story.is-visible .story__stats-label,
-.story.is-visible .story__stats,
+.story.is-visible .story__owner,
 .story.is-visible .story__read-more {
   opacity: 1;
   transform: translateY(0);
@@ -178,6 +222,12 @@
     max-width: none;
   }
 
+  .story__owner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
   .story__overlay {
     background: linear-gradient(
       to bottom,
@@ -191,8 +241,7 @@
   .story__bg,
   .story__line,
   .story__text,
-  .story__stats-label,
-  .story__stats,
+  .story__owner,
   .story__read-more {
     transition: none;
   }

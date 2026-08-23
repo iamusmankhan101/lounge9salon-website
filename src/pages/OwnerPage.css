@@ -1,0 +1,308 @@
+.owner-page {
+  background: #fff;
+  color: #111;
+}
+
+/* ---------- header ---------- */
+
+.owner__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem clamp(1.5rem, 4vw, 4.5rem);
+  border-bottom: 1px solid #e4e0da;
+}
+
+.owner__logo img {
+  height: 3.25rem;
+}
+
+.owner__nav {
+  display: flex;
+  gap: clamp(1.25rem, 2.5vw, 2.5rem);
+}
+
+.owner__nav a {
+  color: #333;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.owner__nav a:hover {
+  color: #111;
+}
+
+.owner__cta {
+  padding: 0.8rem 1.5rem;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: #111;
+  transition: background 0.25s ease;
+}
+
+.owner__cta:hover {
+  background: #333;
+}
+
+/* ---------- intro ---------- */
+
+.owner__intro {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 26rem);
+  align-items: start;
+  gap: clamp(2rem, 6vw, 5rem);
+  padding: clamp(3rem, 8vh, 5.5rem) clamp(1.5rem, 4vw, 4.5rem);
+}
+
+.owner__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a7d63;
+}
+
+.owner__title {
+  margin-top: 0.9rem;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.owner__lead {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 38rem;
+  margin-top: 1.75rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #444;
+}
+
+.owner__portrait {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  /* the source is a full-length shot, so bias the crop towards her face */
+  object-position: center 20%;
+}
+
+/* ---------- highlights ---------- */
+
+.owner__highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  margin-top: 2.75rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid #e4e0da;
+}
+
+.owner__highlight-value {
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.owner__highlight-label {
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: #6b6b6b;
+}
+
+/* ---------- sections ---------- */
+
+.owner__section {
+  padding: clamp(2.5rem, 6vh, 4rem) clamp(1.5rem, 4vw, 4.5rem);
+  border-top: 1px solid #e4e0da;
+}
+
+.owner__section--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.owner__section-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a7d63;
+}
+
+/* ---------- experience ---------- */
+
+.owner__timeline {
+  margin-top: 2rem;
+  list-style: none;
+}
+
+.owner__entry {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding: 1.4rem 0;
+  border-bottom: 1px solid #efece7;
+}
+
+.owner__entry:last-child {
+  border-bottom: none;
+}
+
+.owner__entry-period {
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  color: #8a7d63;
+}
+
+.owner__entry-role {
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.owner__entry-org {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #666;
+}
+
+/* ---------- qualifications ---------- */
+
+.owner__education {
+  margin-top: 2rem;
+  list-style: none;
+}
+
+.owner__qualification {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #efece7;
+}
+
+.owner__qualification:last-child {
+  border-bottom: none;
+}
+
+.owner__qualification-name {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.owner__qualification-place {
+  margin-top: 0.25rem;
+  font-size: 0.88rem;
+  color: #777;
+}
+
+.owner__qualification-year {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  color: #8a7d63;
+}
+
+/* ---------- specialisms ---------- */
+
+.owner__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 2rem;
+  list-style: none;
+}
+
+.owner__skill {
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  color: #3d3629;
+  background: #f5f2ec;
+  border-radius: 2px;
+}
+
+/* ---------- closing ---------- */
+
+.owner__closing {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.75rem;
+  padding: clamp(3rem, 7vh, 4.5rem) clamp(1.5rem, 4vw, 4.5rem);
+  border-top: 1px solid #e4e0da;
+}
+
+.owner__closing-text {
+  max-width: 34rem;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.5;
+}
+
+.owner__closing-cta {
+  flex-shrink: 0;
+  padding: 1rem 2rem;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: #111;
+  transition: background 0.25s ease;
+}
+
+.owner__closing-cta:hover {
+  background: #333;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  .owner__intro {
+    grid-template-columns: 1fr;
+  }
+
+  /* the portrait leads on narrow screens, above the name */
+  .owner__intro-text {
+    order: 2;
+  }
+
+  .owner__portrait {
+    order: 1;
+    max-width: 20rem;
+  }
+
+  .owner__section--split {
+    grid-template-columns: 1fr;
+  }
+
+  .owner__entry {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .owner__nav,
+  .owner__cta {
+    display: none;
+  }
+
+  .owner__header {
+    justify-content: center;
+  }
+}

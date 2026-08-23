@@ -1,49 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import { OWNER } from '../data/owner.js'
 import './Story.css'
 
-const STATS = [
-  { label: 'Years of Experience', value: 5 },
-  { label: 'Team', value: 16 },
-  { label: 'Area', value: 465, suffix: ' sq.m.' },
-]
-
-const prefersReducedMotion = () =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-/** Counts from zero up to `value` once `active` flips true. */
-function CountUp({ value, active, duration = 1600, delay = 0 }) {
-  const [shown, setShown] = useState(0)
-
-  useEffect(() => {
-    if (!active) return undefined
-
-    if (prefersReducedMotion()) {
-      setShown(value)
-      return undefined
-    }
-
-    let frame
-    let start
-    const step = (now) => {
-      start ??= now
-      const progress = Math.min((now - start) / duration, 1)
-      const eased = 1 - (1 - progress) ** 3
-      setShown(Math.round(value * eased))
-      if (progress < 1) frame = requestAnimationFrame(step)
-    }
-
-    const timer = setTimeout(() => {
-      frame = requestAnimationFrame(step)
-    }, delay)
-
-    return () => {
-      clearTimeout(timer)
-      cancelAnimationFrame(frame)
-    }
-  }, [active, value, duration, delay])
-
-  return shown
-}
+const initials = (name) =>
+  name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join('')
 
 function Story() {
   const sectionRef = useRef(null)
@@ -96,19 +61,33 @@ function Story() {
           </p>
         </div>
 
-        <h3 className="story__stats-label">Lounge8 in Numbers</h3>
+        <figure className="story__owner">
+          {OWNER.photo ? (
+            <img
+              src={OWNER.photo}
+              alt={OWNER.name}
+              className="story__owner-photo"
+            />
+          ) : (
+            <span className="story__owner-monogram" aria-hidden="true">
+              {initials(OWNER.name)}
+            </span>
+          )}
 
-        <dl className="story__stats">
-          {STATS.map(({ label, value, suffix }, i) => (
-            <div key={label} className="story__stat">
-              <dt className="story__stat-label">{label}:</dt>
-              <dd className="story__stat-value">
-                <CountUp active={visible} value={value} delay={600 + i * 150} />
-                {suffix}
-              </dd>
-            </div>
-          ))}
-        </dl>
+          <figcaption className="story__owner-text">
+            <p className="story__owner-name">{OWNER.name}</p>
+            <p className="story__owner-role">{OWNER.role}</p>
+            <p className="story__owner-bio">{OWNER.bio}</p>
+
+            <a
+              href="/owner"
+              className="story__owner-link"
+              aria-label={`Read more about ${OWNER.name}`}
+            >
+              Read More
+            </a>
+          </figcaption>
+        </figure>
 
         <a href="#gallery" className="story__read-more">
           Read More

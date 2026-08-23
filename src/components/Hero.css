@@ -14,7 +14,7 @@
 .hero__bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=2400&auto=format&fit=crop');
+  background-image: url('/WhatsApp%20Image%202026-08-23%20at%2013.21.38.jpeg');
   background-size: cover;
   background-position: center 20%;
   animation: hero-zoom 2.8s cubic-bezier(0.22, 1, 0.36, 1) both;

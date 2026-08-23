@@ -117,19 +117,17 @@
   --delay: 0.85s;
   margin-left: auto;
   padding: 0.85rem 1.8rem;
-  color: #fff;
+  color: var(--button-ink);
   font-size: 1rem;
   font-weight: 500;
   text-decoration: none;
-  background: rgba(120, 105, 80, 0.35);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: var(--button-bg);
   border-radius: 2px;
   transition: background 0.2s;
 }
 
 .hero__cta-button:hover {
-  background: rgba(120, 105, 80, 0.55);
+  background: var(--button-bg-hover);
 }
 
 /* ---------- bottom-left content ---------- */

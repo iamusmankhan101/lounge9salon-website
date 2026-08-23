@@ -147,20 +147,18 @@
   display: inline-block;
   margin-top: 1rem;
   padding: 0.6rem 1.4rem;
-  color: #fff;
+  color: var(--button-ink);
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: rgba(120, 105, 80, 0.35);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: var(--button-bg);
   border-radius: 2px;
   transition: background 0.2s ease;
 }
 
 .story__owner-link:hover {
-  background: rgba(120, 105, 80, 0.55);
+  background: var(--button-bg-hover);
 }
 
 /* ---------- link ---------- */

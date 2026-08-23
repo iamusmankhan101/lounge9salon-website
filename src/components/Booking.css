@@ -183,18 +183,18 @@
   justify-self: start;
   margin-top: 0.5rem;
   padding: 1rem 2.5rem;
-  color: #16110d;
+  color: var(--button-ink);
   font: inherit;
   font-size: 1rem;
   font-weight: 600;
-  background: #fff;
+  background: var(--button-bg);
   border: none;
   cursor: pointer;
   transition: background 0.25s ease;
 }
 
 .booking__submit:hover:not(:disabled) {
-  background: #e8d5b5;
+  background: var(--button-bg-hover);
 }
 
 .booking__submit:disabled {

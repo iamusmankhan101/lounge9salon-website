@@ -36,16 +36,16 @@
 
 .owner__cta {
   padding: 0.8rem 1.5rem;
-  color: #fff;
+  color: var(--button-ink);
   font-size: 0.92rem;
   font-weight: 600;
   text-decoration: none;
-  background: #111;
+  background: var(--button-bg);
   transition: background 0.25s ease;
 }
 
 .owner__cta:hover {
-  background: #333;
+  background: var(--button-bg-hover);
 }
 
 /* ---------- intro ---------- */
@@ -236,6 +236,25 @@
   border-radius: 2px;
 }
 
+/* ---------- portrait band ---------- */
+
+.owner__portraits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.5rem, 1.5vw, 1.25rem);
+  padding: 0 clamp(1.5rem, 4vw, 4.5rem) clamp(2.5rem, 6vh, 4rem);
+  border-top: 1px solid #e4e0da;
+  padding-top: clamp(2.5rem, 6vh, 4rem);
+}
+
+/* 2:3 is close to the source ratio, so the full-length pose survives the crop */
+.owner__portraits-image {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* ---------- closing ---------- */
 
 .owner__closing {
@@ -257,16 +276,16 @@
 .owner__closing-cta {
   flex-shrink: 0;
   padding: 1rem 2rem;
-  color: #fff;
+  color: var(--button-ink);
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
-  background: #111;
+  background: var(--button-bg);
   transition: background 0.25s ease;
 }
 
 .owner__closing-cta:hover {
-  background: #333;
+  background: var(--button-bg-hover);
 }
 
 /* ---------- responsive ---------- */
@@ -293,6 +312,11 @@
   .owner__entry {
     grid-template-columns: 1fr;
     gap: 0.4rem;
+  }
+
+  .owner__portraits {
+    grid-template-columns: 1fr;
+    max-width: 26rem;
   }
 }
 

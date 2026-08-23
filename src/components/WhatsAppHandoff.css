@@ -8,8 +8,8 @@
 
 .handoff__open {
   padding: 0.95rem 2rem;
-  background: #111;
-  color: #fff;
+  background: var(--button-bg);
+  color: var(--button-ink);
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
@@ -17,7 +17,7 @@
 }
 
 .handoff__open:hover {
-  background: #333;
+  background: var(--button-bg-hover);
 }
 
 .handoff__details {

@@ -359,18 +359,18 @@
 
 .services__book {
   padding: 0.75rem 1.5rem;
-  color: #fff;
+  color: var(--button-ink);
   font: inherit;
   font-size: 0.95rem;
   font-weight: 600;
-  background: #111;
+  background: var(--button-bg);
   border: none;
   cursor: pointer;
   transition: background 0.25s ease;
 }
 
 .services__book:hover {
-  background: #333;
+  background: var(--button-bg-hover);
 }
 
 .services__learn {

@@ -18,7 +18,7 @@
 .gallery__frame {
   display: block;
   overflow: hidden;
-  aspect-ratio: var(--ratio, 4 / 4.5);
+  aspect-ratio: var(--ratio, 4 / 3);
   clip-path: inset(100% 0 0 0);
   transition: clip-path 1.4s cubic-bezier(0.65, 0, 0.35, 1);
   transition-delay: var(--reveal-delay, 0s);
@@ -46,41 +46,6 @@
   transform: translateY(0) scale(1.05);
   transition-duration: 0.8s;
   transition-delay: 0s;
-}
-
-.gallery__caption {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 0.9rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(0.75rem);
-  transition:
-    opacity 0.9s ease,
-    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(var(--reveal-delay, 0s) + 0.45s);
-}
-
-.gallery__item.is-in .gallery__caption {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.gallery__mark {
-  flex-shrink: 0;
-  width: 0.95rem;
-  height: 0.95rem;
-}
-
-.gallery__mark svg {
-  display: block;
-  width: 100%;
-  height: 100%;
 }
 
 /* ---------- headline sitting inside the grid ---------- */
@@ -122,53 +87,34 @@
     gap: 0 clamp(1rem, 2vw, 2.5rem);
   }
 
-  .gallery__item--interior {
-    grid-column: 1 / 5;
+  .gallery__item--floor {
+    grid-column: 1 / 8;
     grid-row: 1;
-    margin-top: 2rem;
+    --ratio: 3 / 2;
   }
 
-  .gallery__item--relaxation {
-    grid-column: 5 / 9;
+  .gallery__item--stations {
+    grid-column: 8 / 13;
     grid-row: 1;
-    margin-top: 9rem;
-  }
-
-  .gallery__item--lounge {
-    grid-column: 9 / 13;
-    grid-row: 1;
-    --ratio: 4 / 3.6;
+    margin-top: 7rem;
   }
 
   .gallery__title {
-    grid-column: 2 / 9;
+    grid-column: 1 / 13;
     grid-row: 2;
   }
 
-  .gallery__item--hair {
-    grid-column: 9 / 13;
-    grid-row: 2;
-    margin-top: 3rem;
-  }
-
-  .gallery__item--office {
+  .gallery__item--reception {
     grid-column: 1 / 6;
     grid-row: 3;
-    margin-top: -3rem;
-    --ratio: 3 / 2;
+    margin-top: -1rem;
   }
 
-  .gallery__item--spa {
-    grid-column: 7 / 13;
+  .gallery__item--lounge {
+    grid-column: 6 / 13;
     grid-row: 3;
-    margin-top: 7rem;
+    margin-top: 6rem;
     --ratio: 3 / 2;
-  }
-
-  .gallery__item--treatment {
-    grid-column: 2 / 6;
-    grid-row: 4;
-    margin-top: -2rem;
   }
 }
 
@@ -193,14 +139,8 @@
     transform: none;
   }
 
-  .gallery__caption {
-    opacity: 1;
-    transform: none;
-  }
-
   .gallery__frame,
   .gallery__image,
-  .gallery__caption,
   .gallery__title-line {
     transition: none;
   }

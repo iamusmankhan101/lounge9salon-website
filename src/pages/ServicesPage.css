@@ -36,16 +36,16 @@
 
 .menu__cta {
   padding: 0.8rem 1.5rem;
-  color: #fff;
+  color: var(--button-ink);
   font-size: 0.92rem;
   font-weight: 600;
   text-decoration: none;
-  background: #111;
+  background: var(--button-bg);
   transition: background 0.25s ease;
 }
 
 .menu__cta:hover {
-  background: #333;
+  background: var(--button-bg-hover);
 }
 
 /* ---------- intro ---------- */
@@ -247,8 +247,9 @@
 }
 
 .menu__row-book:hover {
-  color: #fff;
-  background: #111;
+  color: var(--button-ink);
+  background: var(--button-bg);
+  border-color: var(--button-bg);
 }
 
 /* ---------- responsive ---------- */

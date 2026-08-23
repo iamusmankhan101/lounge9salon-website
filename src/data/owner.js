@@ -14,6 +14,16 @@ export const OWNER = {
   bio: 'Samia has spent three decades in the beauty industry — trained in makeup with ITEC London and in Singapore, licensed as a hair stylist by the College of Trades in Ontario, and certified as a medical aesthetician in laser. She has led Lounge8 since 2019, and still teaches as a technical trainer.',
 }
 
+/**
+ * Two more frames from the same shoot as OWNER.photo, shown as a band on the
+ * owner page. Decorative — the intro portrait already carries her likeness, so
+ * these are given empty alt text rather than repeating it to screen readers.
+ */
+export const PORTRAITS = [
+  '/WhatsApp%20Image%202026-08-23%20at%2009.13.14.jpeg',
+  '/WhatsApp%20Image%202026-08-23%20at%2009.13.15%20(1).jpeg',
+]
+
 /** The three lines that sit under the portrait, above everything else. */
 export const HIGHLIGHTS = [
   { value: '30', label: 'Years in the industry' },

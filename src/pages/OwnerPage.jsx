@@ -4,6 +4,7 @@ import {
   EXPERIENCE,
   HIGHLIGHTS,
   OWNER,
+  PORTRAITS,
   SKILLS,
   SUMMARY,
 } from '../data/owner.js'
@@ -106,6 +107,18 @@ function OwnerPage() {
           </ul>
         </div>
       </section>
+
+      <div className="owner__portraits">
+        {PORTRAITS.map((src) => (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            loading="lazy"
+            className="owner__portraits-image"
+          />
+        ))}
+      </div>
 
       <section className="owner__closing">
         <p className="owner__closing-text">

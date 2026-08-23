@@ -1,50 +1,27 @@
 import { useEffect, useRef, useState } from 'react'
 import Badge from './Badge.jsx'
-import { SparkIcon } from './icons.jsx'
 import './Gallery.css'
 
 const SHOTS = [
   {
-    id: 'interior',
-    label: 'Interior',
-    image:
-      'https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200&auto=format&fit=crop',
+    id: 'floor',
+    alt: 'The main salon floor, with styling chairs and the portrait wall',
+    image: '/WhatsApp%20Image%202026-08-23%20at%2013.13.07.jpeg',
   },
   {
-    id: 'relaxation',
-    label: 'Relaxation Area',
-    image:
-      'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?q=80&w=1200&auto=format&fit=crop',
+    id: 'stations',
+    alt: 'Styling stations along the mirrored wall',
+    image: '/WhatsApp%20Image%202026-08-23%20at%2013.13.06%20(1).jpeg',
+  },
+  {
+    id: 'reception',
+    alt: 'The reception desk against the brick wall',
+    image: '/WhatsApp%20Image%202026-08-23%20at%2013.13.06.jpeg',
   },
   {
     id: 'lounge',
-    label: 'Lounge Area',
-    image:
-      'https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=1400&auto=format&fit=crop',
-  },
-  {
-    id: 'hair',
-    label: 'Hair Treatments Rooms',
-    image:
-      'https://images.unsplash.com/photo-1521783593447-5702b9bfd267?q=80&w=1200&auto=format&fit=crop',
-  },
-  {
-    id: 'office',
-    label: "The Chief Doctor's Office",
-    image:
-      'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1400&auto=format&fit=crop',
-  },
-  {
-    id: 'spa',
-    label: 'Spa Zone',
-    image:
-      'https://images.unsplash.com/photo-1583416750470-965b2707b355?q=80&w=1400&auto=format&fit=crop',
-  },
-  {
-    id: 'treatment',
-    label: 'Treatment Room',
-    image:
-      'https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?q=80&w=1200&auto=format&fit=crop',
+    alt: 'The waiting area, with seating and the retail shelves',
+    image: '/WhatsApp%20Image%202026-08-23%20at%2013.13.07%20(1).jpeg',
   },
 ]
 
@@ -85,17 +62,11 @@ function Shot({ shot, index }) {
       <span className="gallery__frame">
         <img
           src={shot.image}
-          alt={shot.label}
+          alt={shot.alt}
           className="gallery__image"
           loading="lazy"
         />
       </span>
-      <figcaption className="gallery__caption">
-        {shot.label}
-        <span className="gallery__mark">
-          <SparkIcon />
-        </span>
-      </figcaption>
     </figure>
   )
 }
@@ -106,7 +77,7 @@ function Gallery() {
   return (
     <section id="gallery" className="gallery">
       <div className="gallery__grid">
-        {SHOTS.slice(0, 3).map((shot, i) => (
+        {SHOTS.slice(0, 2).map((shot, i) => (
           <Shot key={shot.id} shot={shot} index={i} />
         ))}
 
@@ -123,8 +94,8 @@ function Gallery() {
           </span>
         </h2>
 
-        {SHOTS.slice(3).map((shot, i) => (
-          <Shot key={shot.id} shot={shot} index={i + 3} />
+        {SHOTS.slice(2).map((shot, i) => (
+          <Shot key={shot.id} shot={shot} index={i + 2} />
         ))}
       </div>
     </section>

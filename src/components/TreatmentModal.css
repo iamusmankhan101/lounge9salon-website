@@ -193,24 +193,24 @@
   width: 100%;
   margin-top: 2rem;
   padding: 1rem 2rem;
-  color: #fff;
+  color: var(--button-ink);
   font: inherit;
   font-size: 1.05rem;
   font-weight: 600;
   text-align: center;
   text-decoration: none;
-  background: #111;
+  background: var(--button-bg);
   border: none;
   cursor: pointer;
   transition: background 0.25s ease;
 }
 
 .modal__book:hover {
-  background: #333;
+  background: var(--button-bg-hover);
 }
 
 .modal__book:hover:disabled {
-  background: #111;
+  background: var(--button-bg);
 }
 
 .modal__book:disabled {

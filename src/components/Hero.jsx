@@ -50,7 +50,7 @@ function Hero() {
 
       <h1 className="hero__title">
         <span className="hero__mask">
-          <span className="hero__rise">Beauty Salon</span>
+          <span className="hero__rise">Lounge8 Salon</span>
         </span>
       </h1>
     </section>

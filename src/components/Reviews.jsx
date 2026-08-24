@@ -112,6 +112,14 @@ const REVIEWS = [
   },
 ]
 
+/**
+ * Averaged from the reviews themselves rather than typed in, so the figure on
+ * the badge can never disagree with the cards underneath it.
+ */
+const AVERAGE = (
+  REVIEWS.reduce((sum, { rating }) => sum + Number(rating), 0) / REVIEWS.length
+).toFixed(1)
+
 function Stars({ rating }) {
   return (
     <div className="review__rating">
@@ -176,7 +184,7 @@ function Reviews() {
               delay={1}
               label={
                 <span className="reviews__badge-label">
-                  4.9
+                  {AVERAGE}
                   <br />
                   Average Rating
                 </span>

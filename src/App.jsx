@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import AdminPage from './pages/AdminPage.jsx'
 import Home from './pages/Home.jsx'
+import NotFound from './pages/NotFound.jsx'
 import OwnerPage from './pages/OwnerPage.jsx'
 import ServicesPage from './pages/ServicesPage.jsx'
 import './App.css'
@@ -30,7 +31,7 @@ function App() {
     return () => window.removeEventListener('popstate', sync)
   }, [])
 
-  const Page = ROUTES[path] ?? Home
+  const Page = ROUTES[path] ?? NotFound
   return <Page />
 }
 

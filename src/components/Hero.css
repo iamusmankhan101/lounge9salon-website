@@ -156,7 +156,7 @@
   font-weight: 500;
   font-family: var(--button-font);
   white-space: nowrap;
-  background: rgba(255, 255, 255, 0.78);
+  background: var(--star-gold);
   border-radius: 4px;
   transition: background 0.5s ease;
 }

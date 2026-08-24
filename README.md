@@ -9,8 +9,8 @@ rather than to any booking software.
 
 | Path        | What it is                                  |
 | ----------- | ------------------------------------------- |
-| `/`         | the holding page                            |
-| `/home`     | the full site                               |
+| `/`         | the full site                               |
+| `/home`     | the full site, at its pre-launch path       |
 | `/services` | the service menu                            |
 | `/admin`    | staff — import, add, edit, hide, and delete services |
 

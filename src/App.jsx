@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import ComingSoon from './components/ComingSoon.jsx'
 import AdminPage from './pages/AdminPage.jsx'
 import Home from './pages/Home.jsx'
 import OwnerPage from './pages/OwnerPage.jsx'
@@ -7,11 +6,11 @@ import ServicesPage from './pages/ServicesPage.jsx'
 import './App.css'
 
 /**
- * The holding page is the front door at "/". The finished site lives behind
- * named routes so it can be reviewed before launch — swap the fallback here
- * when the salon is ready to open.
+ * The site is live: "/" serves the home page, and "/home" is kept alongside it
+ * because links to that path are already out in the world.
  */
 const ROUTES = {
+  '': Home,
   '/home': Home,
   '/services': ServicesPage,
   '/owner': OwnerPage,
@@ -31,7 +30,7 @@ function App() {
     return () => window.removeEventListener('popstate', sync)
   }, [])
 
-  const Page = ROUTES[path] ?? ComingSoon
+  const Page = ROUTES[path] ?? Home
   return <Page />
 }
 

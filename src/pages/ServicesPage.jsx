@@ -74,7 +74,6 @@ function ServicesPage() {
 
         <nav className="menu__nav">
           <a href="/home">Home</a>
-          <a href="/treatments">Treatments</a>
           <a href="/home#gallery">Gallery</a>
           <a href="/home#contact">Contacts</a>
         </nav>
@@ -154,10 +153,25 @@ function ServicesPage() {
                 className="menu__group-image"
                 loading="lazy"
               />
-              <div>
+              <div className="menu__group-intro">
+                <p className="menu__group-eyebrow">
+                  <span className="menu__group-icon" aria-hidden="true">
+                    <category.Icon />
+                  </span>
+                  {category.count}{' '}
+                  {category.count === 1 ? 'treatment' : 'treatments'}
+                </p>
                 <h2 className="menu__group-name">{category.name}</h2>
-                <p className="menu__group-text">{category.description[0]}</p>
+                <p className="menu__group-blurb">{category.blurb}</p>
               </div>
+            </div>
+
+            {/* the fuller write-up, kept out of the head so the name, count and
+                blurb stay on one line of sight with the photograph */}
+            <div className="menu__group-detail">
+              {category.description.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
 
             <div className="menu__rows">

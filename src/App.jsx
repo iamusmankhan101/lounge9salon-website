@@ -4,7 +4,6 @@ import Home from './pages/Home.jsx'
 import NotFound from './pages/NotFound.jsx'
 import OwnerPage from './pages/OwnerPage.jsx'
 import ServicesPage from './pages/ServicesPage.jsx'
-import TreatmentsPage from './pages/TreatmentsPage.jsx'
 import './App.css'
 
 /**
@@ -15,7 +14,6 @@ const ROUTES = {
   '': Home,
   '/home': Home,
   '/services': ServicesPage,
-  '/treatments': TreatmentsPage,
   '/owner': OwnerPage,
   '/admin': AdminPage,
 }

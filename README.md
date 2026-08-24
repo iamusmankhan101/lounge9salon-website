@@ -11,8 +11,7 @@ rather than to any booking software.
 | ----------- | ------------------------------------------- |
 | `/`         | the full site                               |
 | `/home`     | the full site, at its pre-launch path       |
-| `/treatments` | what each kind of treatment involves      |
-| `/services` | the service menu, with prices               |
+| `/services` | the service menu — what each treatment is, and what it costs |
 | `/owner`    | Samia's background — experience and training |
 | `/admin`    | staff — import, add, edit, hide, and delete services |
 

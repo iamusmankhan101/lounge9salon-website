@@ -161,29 +161,10 @@
   background: var(--button-bg-hover);
 }
 
-/* ---------- link ---------- */
-
-.story__read-more {
-  display: inline-block;
-  margin-top: 3rem;
-  color: #fff;
-  font-size: 1.35rem;
-  font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 0.35em;
-  text-decoration-thickness: 1.5px;
-  transition: opacity 0.25s ease;
-}
-
-.story__read-more:hover {
-  opacity: 0.7;
-}
-
 /* ---------- staged fade-up for everything below the title ---------- */
 
 .story__text,
-.story__owner,
-.story__read-more {
+.story__owner {
   opacity: 0;
   transform: translateY(1.5rem);
   transition:
@@ -197,13 +178,9 @@
 .story__owner {
   transition-delay: 0.5s;
 }
-.story__read-more {
-  transition-delay: 0.65s;
-}
 
 .story.is-visible .story__text,
-.story.is-visible .story__owner,
-.story.is-visible .story__read-more {
+.story.is-visible .story__owner {
   opacity: 1;
   transform: translateY(0);
 }
@@ -239,8 +216,7 @@
   .story__bg,
   .story__line,
   .story__text,
-  .story__owner,
-  .story__read-more {
+  .story__owner {
     transition: none;
   }
 }

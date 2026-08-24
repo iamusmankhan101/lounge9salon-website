@@ -4,7 +4,8 @@
   height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
   color: #fff;
   background: #111;
@@ -130,13 +131,17 @@
   background: var(--button-bg-hover);
 }
 
-/* ---------- bottom-left content ---------- */
+/* ---------- centred content ---------- */
 
 .hero__content {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   padding: 0 clamp(1.5rem, 4vw, 4.5rem);
-  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .hero__tagline {
@@ -149,6 +154,7 @@
 /* faded rather than masked: the offset underline would be clipped */
 .hero__cta-link {
   display: inline-block;
+  margin-top: 1.5rem;
   color: #fff;
   font-size: clamp(1.5rem, 2.5vw, 2.1rem);
   font-weight: 500;
@@ -169,6 +175,7 @@
   --delay: 0.25s;
   position: relative;
   z-index: 2;
+  margin-top: 0.75rem;
   font-size: clamp(3rem, 11.5vw, 15rem);
   font-weight: 700;
   line-height: 0.78;
@@ -176,7 +183,6 @@
   text-transform: uppercase;
   white-space: nowrap;
   text-align: center;
-  margin-bottom: -0.02em;
 }
 
 /* the 0.78 line-height leaves no room above the caps, so widen the mask */
@@ -241,8 +247,6 @@
 
   .hero__title {
     white-space: normal;
-    text-align: left;
-    padding: 0 1.5rem;
     line-height: 0.9;
   }
 }

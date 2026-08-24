@@ -43,16 +43,17 @@ function Hero() {
             </span>
           </span>
         </p>
+
+        <h1 className="hero__title">
+          <span className="hero__mask">
+            <span className="hero__rise">Lounge8 Salon</span>
+          </span>
+        </h1>
+
         <a href="#book" className="hero__cta-link">
           Book an Appointment
         </a>
       </div>
-
-      <h1 className="hero__title">
-        <span className="hero__mask">
-          <span className="hero__rise">Lounge8 Salon</span>
-        </span>
-      </h1>
     </section>
   )
 }

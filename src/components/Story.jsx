@@ -88,10 +88,6 @@ function Story() {
             </a>
           </figcaption>
         </figure>
-
-        <a href="#gallery" className="story__read-more">
-          Read More
-        </a>
       </div>
     </section>
   )

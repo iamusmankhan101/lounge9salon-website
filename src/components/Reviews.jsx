@@ -4,60 +4,100 @@ import { StarIcon } from './icons.jsx'
 import { useCarousel } from '../data/carousel.js'
 import './Reviews.css'
 
+/**
+ * Real reviews from the salon's Google listing, transcribed verbatim.
+ *
+ * `date` is a month rather than a day: Google shows these as "6 months ago",
+ * so the month is the most precise honest reading. Relative wording is not
+ * used here because this array is static and would drift out of date.
+ *
+ * No `rating` field yet — the star ratings were not captured with the text,
+ * and the card omits the stars rather than assert a score nobody supplied.
+ */
 const REVIEWS = [
   {
-    id: 'mellisa',
-    rating: '4.9',
+    id: 'fatima-arshad',
     quote:
-      'My favorite stress reliever. There’s nothing like ending the month with a visit to Lounge8. The atmosphere is so calming, the staff are always attentive, and I leave feeling like a new person. If I could come every week, I would!',
-    name: 'Mellisa P.',
-    treatment: 'Enzyme Exfoliation',
-    date: 'Jun 28th, 2025',
+      "I got my manicure, pedicure and cleansing done yesterday and loved the service. The staff is super courteous and the whole process was super relaxing. Would definitely come here to try their haircuts too",
+    name: 'Fatima Arshad',
+    date: 'July 2026',
   },
   {
-    id: 'sophie',
-    rating: '4.9',
+    id: 'fatima-faizan',
     quote:
-      'My skin has never looked this radiant. One facial at Lounge8 erased the dullness and gave me the confidence to go makeup-free. The care felt truly personal — I’m already booking my next visit.',
-    name: 'Sophie L.',
-    treatment: 'Glow Revival Facial',
-    date: 'Jul 6th, 2025',
+      "Had a great experience at the salon. It was my birthday and they really made my day by pampering me so much \u{1F970} The staff was really welcoming & cooperative. Also, I am in love with the haircut done by Summayiyah \u{1F497}",
+    name: 'Fatima Faizan',
+    date: 'July 2026',
   },
   {
-    id: 'amira',
-    rating: '5.0',
+    id: 'farah-haroon',
     quote:
-      'I came in for a trim and left with the best haircut of my life. They actually listened to what I wanted instead of talking me into something else. Two months later it still falls perfectly.',
-    name: 'Amira K.',
-    treatment: 'Signature Cut & Style',
-    date: 'Aug 2nd, 2025',
+      "Great experience! Saamia knows her work well. Hair work is best hair \u2661\u2661\u2661 Highly recommended",
+    name: 'Farah Haroon',
+    date: 'July 2026',
   },
   {
-    id: 'nadia',
-    rating: '4.8',
+    id: 'suha-tayyeb',
     quote:
-      'The lounge feels like a private retreat in the middle of the city. Quiet, warm, unhurried. My nails have never held up this well, and the head massage alone is worth the visit.',
-    name: 'Nadia R.',
-    treatment: 'Luxury Manicure',
-    date: 'Aug 19th, 2025',
+      "My hair were super frizzy and dry. I had a haircut and hair botox treatment done by Sumaiya and Zainab. The team was extremely sweet and gentle. Sumaiya took her time with the haircut. She kept cooperating until I was satisfied with the process. My hair looks glossy, soft and silky. This was my first time at this salon and am very happy with the service. Thank you team.",
+    name: 'Suha Tayyeb',
+    date: 'February 2026',
   },
   {
-    id: 'yasmin',
-    rating: '5.0',
+    id: 'schehrzade',
     quote:
-      'Six sessions in and the change is undeniable — no filters, no clever lighting. They set honest expectations from day one and then quietly beat them.',
-    name: 'Yasmin A.',
-    treatment: 'Skin Renewal Program',
-    date: 'Sep 11th, 2025',
+      "I was a walk in client because I googled a hairdresser near me and saw good reviews. I went just for essentially a trim and in a very very fair and professional price the team and the owner were so excellent, they completely redid my look beyond my expectation, respected my concerns, gave me a lot of time, did not try selling or recommending any product or brand which I often avoid salons because of, gave me genuine good hair care advice in ways that required no product, taught me how to set my hair myself and more. I dropped some money there and they had kept it at the reception for me. Very genuine, very knowledgeable, very skilled, and also kind and sincere to clients. I would go again",
+    name: 'Schehrzade',
+    date: 'January 2026',
   },
   {
-    id: 'leila',
-    rating: '4.9',
+    id: 'mariyam-sheikh',
     quote:
-      'Booked on a whim before a wedding and it turned into a monthly ritual. Every visit ends the same way: I catch myself smiling at my reflection on the way out.',
-    name: 'Leila M.',
-    treatment: 'Hydrating Glow Ritual',
-    date: 'Oct 4th, 2025',
+      "If you\u2019ve ever wanted a stylist who just knows and understands what they\u2019re doing, this is exactly who you\u2019ll find here. Ma\u2019am Samia and her staff are extremely passionate about their craft and it surely is visible in the results. I trust them the most when it comes to hair. A hundred percent recommended!",
+    name: 'Mariyam Sheikh',
+    date: 'December 2025',
+  },
+  {
+    id: 'dua',
+    quote:
+      "A special thanks to Mam\u2019s Samia for her professionalism patience and amazing skills she really knows her work and made sure I was satisfied at very step. The staff was also very friendly and welcoming",
+    name: 'Dua',
+    date: 'December 2025',
+  },
+  {
+    id: 'haniya-abbas',
+    quote:
+      "Just got my highlights ( milky ash with a hint of green ) and haircut done by the talented Samia Jee! I\u2019m obsessed with the \u2018Butterfly\u2019 cut she gave me. She did an amazing job and kept my bottom layers long & the staff was so friendly and welcoming as always..",
+    name: 'Haniya Abbas',
+    date: 'October 2025',
+  },
+  {
+    id: 'saadia-haris',
+    quote:
+      "Amazing services, and attention to detail, Samia Ji is a diva, and caters your hair with utmost care and professionalism. Would recommend everyone to try her haircut, you won\u2019t go anywhere else after that!",
+    name: 'Saadia Haris',
+    date: 'October 2025',
+  },
+  {
+    id: 'ayesha-karamat',
+    quote:
+      "Samiya is best in town! Such a talented hairstylist! She\u2019s an artist who truly knows her craft. I walked out feeling amazing, definitely my go-to from now on!",
+    name: 'Ayesha Karamat',
+    date: 'October 2025',
+  },
+  {
+    id: 'humaira-nadeem',
+    quote:
+      "Great service. Samia Khan the owner is a down to earth professional. Extremely happy with my hair colour and cut.",
+    name: 'Humaira Nadeem',
+    date: 'September 2025',
+  },
+  {
+    id: 'ayeisha-ali',
+    quote:
+      "It\u2019s a very warm and cosy place to go to, I usually go for hair treatments, the owner Samiya is a very nice polished women, I would say a strong woman and a woman of substance, the way she talks and carries herself is a true miracle, I really admire her strength.. and she is working very hard and is an expert in her field .",
+    name: 'Ayeisha Ali',
+    date: '2022',
   },
 ]
 
@@ -77,14 +117,15 @@ function Stars({ rating }) {
 function ReviewCard({ review }) {
   return (
     <article className="review">
-      <Stars rating={review.rating} />
+      {review.rating && <Stars rating={review.rating} />}
 
       <p className="review__quote">{review.quote}</p>
 
       <footer className="review__meta">
         <p className="review__name">{review.name}</p>
         <p className="review__treatment">
-          {review.treatment}, {review.date}
+          {/* Google reviews carry no treatment, so it is optional */}
+          {[review.treatment, review.date].filter(Boolean).join(', ')}
         </p>
       </footer>
     </article>

@@ -12,6 +12,7 @@
   color: var(--button-ink);
   font-size: 0.95rem;
   font-weight: 600;
+  font-family: var(--button-font);
   text-decoration: none;
   transition: background 0.25s ease;
 }

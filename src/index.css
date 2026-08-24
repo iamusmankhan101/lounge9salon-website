@@ -4,6 +4,12 @@
   --button-bg-hover: #b2cdb5;
   --button-ink: #111;
 
+  /* review stars, on the light cards and inside the treatment modal */
+  --star-gold: #d4af37;
+
+  /* every button label; Archivo carries the rest of the page */
+  --button-font: 'Clash Display', 'Archivo', system-ui, sans-serif;
+
   font-family: 'Archivo', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

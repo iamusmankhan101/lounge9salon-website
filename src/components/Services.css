@@ -217,6 +217,7 @@
 }
 
 .services__tab {
+  font-family: var(--button-font);
   aspect-ratio: 16 / 10;
   color: #111;
   background: #fff;
@@ -363,6 +364,7 @@
   font: inherit;
   font-size: 0.95rem;
   font-weight: 600;
+  font-family: var(--button-font);
   background: var(--button-bg);
   border: none;
   cursor: pointer;

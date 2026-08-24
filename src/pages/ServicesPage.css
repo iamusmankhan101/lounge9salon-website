@@ -39,6 +39,7 @@
   color: var(--button-ink);
   font-size: 0.92rem;
   font-weight: 600;
+  font-family: var(--button-font);
   text-decoration: none;
   background: var(--button-bg);
   transition: background 0.25s ease;
@@ -106,6 +107,7 @@
   color: #111;
   font: inherit;
   font-size: 0.9rem;
+  font-family: var(--button-font);
   background: none;
   border: 1px solid #d4cfc8;
   border-radius: 999px;
@@ -238,6 +240,7 @@
   font: inherit;
   font-size: 0.88rem;
   font-weight: 600;
+  font-family: var(--button-font);
   background: none;
   border: 1px solid #111;
   cursor: pointer;

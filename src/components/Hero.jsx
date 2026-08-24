@@ -1,5 +1,8 @@
 import './Hero.css'
 
+/** Six blooms, scattered around the label and turning at their own speeds. */
+const FLOWERS = [1, 2, 3, 4, 5, 6]
+
 const NAV_LINKS = [
   { label: 'About Us', href: '#about' },
   { label: 'Services', href: '#services' },
@@ -51,7 +54,22 @@ function Hero() {
         </h1>
 
         <a href="#book" className="hero__cta-link">
-          Book an Appointment
+          <span className="hero__cta-wrapper">
+            <span className="hero__cta-text">Book an Appointment</span>
+
+            {FLOWERS.map((n) => (
+              <span
+                key={n}
+                className={`hero__flower hero__flower--${n}`}
+                aria-hidden="true"
+              >
+                <span className="hero__petal" />
+                <span className="hero__petal hero__petal--two" />
+                <span className="hero__petal hero__petal--three" />
+                <span className="hero__petal hero__petal--four" />
+              </span>
+            ))}
+          </span>
         </a>
       </div>
     </section>

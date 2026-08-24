@@ -82,6 +82,7 @@
 .modal__stars {
   display: inline-flex;
   gap: 0.15rem;
+  color: var(--star-gold);
 }
 
 .modal__stars svg {
@@ -197,6 +198,7 @@
   font: inherit;
   font-size: 1.05rem;
   font-weight: 600;
+  font-family: var(--button-font);
   text-align: center;
   text-decoration: none;
   background: var(--button-bg);

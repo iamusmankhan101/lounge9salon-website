@@ -89,7 +89,7 @@
 .review__stars {
   display: inline-flex;
   gap: 0.15rem;
-  color: #111;
+  color: var(--star-gold);
 }
 
 .review__stars svg {

@@ -150,6 +150,7 @@
   color: var(--button-ink);
   font-size: 0.85rem;
   font-weight: 500;
+  font-family: var(--button-font);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   background: var(--button-bg);

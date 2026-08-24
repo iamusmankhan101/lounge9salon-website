@@ -4,7 +4,8 @@ import './Footer.css'
 
 const SITE_LINKS = [
   { label: 'About Us', href: '#about' },
-  { label: 'Services', href: '/services' },
+  { label: 'Treatments', href: '/treatments' },
+  { label: 'Price Menu', href: '/services' },
   { label: 'Our Story', href: '#story' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'Book an Appointment', href: '#book' },

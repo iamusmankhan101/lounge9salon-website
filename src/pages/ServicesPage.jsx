@@ -74,6 +74,7 @@ function ServicesPage() {
 
         <nav className="menu__nav">
           <a href="/home">Home</a>
+          <a href="/treatments">Treatments</a>
           <a href="/home#gallery">Gallery</a>
           <a href="/home#contact">Contacts</a>
         </nav>

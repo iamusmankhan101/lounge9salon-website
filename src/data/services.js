@@ -135,6 +135,15 @@ export const CATEGORY_OPTIONS = ORDER.map((id) => ({
 export const categoryName = (id) => CATEGORY_META[id]?.name ?? id
 
 /**
+ * Every category with its editorial copy, in display order.
+ *
+ * Static on purpose: the treatments page introduces what the salon does, so it
+ * must render in full whether or not the live menu has loaded — unlike
+ * buildCatalog, which only returns categories that currently hold services.
+ */
+export const CATEGORY_GUIDE = ORDER.map((id) => ({ id, ...CATEGORY_META[id] }))
+
+/**
  * Turns the live menu into the categories the services surfaces render. The
  * API already returns services in display order, which is preserved here.
  */

@@ -61,10 +61,6 @@ function About() {
         skin, body, and hair. We provide personalized consultations to select
         treatments that precisely address each client&apos;s individual needs.
       </p>
-
-      <a href="#story" className="about__read-more">
-        Read More
-      </a>
     </section>
   )
 }

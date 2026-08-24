@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import Footer from '../components/Footer.jsx'
 import {
   EDUCATION,
@@ -10,7 +11,44 @@ import {
 } from '../data/owner.js'
 import './OwnerPage.css'
 
+/**
+ * Adds `is-in` the first time a block scrolls into view, then stops watching —
+ * these reveals play once, so there is nothing to observe afterwards.
+ *
+ * The intro sits at the top of the page and so fires on mount, which is what
+ * gives it its entrance.
+ */
+function useInView(threshold = 0.2) {
+  const ref = useRef(null)
+  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true)
+          observer.disconnect()
+        }
+      },
+      { threshold },
+    )
+    observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [threshold])
+
+  return [ref, inView]
+}
+
+/** Staggers list children off their index. */
+const step = (i) => ({ '--i': i })
+
 function OwnerPage() {
+  const [introRef, introIn] = useInView(0)
+  const [experienceRef, experienceIn] = useInView()
+  const [detailRef, detailIn] = useInView(0.1)
+  const [portraitsRef, portraitsIn] = useInView(0.15)
+  const [closingRef, closingIn] = useInView(0.3)
+
   return (
     <div className="owner-page">
       <header className="owner__header">
@@ -34,10 +72,18 @@ function OwnerPage() {
         </a>
       </header>
 
-      <section className="owner__intro">
+      <section
+        ref={introRef}
+        className={`owner__intro ${introIn ? 'is-in' : ''}`}
+      >
         <div className="owner__intro-text">
           <p className="owner__eyebrow">{OWNER.role}, Lounge8</p>
-          <h1 className="owner__title">{OWNER.name}</h1>
+
+          <h1 className="owner__title">
+            <span className="owner__mask">
+              <span className="owner__rise">{OWNER.name}</span>
+            </span>
+          </h1>
 
           <div className="owner__lead">
             {SUMMARY.map((paragraph) => (
@@ -46,8 +92,8 @@ function OwnerPage() {
           </div>
 
           <dl className="owner__highlights">
-            {HIGHLIGHTS.map(({ value, label }) => (
-              <div key={label} className="owner__highlight">
+            {HIGHLIGHTS.map(({ value, label }, i) => (
+              <div key={label} className="owner__highlight" style={step(i)}>
                 <dt className="owner__highlight-value">{value}</dt>
                 <dd className="owner__highlight-label">{label}</dd>
               </div>
@@ -55,19 +101,22 @@ function OwnerPage() {
           </dl>
         </div>
 
-        <img
-          src={OWNER.photo}
-          alt={OWNER.name}
-          className="owner__portrait"
-        />
+        <img src={OWNER.photo} alt={OWNER.name} className="owner__portrait" />
       </section>
 
-      <section className="owner__section">
+      <section
+        ref={experienceRef}
+        className={`owner__section ${experienceIn ? 'is-in' : ''}`}
+      >
         <h2 className="owner__section-title">Experience</h2>
 
         <ol className="owner__timeline">
-          {EXPERIENCE.map(({ role, org, period }) => (
-            <li key={`${role}${org}`} className="owner__entry">
+          {EXPERIENCE.map(({ role, org, period }, i) => (
+            <li
+              key={`${role}${org}`}
+              className="owner__entry"
+              style={step(i)}
+            >
               <p className="owner__entry-period">{period ?? 'Ongoing'}</p>
               <div>
                 <h3 className="owner__entry-role">{role}</h3>
@@ -78,16 +127,27 @@ function OwnerPage() {
         </ol>
       </section>
 
-      <section className="owner__section owner__section--split">
+      <section
+        ref={detailRef}
+        className={`owner__section owner__section--split ${
+          detailIn ? 'is-in' : ''
+        }`}
+      >
         <div>
           <h2 className="owner__section-title">Qualifications</h2>
 
           <ul className="owner__education">
-            {EDUCATION.map(({ qualification, place, year }) => (
-              <li key={qualification} className="owner__qualification">
+            {EDUCATION.map(({ qualification, place, year }, i) => (
+              <li
+                key={qualification}
+                className="owner__qualification"
+                style={step(i)}
+              >
                 <div>
                   <p className="owner__qualification-name">{qualification}</p>
-                  {place && <p className="owner__qualification-place">{place}</p>}
+                  {place && (
+                    <p className="owner__qualification-place">{place}</p>
+                  )}
                 </div>
                 <p className="owner__qualification-year">{year}</p>
               </li>
@@ -99,8 +159,8 @@ function OwnerPage() {
           <h2 className="owner__section-title">Specialisms</h2>
 
           <ul className="owner__skills">
-            {SKILLS.map((skill) => (
-              <li key={skill} className="owner__skill">
+            {SKILLS.map((skill, i) => (
+              <li key={skill} className="owner__skill" style={step(i)}>
                 {skill}
               </li>
             ))}
@@ -108,19 +168,26 @@ function OwnerPage() {
         </div>
       </section>
 
-      <div className="owner__portraits">
-        {PORTRAITS.map((src) => (
-          <img
-            key={src}
-            src={src}
-            alt=""
-            loading="lazy"
-            className="owner__portraits-image"
-          />
+      <div
+        ref={portraitsRef}
+        className={`owner__portraits ${portraitsIn ? 'is-in' : ''}`}
+      >
+        {PORTRAITS.map((src, i) => (
+          <span key={src} className="owner__portraits-frame" style={step(i)}>
+            <img
+              src={src}
+              alt=""
+              loading="lazy"
+              className="owner__portraits-image"
+            />
+          </span>
         ))}
       </div>
 
-      <section className="owner__closing">
+      <section
+        ref={closingRef}
+        className={`owner__closing ${closingIn ? 'is-in' : ''}`}
+      >
         <p className="owner__closing-text">
           Every treatment at Lounge8 starts with a consultation — Samia and her
           team choose what suits you, rather than selling from a list.

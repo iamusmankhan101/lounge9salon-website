@@ -1,0 +1,344 @@
+.meet {
+  position: relative;
+  padding: clamp(5rem, 12vh, 10rem) clamp(1.5rem, 4vw, 4.5rem);
+  overflow: hidden;
+  background: linear-gradient(180deg, #fff 0%, #faf8f3 100%);
+  color: #111;
+}
+
+/* a soft sage bloom, off the left edge and behind the portrait */
+.meet::before {
+  content: '';
+  position: absolute;
+  top: 22%;
+  left: -14rem;
+  width: 34rem;
+  height: 34rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(197, 219, 199, 0.55) 0%,
+    rgba(197, 219, 199, 0) 70%
+  );
+  pointer-events: none;
+}
+
+/* ---------- headline with masked line reveal ---------- */
+
+.meet__title {
+  font-size: clamp(2.2rem, 5.5vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.meet__mask {
+  display: block;
+  overflow: hidden;
+  /* the caps sit tight to the line box, so widen the mask or they clip */
+  padding-top: 0.08em;
+  margin-top: -0.08em;
+}
+
+.meet__line {
+  display: block;
+  transform: translateY(115%);
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--delay, 0s);
+}
+
+.meet.is-visible .meet__line {
+  transform: translateY(0);
+}
+
+/* ---------- portrait beside the copy ---------- */
+
+.meet__body {
+  display: grid;
+  grid-template-columns: minmax(0, 22rem) minmax(0, 34rem);
+  justify-content: center;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  margin-top: clamp(2.5rem, 6vh, 4.5rem);
+}
+
+.meet__portrait {
+  position: relative;
+  z-index: 1;
+}
+
+/* the plate sits down-right of the photo, an offset border rather than a frame */
+.meet__portrait::before {
+  content: '';
+  position: absolute;
+  inset: 1.75rem -1.75rem -1.75rem 1.75rem;
+  background: var(--button-bg);
+  border-radius: 2px;
+  opacity: 0;
+  transform: translate(-1rem, -1rem);
+  transition:
+    opacity 1s ease 0.35s,
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.35s;
+}
+
+.meet.is-visible .meet__portrait::before {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/**
+ * Three nested elements, because three transforms are in play and one element
+ * can only hold one: the frame drifts (translateY), the flipper turns
+ * (rotateY), and each image carries the reveal zoom (scale).
+ *
+ * The frame is a real button so the flip works by keyboard and on touch, where
+ * there is no hover to trigger it.
+ */
+.meet__portrait-frame {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  padding: 0;
+  font: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  perspective: 1200px;
+  /* the shadow stays on the frame so it reads as ground, and does not turn */
+  box-shadow: 0 1.5rem 2.75rem rgba(46, 58, 47, 0.22);
+  border-radius: 2px;
+  animation: meet-float 7s ease-in-out 1.6s infinite;
+}
+
+@keyframes meet-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.6rem);
+  }
+}
+
+.meet__portrait-flipper {
+  position: relative;
+  display: block;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.meet__portrait-frame:hover .meet__portrait-flipper,
+.meet__portrait-frame:focus-visible .meet__portrait-flipper,
+.meet__portrait-frame.is-flipped .meet__portrait-flipper {
+  transform: rotateY(180deg);
+}
+
+.meet__portrait-frame:focus-visible {
+  outline: 2px solid var(--star-gold);
+  outline-offset: 4px;
+}
+
+.meet__portrait-face {
+  display: block;
+  overflow: hidden;
+  border-radius: 2px;
+  backface-visibility: hidden;
+}
+
+/* pre-turned, so it faces out once the flipper has rotated */
+.meet__portrait-face--back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+.meet__portrait img {
+  display: block;
+  width: 100%;
+  /* 4:5 crops the full-length source closer, so she fills the frame */
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 15%;
+  transform: scale(1.08);
+  transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+
+.meet.is-visible .meet__portrait img {
+  transform: scale(1);
+}
+
+.meet__text {
+  position: relative;
+  z-index: 1;
+}
+
+.meet__name {
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.meet__role {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a7d63;
+}
+
+.meet__rule {
+  display: block;
+  width: 3.5rem;
+  height: 2px;
+  margin-top: 1.4rem;
+  background: var(--star-gold);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
+}
+
+.meet.is-visible .meet__rule {
+  transform: scaleX(1);
+}
+
+.meet__bio {
+  margin-top: 1.4rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: #444;
+}
+
+/* ---------- figures ---------- */
+
+.meet__highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+
+.meet__highlight {
+  padding: 1.1rem 1.2rem;
+  background: rgba(197, 219, 199, 0.28);
+  border-radius: 3px;
+}
+
+.meet__highlight-value {
+  font-family: var(--button-font);
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.meet__highlight-label {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: #5c6b5e;
+}
+
+/* ---------- link ---------- */
+
+.meet__link {
+  display: inline-block;
+  margin-top: 2.25rem;
+  padding: 0.7rem 1.6rem;
+  color: var(--button-ink);
+  font-family: var(--button-font);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--button-bg);
+  border-radius: 2px;
+  transition: background 0.25s ease;
+}
+
+.meet__link:hover {
+  background: var(--button-bg-hover);
+}
+
+/* ---------- staged reveal for everything beside the portrait ---------- */
+
+.meet__name,
+.meet__role,
+.meet__bio,
+.meet__highlight,
+.meet__link {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.meet__name {
+  transition-delay: 0.35s;
+}
+.meet__role {
+  transition-delay: 0.42s;
+}
+.meet__bio {
+  transition-delay: 0.5s;
+}
+.meet__highlight {
+  transition-delay: calc(0.62s + var(--i, 0) * 0.09s);
+}
+.meet__link {
+  transition-delay: 0.9s;
+}
+
+.meet.is-visible .meet__name,
+.meet.is-visible .meet__role,
+.meet.is-visible .meet__bio,
+.meet.is-visible .meet__highlight,
+.meet.is-visible .meet__link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 860px) {
+  /* the single column follows the copy's measure, not the portrait's width,
+     or the bio would be squeezed into 22rem on a 800px screen */
+  .meet__body {
+    grid-template-columns: minmax(0, 34rem);
+    justify-content: center;
+  }
+
+  .meet__portrait {
+    width: min(100%, 20rem);
+    justify-self: center;
+    /* clears the offset plate, which overhangs the photo below */
+    margin-bottom: 1.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meet__line,
+  .meet__portrait::before,
+  .meet__portrait img,
+  .meet__rule,
+  .meet__name,
+  .meet__role,
+  .meet__bio,
+  .meet__highlight,
+  .meet__link,
+  .meet__portrait-frame,
+  .meet__portrait-flipper {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+}

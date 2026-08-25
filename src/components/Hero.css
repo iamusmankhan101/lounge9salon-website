@@ -155,7 +155,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 0;
+  padding: 0 1.6em;
   color: #fff;
   font-weight: 700;
   font-family: var(--button-font);

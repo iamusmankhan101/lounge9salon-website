@@ -2,7 +2,7 @@ import './Hero.css'
 
 const NAV_LINKS = [
   { label: 'About Us', href: '#about' },
-  { label: 'Services', href: '#services' },
+  { label: 'Services', href: '/services' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'Contacts', href: '#contact' },
 ]

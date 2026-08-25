@@ -4,6 +4,12 @@
   --button-bg-hover: #b2cdb5;
   --button-ink: #111;
 
+  /* sage that is dark enough to carry white text (4.8:1), plus its tints */
+  --sage: #5a7a5f;
+  --sage-deep: #47624c;
+  --sage-tint: #eef4ee;
+  --sage-line: #cfdccf;
+
   /* review stars, on the light cards and inside the treatment modal */
   --star-gold: #d4af37;
 

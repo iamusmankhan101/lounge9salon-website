@@ -104,8 +104,11 @@
 /* ---------- responsive ---------- */
 
 @media (max-width: 900px) {
+  /* one column of copy doesn't need a full screen to sit in */
   .story {
     grid-template-columns: 1fr;
+    min-height: 0;
+    padding-block: clamp(3rem, 8vw, 4.5rem);
   }
 
   .story__content {

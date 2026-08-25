@@ -370,6 +370,13 @@
 /* ---------- responsive ---------- */
 
 @media (max-width: 768px) {
+  /* a full viewport of photo is too much on a phone — crop it back */
+  .hero {
+    height: 66vh;
+    height: 66svh;
+    min-height: 30rem;
+  }
+
   .hero__links {
     display: none;
   }

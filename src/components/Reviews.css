@@ -176,14 +176,31 @@
 /* ---------- responsive ---------- */
 
 @media (max-width: 800px) {
+  /* each card sizes to its own quote instead of stretching to the longest one,
+     and the track is sized to the showing card in JS (see useTrackHeight) */
+  .reviews__track {
+    align-items: flex-start;
+    overflow-y: hidden;
+    transition: height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
   .review {
     flex-basis: 100%;
+  }
+
+  .review__quote {
+    margin-top: 1.15rem;
+  }
+
+  .review__meta {
+    padding-top: 1.5rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reviews__line,
   .reviews__carousel,
+  .reviews__track,
   .reviews__next {
     transition: none;
   }

@@ -151,10 +151,44 @@ function ReviewCard({ review }) {
   )
 }
 
+/**
+ * One card per view on phones, and the quotes vary from one line to a dozen —
+ * left alone the track stands as tall as the longest review, so a short card
+ * leaves a slab of white above the controls. This pins the track to whichever
+ * card is showing. Above the breakpoint two cards share a row and the natural
+ * (tallest) height is what keeps them aligned, so it returns null there.
+ */
+function useTrackHeight(trackRef, page) {
+  const [height, setHeight] = useState(null)
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+
+    const fit = () => {
+      const card = track.children[page]
+      if (!card || !window.matchMedia('(max-width: 800px)').matches) {
+        setHeight(null)
+        return
+      }
+      setHeight(card.offsetHeight)
+    }
+
+    fit()
+    // quotes reflow on rotate and on font load, both of which resize the card
+    const observer = new ResizeObserver(fit)
+    Array.from(track.children).forEach((card) => observer.observe(card))
+    return () => observer.disconnect()
+  }, [trackRef, page])
+
+  return height
+}
+
 function Reviews() {
   const sectionRef = useRef(null)
   const [visible, setVisible] = useState(false)
   const { trackRef, page, pages, goTo, next, measure } = useCarousel()
+  const trackHeight = useTrackHeight(trackRef, page)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -217,7 +251,12 @@ function Reviews() {
       </h2>
 
       <div className="reviews__carousel">
-        <div className="reviews__track" ref={trackRef} onScroll={measure}>
+        <div
+          className="reviews__track"
+          ref={trackRef}
+          onScroll={measure}
+          style={trackHeight ? { height: `${trackHeight}px` } : undefined}
+        >
           {REVIEWS.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}

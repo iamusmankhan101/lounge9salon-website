@@ -48,8 +48,11 @@ function Hero() {
         </p>
 
         <h1 className="hero__title">
-          <span className="hero__mask">
-            <span className="hero__rise">Lounge8 Salon</span>
+          <span className="hero__title-inner">
+            <span className="hero__mask">
+              <span className="hero__rise">Lounge8 Salon</span>
+            </span>
+            <span className="hero__underline" aria-hidden="true" />
           </span>
         </h1>
 

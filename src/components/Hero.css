@@ -141,28 +141,79 @@
  * button scales from that one value.
  */
 .hero__cta-wrapper {
+  --sage: #7d9c81;
+  --sage-deep: #6a8a6f;
+  --sage-lip: rgb(228 240 229 / 85%);
+  --sage-shade: rgb(58 82 62 / 55%);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 12em;
-  height: 2em;
+  width: 13em;
+  height: 2.6em;
 }
 
+/* bevelled label, after Uiverse (cssbuttons-io), recoloured to the sage palette */
 .hero__cta-text {
   z-index: 1;
-  padding: 0.35em 0.85em;
-  color: #111;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  font-weight: 700;
   font-family: var(--button-font);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 25%);
   white-space: nowrap;
-  background: #fff;
-  border-radius: 4px;
-  transition: background 0.5s ease;
+  transition: transform 0.7s cubic-bezier(0, 0.8, 0.26, 0.99);
 }
 
-.hero__cta-link:hover .hero__cta-text {
-  background: var(--button-bg);
+/* the face: flat sage plus four inset edges that read as a chamfer */
+.hero__cta-text::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  pointer-events: none;
+  background-color: var(--sage);
+  box-shadow:
+    0 -4px var(--sage-shade) inset,
+    0 4px var(--sage-lip) inset,
+    -4px 0 var(--sage-lip) inset,
+    4px 0 var(--sage-shade) inset;
+  transition: 0.7s cubic-bezier(0, 0.8, 0.26, 0.99);
+}
+
+/* the ledge the button sits on, so pressing it has somewhere to go */
+.hero__cta-text::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  box-shadow: 0 4px 0 0 rgb(0 0 0 / 15%);
+  transition: 0.7s cubic-bezier(0, 0.8, 0.26, 0.99);
+}
+
+/* on hover the chamfer neutralises while the flowers warm to gold */
+.hero__cta-link:hover .hero__cta-text::before {
+  background-color: var(--sage-deep);
+  box-shadow:
+    0 -4px rgb(0 0 0 / 50%) inset,
+    0 4px rgb(255 255 255 / 20%) inset,
+    -4px 0 rgb(255 255 255 / 20%) inset,
+    4px 0 rgb(0 0 0 / 50%) inset;
+}
+
+/* press: the label drops onto its ledge, the blooms stay put */
+.hero__cta-link:active .hero__cta-text {
+  transform: translateY(4px);
+}
+
+.hero__cta-link:active .hero__cta-text::after {
+  box-shadow: 0 0 0 0 rgb(0 0 0 / 15%);
 }
 
 /* ---------- the flowers ---------- */
@@ -341,7 +392,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 4em;
+  height: 4.6em;
   margin-top: 1.5rem;
   font-size: clamp(1.05rem, 1.7vw, 1.45rem);
   text-decoration: none;
@@ -368,6 +419,47 @@
 .hero__title .hero__mask {
   padding-top: 0.1em;
   margin-top: -0.1em;
+}
+
+/* inline-block so the underline below is exactly as wide as the headline */
+.hero__title-inner {
+  display: inline-block;
+  position: relative;
+}
+
+/* underline draws itself in once the headline has risen, then keeps a slow sheen */
+.hero__underline {
+  display: block;
+  position: relative;
+  height: 0.05em;
+  min-height: 2px;
+  margin-top: 0.16em;
+  border-radius: 999px;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    var(--button-bg, #c5dbc7) 12%,
+    #fff 50%,
+    var(--button-bg, #c5dbc7) 88%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: hero-underline-draw 1.1s cubic-bezier(0.22, 1, 0.36, 1) 1.15s both;
+}
+
+.hero__underline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  animation: hero-underline-sheen 4.5s ease-in-out 2.6s infinite;
 }
 
 /* ---------- animations ---------- */
@@ -400,6 +492,26 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes hero-underline-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hero-underline-sheen {
+  0%,
+  100% {
+    transform: translateX(-100%);
+  }
+  45%,
+  55% {
+    transform: translateX(100%);
   }
 }
 
@@ -437,7 +549,13 @@
   .hero__links a,
   .hero__cta-button,
   .hero__cta-link,
-  .hero__cta-link:hover .hero__flower {
+  .hero__cta-link:hover .hero__flower,
+  .hero__underline::after {
     animation: none;
+  }
+
+  .hero__underline {
+    animation: none;
+    transform: scaleX(1);
   }
 }

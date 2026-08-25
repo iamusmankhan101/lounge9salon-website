@@ -133,12 +133,8 @@
 }
 
 /**
- * The hero's own CTA, adapted from Uiverse (yaroslavas2001). Six flowers sit
- * around a translucent label; on hover the petals grow, warm from sage to gold,
- * and each bloom turns at its own speed so the cluster never repeats.
- *
- * Everything is sized in `em` off the anchor's own font-size, so the whole
- * button scales from that one value.
+ * The hero's own CTA. Everything is sized in `em` off the anchor's own
+ * font-size, so the whole button scales from that one value.
  */
 .hero__cta-wrapper {
   --sage: #7d9c81;
@@ -149,7 +145,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 13em;
   height: 2.6em;
 }
 
@@ -159,8 +154,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   height: 100%;
+  padding: 0;
   color: #fff;
   font-weight: 700;
   font-family: var(--button-font);
@@ -197,7 +192,7 @@
   transition: 0.7s cubic-bezier(0, 0.8, 0.26, 0.99);
 }
 
-/* on hover the chamfer neutralises while the flowers warm to gold */
+/* on hover the chamfer neutralises and the face deepens */
 .hero__cta-link:hover .hero__cta-text::before {
   background-color: var(--sage-deep);
   box-shadow:
@@ -214,157 +209,6 @@
 
 .hero__cta-link:active .hero__cta-text::after {
   box-shadow: 0 0 0 0 rgb(0 0 0 / 15%);
-}
-
-/* ---------- the flowers ---------- */
-
-.hero__flower {
-  position: absolute;
-  display: grid;
-  grid-template-columns: 1em 1em;
-  transition: grid-template-columns 0.8s ease;
-}
-
-.hero__petal {
-  width: 1em;
-  height: 1em;
-  background: linear-gradient(#a8c9ab, #e4f0e5);
-  border: 0.5px solid #b8d4bb;
-  border-radius: 40% 70% / 7% 90%;
-  transition:
-    width 0.8s ease,
-    height 0.8s ease,
-    background 0.5s ease,
-    border-color 0.5s ease;
-}
-
-.hero__petal--two {
-  transform: rotate(90deg);
-}
-
-.hero__petal--three {
-  transform: rotate(270deg);
-}
-
-.hero__petal--four {
-  transform: rotate(180deg);
-}
-
-/* flowers 3 and 4 set no left/right, so the flex parent centres them */
-.hero__flower--1 {
-  top: -0.75em;
-  left: -0.8em;
-  transform: rotate(5deg);
-}
-
-.hero__flower--2 {
-  bottom: -0.3em;
-  left: 0.5em;
-  transform: rotate(35deg);
-}
-
-.hero__flower--3 {
-  bottom: -0.95em;
-  transform: rotate(0deg);
-}
-
-.hero__flower--4 {
-  top: -0.9em;
-  transform: rotate(15deg);
-}
-
-.hero__flower--5 {
-  top: -0.2em;
-  right: 0.7em;
-  transform: rotate(25deg);
-}
-
-.hero__flower--6 {
-  right: -0.95em;
-  bottom: -0.95em;
-  transform: rotate(30deg);
-}
-
-/* ---------- the bloom ---------- */
-
-.hero__cta-link:hover .hero__flower {
-  grid-template-columns: 1.5em 1.5em;
-}
-
-.hero__cta-link:hover .hero__petal {
-  width: 1.5em;
-  height: 1.5em;
-  background: linear-gradient(#d4af37, #f2e3ad);
-  border-color: #e0c96a;
-}
-
-.hero__cta-link:hover .hero__flower--1 {
-  animation: hero-flower-1 15s linear infinite;
-}
-.hero__cta-link:hover .hero__flower--2 {
-  animation: hero-flower-2 13s linear 1s infinite;
-}
-.hero__cta-link:hover .hero__flower--3 {
-  animation: hero-flower-3 16s linear 1s infinite;
-}
-.hero__cta-link:hover .hero__flower--4 {
-  animation: hero-flower-4 17s linear 1s infinite;
-}
-.hero__cta-link:hover .hero__flower--5 {
-  animation: hero-flower-5 20s linear 1s infinite;
-}
-.hero__cta-link:hover .hero__flower--6 {
-  animation: hero-flower-6 15s linear 1s infinite;
-}
-
-/* each starts from its own resting angle so nothing jumps on hover */
-@keyframes hero-flower-1 {
-  from {
-    transform: rotate(5deg);
-  }
-  to {
-    transform: rotate(365deg);
-  }
-}
-@keyframes hero-flower-2 {
-  from {
-    transform: rotate(35deg);
-  }
-  to {
-    transform: rotate(-325deg);
-  }
-}
-@keyframes hero-flower-3 {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes hero-flower-4 {
-  from {
-    transform: rotate(15deg);
-  }
-  to {
-    transform: rotate(375deg);
-  }
-}
-@keyframes hero-flower-5 {
-  from {
-    transform: rotate(25deg);
-  }
-  to {
-    transform: rotate(-335deg);
-  }
-}
-@keyframes hero-flower-6 {
-  from {
-    transform: rotate(30deg);
-  }
-  to {
-    transform: rotate(390deg);
-  }
 }
 
 /* ---------- centred content ---------- */
@@ -387,12 +231,11 @@
   margin-bottom: 0.9rem;
 }
 
-/* the flowers overflow the label, so no mask or underline here */
 .hero__cta-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 4.6em;
+  height: 2.6em;
   margin-top: 1.5rem;
   font-size: clamp(1.05rem, 1.7vw, 1.45rem);
   text-decoration: none;
@@ -549,7 +392,6 @@
   .hero__links a,
   .hero__cta-button,
   .hero__cta-link,
-  .hero__cta-link:hover .hero__flower,
   .hero__underline::after {
     animation: none;
   }

@@ -54,8 +54,9 @@
   grid-column: 1 / -1;
   align-self: center;
   padding: 2rem 0;
+  font-family: var(--display-font);
   font-size: clamp(2.2rem, 6vw, 5rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
   letter-spacing: -0.025em;
   text-transform: uppercase;

@@ -7,8 +7,9 @@
 /* ---------- headline ---------- */
 
 .reviews__title {
+  font-family: var(--display-font);
   font-size: clamp(1.9rem, 5.6vw, 5rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.02;
   letter-spacing: -0.02em;
   text-align: center;

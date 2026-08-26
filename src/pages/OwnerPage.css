@@ -87,8 +87,9 @@
 
 .owner__title {
   margin-top: 0.9rem;
+  font-family: var(--display-font);
   font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.02;
   letter-spacing: -0.02em;
   text-transform: uppercase;

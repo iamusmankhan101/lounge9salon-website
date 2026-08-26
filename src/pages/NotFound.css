@@ -26,8 +26,9 @@
 
 .notfound__title {
   margin-top: 0.9rem;
+  font-family: var(--display-font);
   font-size: clamp(1.9rem, 5vw, 3.4rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.08;
   letter-spacing: -0.02em;
   text-transform: uppercase;

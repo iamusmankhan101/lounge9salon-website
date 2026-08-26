@@ -47,8 +47,9 @@
 /* ---------- title ---------- */
 
 .story__title {
+  font-family: var(--display-font);
   font-size: clamp(2rem, 3.6vw, 3.4rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.015em;
   text-transform: uppercase;

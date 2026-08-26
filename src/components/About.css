@@ -11,8 +11,9 @@
 /* ---------- headline with masked line reveal ---------- */
 
 .about__title {
+  font-family: var(--display-font);
   font-size: clamp(2.5rem, 6.5vw, 6.5rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.04;
   letter-spacing: -0.02em;
   text-transform: uppercase;

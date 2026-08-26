@@ -10,8 +10,9 @@
 /* ---------- left column ---------- */
 
 .booking__title {
+  font-family: var(--display-font);
   font-size: clamp(2.2rem, 4.5vw, 4rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.02;
   letter-spacing: -0.02em;
   text-transform: uppercase;

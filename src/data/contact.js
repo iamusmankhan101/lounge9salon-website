@@ -16,6 +16,9 @@ export const PHONE = '+92 300 808 5211'
 export const PHONE_HREF = 'tel:+923008085211'
 export const WHATSAPP = '923008085211'
 
+/** Opens a chat with the salon, no booking attached — the hero's second CTA. */
+export const WHATSAPP_HREF = `https://wa.me/${WHATSAPP}`
+
 /** Written as it is read aloud, one line per line of the address. */
 export const ADDRESS_LINES = [
   '299/1, Street 90, K Block',

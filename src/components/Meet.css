@@ -2,32 +2,16 @@
   position: relative;
   padding: clamp(5rem, 12vh, 10rem) clamp(1.5rem, 4vw, 4.5rem);
   overflow: hidden;
-  background: linear-gradient(180deg, #fff 0%, #faf8f3 100%);
+  background: #fff;
   color: #111;
-}
-
-/* a soft sage bloom, off the left edge and behind the portrait */
-.meet::before {
-  content: '';
-  position: absolute;
-  top: 22%;
-  left: -14rem;
-  width: 34rem;
-  height: 34rem;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(197, 219, 199, 0.55) 0%,
-    rgba(197, 219, 199, 0) 70%
-  );
-  pointer-events: none;
 }
 
 /* ---------- headline with masked line reveal ---------- */
 
 .meet__title {
+  font-family: var(--display-font);
   font-size: clamp(2.2rem, 5.5vw, 5.5rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.04;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -176,8 +160,9 @@
 }
 
 .meet__name {
+  font-family: var(--display-font);
   font-size: clamp(1.6rem, 2.8vw, 2.4rem);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.015em;
   text-transform: uppercase;
   line-height: 1.1;

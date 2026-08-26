@@ -16,6 +16,12 @@
   /* every button label; Archivo carries the rest of the page */
   --button-font: 'Clash Display', 'Archivo', system-ui, sans-serif;
 
+  /* every display heading, including the hero's */
+  --display-font: 'Clash Display', 'Archivo', system-ui, sans-serif;
+
+  /* the serif that sets "Art of Hair" apart in the hero, and nothing else */
+  --accent-font: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
   font-family: 'Archivo', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

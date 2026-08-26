@@ -36,8 +36,7 @@
 
 /* ---------- shared tile chrome ---------- */
 
-.services__card,
-.services__tab {
+.services__card {
   position: relative;
   display: block;
   width: 100%;
@@ -50,8 +49,7 @@
   cursor: pointer;
 }
 
-.services__card-info,
-.services__tab-info {
+.services__card-info {
   position: absolute;
   left: 0;
   right: 0;
@@ -64,8 +62,7 @@
   padding: 1.5rem;
 }
 
-.services__card-name,
-.services__tab-name {
+.services__card-name {
   display: block;
   font-size: clamp(1.1rem, 1.5vw, 1.5rem);
   font-weight: 600;
@@ -74,8 +71,7 @@
   line-height: 1.2;
 }
 
-.services__card-count,
-.services__tab-count {
+.services__card-count {
   display: block;
   font-size: 0.95rem;
   font-weight: 400;
@@ -83,16 +79,14 @@
   margin-top: 0.2rem;
 }
 
-.services__card-icon,
-.services__tab-icon {
+.services__card-icon {
   flex-shrink: 0;
   width: 1.5rem;
   height: 1.5rem;
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.services__card-icon svg,
-.services__tab-icon svg {
+.services__card-icon svg {
   display: block;
   width: 100%;
   height: 100%;
@@ -206,100 +200,7 @@
   transform: translateX(0.35rem);
 }
 
-/* ---------- tab row (selected state) ---------- */
-
-.services__tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(0.75rem, 1.5vw, 1.5rem);
-  width: 100%;
-  animation: services-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.services__tab {
-  font-family: var(--button-font);
-  aspect-ratio: 16 / 10;
-  color: #111;
-  background: #fff;
-  box-shadow: inset 0 0 0 1px #111;
-  transition:
-    color 0.5s ease,
-    background 0.5s ease,
-    box-shadow 0.5s ease;
-}
-
-.services__tab:hover {
-  background: #f2f2f2;
-}
-
-.services__tab.is-active {
-  color: #fff;
-  background: #111;
-  box-shadow: none;
-}
-
-.services__tab-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: services-fade 0.7s ease both;
-}
-
-/* gradient only under the active tile, where text sits over a photo */
-.services__tab.is-active::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 55%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
-  pointer-events: none;
-}
-
-.services__tab:hover .services__tab-icon {
-  transform: rotate(90deg);
-}
-
-/* ---------- detail panel ---------- */
-
-.services__detail {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 5vw, 5rem);
-  width: 100%;
-  margin-top: clamp(3rem, 9vh, 7rem);
-  animation: services-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.services__detail-name {
-  font-size: clamp(2.2rem, 5vw, 4.5rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-}
-
-.services__detail-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 42rem;
-  font-size: 1.05rem;
-  line-height: 1.65;
-  color: #333;
-  animation: services-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
-}
-
 /* ---------- treatment list ---------- */
-
-.services__list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(0.75rem, 1.5vw, 1.5rem);
-  width: 100%;
-  margin-top: clamp(2.5rem, 7vh, 5rem);
-}
 
 .services__item {
   display: flex;
@@ -403,78 +304,6 @@
   height: 100%;
 }
 
-/* wide photo tile filling two columns and two rows of the grid */
-.services__list-image {
-  grid-column: span 2;
-  grid-row: span 2;
-  width: 100%;
-  height: 100%;
-  min-height: 18rem;
-  object-fit: cover;
-  animation: services-fade 0.9s ease 0.15s both;
-}
-
-/* bracketed label cell sitting between the photo and the cards */
-.services__list-label {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  animation: services-fade 0.9s ease 0.25s both;
-}
-
-.services__list-frame {
-  position: absolute;
-  inset: 0.5rem;
-  animation: badge-pulse 2.6s ease-in-out infinite;
-}
-
-.services__list-frame::before,
-.services__list-frame::after {
-  content: '';
-  position: absolute;
-  width: 0.9rem;
-  height: 1.1rem;
-  border: 3px solid currentColor;
-}
-
-.services__list-frame--top::before {
-  top: 0;
-  left: 0;
-  border-right: none;
-  border-bottom: none;
-  border-top-left-radius: 0.55rem;
-}
-
-.services__list-frame--top::after {
-  top: 0;
-  right: 0;
-  border-left: none;
-  border-bottom: none;
-  border-top-right-radius: 0.55rem;
-}
-
-.services__list-frame--bottom::before {
-  bottom: 0;
-  left: 0;
-  border-right: none;
-  border-top: none;
-  border-bottom-left-radius: 0.55rem;
-}
-
-.services__list-frame--bottom::after {
-  bottom: 0;
-  right: 0;
-  border-left: none;
-  border-top: none;
-  border-bottom-right-radius: 0.55rem;
-}
-
 /* ---------- view all ---------- */
 
 .services__view-all {
@@ -521,26 +350,7 @@
   }
 }
 
-@keyframes services-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 /* ---------- responsive ---------- */
-
-@media (max-width: 1100px) {
-  .services__list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .services__list-image {
-    grid-row: span 1;
-  }
-}
 
 @media (max-width: 1100px) {
   .services__card {
@@ -558,40 +368,10 @@
     flex-basis: 100%;
     aspect-ratio: 1 / 1;
   }
-
-  .services__tabs {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .services__detail {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
-
-@media (max-width: 640px) {
-  .services__list {
-    grid-template-columns: 1fr;
-  }
-
-  .services__list-image {
-    grid-column: span 1;
-    min-height: 14rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .services__tabs,
-  .services__detail,
-  .services__detail-text,
-  .services__tab-image,
-  .services__item,
-  .services__list-image,
-  .services__list-label {
-    animation: none;
-  }
-
-  .services__list-frame {
+  .services__item {
     animation: none;
   }
 }

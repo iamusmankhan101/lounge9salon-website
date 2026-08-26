@@ -200,110 +200,6 @@
   transform: translateX(0.35rem);
 }
 
-/* ---------- treatment list ---------- */
-
-.services__item {
-  display: flex;
-  flex-direction: column;
-  padding: clamp(1.25rem, 1.8vw, 1.85rem);
-  box-shadow: inset 0 0 0 1px #dcdcdc;
-  animation: services-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-  transition: box-shadow 0.4s ease;
-}
-
-.services__item:hover {
-  box-shadow: inset 0 0 0 1px #111;
-}
-
-.services__item-name {
-  font-size: clamp(1rem, 1.15vw, 1.15rem);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  line-height: 1.25;
-}
-
-.services__item-meta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 0.55rem;
-}
-
-.services__item-price {
-  font-size: 1.3rem;
-  font-weight: 700;
-}
-
-.services__item-summary {
-  margin-top: 1rem;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: #555;
-}
-
-.services__item-duration {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-/* pinned to the bottom so buttons line up across cards of unequal height */
-.services__item-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  margin-top: auto;
-  padding-top: 1.75rem;
-}
-
-.services__book {
-  padding: 0.75rem 1.5rem;
-  color: var(--button-ink);
-  font: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
-  font-family: var(--button-font);
-  background: var(--button-bg);
-  border: none;
-  cursor: pointer;
-  transition: background 0.25s ease;
-}
-
-.services__book:hover {
-  background: var(--button-bg-hover);
-}
-
-.services__learn {
-  padding: 0;
-  color: #111;
-  font: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.25s ease;
-}
-
-.services__learn:hover {
-  opacity: 0.55;
-}
-
-.services__item-clock {
-  width: 1.05rem;
-  height: 1.05rem;
-  color: #666;
-}
-
-.services__item-clock svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
 /* ---------- view all ---------- */
 
 .services__view-all {
@@ -337,19 +233,6 @@
   opacity: 0.6;
 }
 
-/* ---------- animations ---------- */
-
-@keyframes services-rise {
-  from {
-    opacity: 0;
-    transform: translateY(2rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* ---------- responsive ---------- */
 
 @media (max-width: 1100px) {
@@ -367,11 +250,5 @@
   .services__card {
     flex-basis: 100%;
     aspect-ratio: 1 / 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .services__item {
-    animation: none;
   }
 }

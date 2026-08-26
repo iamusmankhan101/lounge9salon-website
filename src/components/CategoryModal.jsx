@@ -1,7 +1,45 @@
 import { useEffect, useRef } from 'react'
-import { CloseIcon } from './icons.jsx'
-import TreatmentCard from './TreatmentCard.jsx'
+import { ClockIcon, CloseIcon } from './icons.jsx'
+import { formatPrice } from '../data/services.js'
 import './CategoryModal.css'
+
+/** One line of the menu: number, name, dotted leader, price, and a book pill. */
+function MenuRow({ treatment, index, onOpen, onBook }) {
+  return (
+    <li className="menu-row" style={{ animationDelay: `${index * 0.04}s` }}>
+      <button
+        type="button"
+        className="menu-row__open"
+        onClick={onOpen}
+        aria-label={`Details for ${treatment.name}`}
+      >
+        <span className="menu-row__number" aria-hidden="true">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+
+        <span className="menu-row__name">{treatment.name}</span>
+        <span className="menu-row__leader" aria-hidden="true" />
+        <span className="menu-row__price">{formatPrice(treatment)}</span>
+
+        <span className="menu-row__sub">
+          <span className="menu-row__duration">
+            <span className="menu-row__clock">
+              <ClockIcon />
+            </span>
+            {treatment.duration}
+          </span>
+          {treatment.ownSummary && (
+            <span className="menu-row__summary">{treatment.ownSummary}</span>
+          )}
+        </span>
+      </button>
+
+      <button type="button" className="menu-row__book" onClick={onBook}>
+        Book
+      </button>
+    </li>
+  )
+}
 
 /**
  * The popup a service category card opens: the category write-up, then every
@@ -48,16 +86,6 @@ function CategoryModal({ category, suspended = false, onOpenTreatment, onClose }
         aria-modal="true"
         aria-labelledby="category-modal-title"
       >
-        <button
-          ref={closeRef}
-          type="button"
-          className="category-modal__close"
-          aria-label="Close"
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </button>
-
         <div className="category-modal__head">
           <img
             src={category.image}
@@ -84,18 +112,34 @@ function CategoryModal({ category, suspended = false, onOpenTreatment, onClose }
               ))}
             </div>
           </div>
+
+          <button
+            ref={closeRef}
+            type="button"
+            className="category-modal__close"
+            aria-label="Close"
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </button>
         </div>
 
-        <div className="category-modal__list">
+        <ul className="category-modal__menu">
           {category.treatments.map((treatment, i) => (
-            <TreatmentCard
+            <MenuRow
               key={treatment.id ?? treatment.name}
               treatment={treatment}
               index={i}
               onOpen={() => onOpenTreatment(treatment)}
+              onBook={() => onOpenTreatment(treatment, { book: true })}
             />
           ))}
-        </div>
+        </ul>
+
+        <p className="category-modal__foot">
+          Tap any treatment for what is involved — nothing is confirmed until
+          you send the request on WhatsApp.
+        </p>
       </div>
     </div>
   )

@@ -141,9 +141,10 @@ function TreatmentBooking({ treatment, onDone }) {
   )
 }
 
-function TreatmentModal({ treatment, onClose }) {
+function TreatmentModal({ treatment, startBooking = false, onClose }) {
   const closeRef = useRef(null)
-  const [booking, setBooking] = useState(false)
+  // the category popup's Book pill lands straight on the form
+  const [booking, setBooking] = useState(startBooking)
 
   // Close on Escape and hold the page still while the dialog is open.
   useEffect(() => {

@@ -14,10 +14,10 @@
 
 .category-modal__panel {
   position: relative;
-  width: min(76rem, 100%);
+  width: min(64rem, 100%);
   max-height: 100%;
   overflow-y: auto;
-  padding: clamp(1.5rem, 2.5vw, 2.5rem);
+  padding: clamp(1.5rem, 2.5vw, 2.75rem);
   color: #111;
   background: #fff;
   animation: category-modal-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -29,18 +29,22 @@
   right: clamp(1rem, 1.6vw, 1.6rem);
   z-index: 1;
   display: flex;
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-  color: #888;
-  background: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.55rem;
+  color: #666;
+  background: rgba(255, 255, 255, 0.85);
   border: none;
+  border-radius: 50%;
   cursor: pointer;
-  transition: color 0.25s ease;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
 }
 
 .category-modal__close:hover {
   color: #111;
+  background: #fff;
 }
 
 .category-modal__close svg {
@@ -52,9 +56,11 @@
 
 .category-modal__head {
   display: grid;
-  grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
-  gap: clamp(1.5rem, 3vw, 3rem);
+  grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.75rem);
   align-items: center;
+  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  border-bottom: 1px solid #111;
 }
 
 .category-modal__image {
@@ -75,14 +81,13 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #777;
+  color: var(--sage);
 }
 
 .category-modal__icon {
   display: block;
   width: 1rem;
   height: 1rem;
-  color: #111;
 }
 
 .category-modal__icon svg {
@@ -93,9 +98,9 @@
 
 .category-modal__name {
   margin-top: 0.6rem;
-  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.02;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
@@ -103,20 +108,169 @@
 .category-modal__text {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  margin-top: 1rem;
-  font-size: 1rem;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+  font-size: 0.98rem;
   line-height: 1.6;
-  color: #333;
+  color: #444;
 }
 
-/* ---------- treatments ---------- */
+/* ---------- the menu ---------- */
 
-.category-modal__list {
+.category-modal__menu {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.75rem, 1.5vw, 1.25rem);
-  margin-top: clamp(1.75rem, 4vw, 2.75rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(2rem, 4vw, 3.5rem);
+  margin-top: clamp(1.25rem, 2.5vw, 2rem);
+  list-style: none;
+}
+
+.menu-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid #eceae6;
+  animation: category-modal-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* the whole line opens the treatment, so it carries the hover wash */
+.menu-row__open {
+  display: grid;
+  grid-template-columns: auto auto minmax(1.5rem, 1fr) auto;
+  align-items: baseline;
+  gap: 0 0.6rem;
+  padding: 0.95rem 0.6rem;
+  margin-left: -0.6rem;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.menu-row:hover .menu-row__open,
+.menu-row__open:focus-visible {
+  background: var(--sage-tint);
+}
+
+.menu-row__number {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #b6b2ab;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease;
+}
+
+.menu-row:hover .menu-row__number {
+  color: var(--sage);
+}
+
+.menu-row__name {
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* classic menu leader running from the name out to the price */
+.menu-row__leader {
+  /* a 1px box aligns its bottom edge to the text baseline, then lifts to sit
+     where a printed menu's leader dots run */
+  align-self: baseline;
+  position: relative;
+  top: -0.28rem;
+  height: 1px;
+  background-image: linear-gradient(to right, #cfcbc4 45%, transparent 0%);
+  background-size: 6px 1px;
+  background-repeat: repeat-x;
+}
+
+.menu-row__price {
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.menu-row__sub {
+  grid-column: 2 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.7rem;
+  margin-top: 0.35rem;
+}
+
+.menu-row__duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #8a867f;
+}
+
+.menu-row__clock {
+  display: block;
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.menu-row__clock svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.menu-row__summary {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #8a867f;
+}
+
+.menu-row__book {
+  padding: 0.5rem 1.05rem;
+  color: #4a4a4a;
+  font: inherit;
+  font-family: var(--button-font);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid #dcd8d1;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.menu-row:hover .menu-row__book,
+.menu-row__book:focus-visible {
+  color: var(--button-ink);
+  background: var(--button-bg);
+  border-color: var(--button-bg);
+}
+
+.menu-row__book:hover {
+  background: var(--button-bg-hover);
+  border-color: var(--button-bg-hover);
+}
+
+.category-modal__foot {
+  margin-top: clamp(1.25rem, 2.5vw, 2rem);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #8a867f;
 }
 
 /* ---------- animations ---------- */
@@ -143,9 +297,9 @@
 
 /* ---------- responsive ---------- */
 
-@media (max-width: 1000px) {
-  .category-modal__list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (max-width: 900px) {
+  .category-modal__menu {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -159,15 +313,30 @@
   }
 }
 
-@media (max-width: 560px) {
-  .category-modal__list {
-    grid-template-columns: 1fr;
+@media (max-width: 520px) {
+  .menu-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding-bottom: 0.9rem;
+  }
+
+  .menu-row__open {
+    padding-bottom: 0.5rem;
+  }
+
+  .menu-row__book {
+    justify-self: start;
+    margin-left: 1.65rem;
+    color: var(--button-ink);
+    background: var(--button-bg);
+    border-color: var(--button-bg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .category-modal,
-  .category-modal__panel {
+  .category-modal__panel,
+  .menu-row {
     animation: none;
   }
 }

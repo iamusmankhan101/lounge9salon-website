@@ -154,6 +154,9 @@ export function buildCatalog(services = []) {
       durationMin: service.durationMin,
       duration: `${service.durationMin}min`,
       summary: service.summary || meta.blurb,
+      // the category blurb reads as filler when it repeats down a menu, so
+      // lists show a line only where the service carries its own
+      ownSummary: service.summary || '',
       images: [meta.listImage, meta.image],
     })
   }

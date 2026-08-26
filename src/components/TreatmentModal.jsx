@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ClockIcon, CloseIcon, StarIcon } from './icons.jsx'
+import { ClockIcon, CloseIcon } from './icons.jsx'
 import { formatPrice } from '../data/services.js'
 import { OPENING_HOURS, formatTime } from '../data/salon.js'
 import { PHONE } from '../data/contact.js'
@@ -141,10 +141,13 @@ function TreatmentBooking({ treatment, onDone }) {
   )
 }
 
-function TreatmentModal({ treatment, startBooking = false, onClose }) {
+/**
+ * Booking a single treatment. There is deliberately no write-up step in
+ * front of this: the menu already carries the name, price, and duration, so
+ * an intermediate screen only stood between the client and the form.
+ */
+function TreatmentModal({ treatment, onClose }) {
   const closeRef = useRef(null)
-  // the category popup's Book pill lands straight on the form
-  const [booking, setBooking] = useState(startBooking)
 
   // Close on Escape and hold the page still while the dialog is open.
   useEffect(() => {
@@ -187,23 +190,10 @@ function TreatmentModal({ treatment, startBooking = false, onClose }) {
         </button>
 
         <div className="modal__gallery">
-          {treatment.images.map((src) => (
-            <img key={src} src={src} alt="" className="modal__image" />
-          ))}
+          <img src={treatment.images[0]} alt="" className="modal__image" />
         </div>
 
         <div className="modal__body">
-          {treatment.rating && (
-            <p className="modal__rating">
-              <span className="modal__stars">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <StarIcon key={i} />
-                ))}
-              </span>
-              {treatment.rating}
-            </p>
-          )}
-
           <h3 className="modal__name" id="modal-title">
             {treatment.name}
           </h3>
@@ -218,42 +208,11 @@ function TreatmentModal({ treatment, startBooking = false, onClose }) {
             </span>
           </p>
 
-          {booking ? (
-            <TreatmentBooking treatment={treatment} onDone={onClose} />
-          ) : (
-            <>
-              <p className="modal__summary">{treatment.summary}</p>
-
-              {treatment.idealFor && (
-                <>
-                  <h4 className="modal__label">Ideal For:</h4>
-                  <p className="modal__ideal">{treatment.idealFor}</p>
-                </>
-              )}
-
-              {treatment.steps?.length > 0 && (
-                <>
-                  <h4 className="modal__label">What&apos;s Involved:</h4>
-                  <ul className="modal__steps">
-                    {treatment.steps.map((step) => (
-                      <li key={step.name} className="modal__step">
-                        <p className="modal__step-name">{step.name}</p>
-                        <p className="modal__step-text">{step.text}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-
-              <button
-                type="button"
-                className="modal__book"
-                onClick={() => setBooking(true)}
-              >
-                Book Now
-              </button>
-            </>
+          {treatment.ownSummary && (
+            <p className="modal__summary">{treatment.ownSummary}</p>
           )}
+
+          <TreatmentBooking treatment={treatment} onDone={onClose} />
         </div>
       </div>
     </div>

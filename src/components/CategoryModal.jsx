@@ -3,15 +3,17 @@ import { ClockIcon, CloseIcon } from './icons.jsx'
 import { formatPrice } from '../data/services.js'
 import './CategoryModal.css'
 
-/** One line of the menu: number, name, dotted leader, price, and a book pill. */
-function MenuRow({ treatment, index, onOpen, onBook }) {
+/** One line of the menu: number, name, dotted leader, price, and a book pill.
+    The line and the pill both open the booking form — there is no step in
+    between. */
+function MenuRow({ treatment, index, onBook }) {
   return (
     <li className="menu-row" style={{ animationDelay: `${index * 0.04}s` }}>
       <button
         type="button"
         className="menu-row__open"
-        onClick={onOpen}
-        aria-label={`Details for ${treatment.name}`}
+        onClick={onBook}
+        aria-label={`Book ${treatment.name}`}
       >
         <span className="menu-row__number" aria-hidden="true">
           {String(index + 1).padStart(2, '0')}
@@ -130,15 +132,14 @@ function CategoryModal({ category, suspended = false, onOpenTreatment, onClose }
               key={treatment.id ?? treatment.name}
               treatment={treatment}
               index={i}
-              onOpen={() => onOpenTreatment(treatment)}
-              onBook={() => onOpenTreatment(treatment, { book: true })}
+              onBook={() => onOpenTreatment(treatment)}
             />
           ))}
         </ul>
 
         <p className="category-modal__foot">
-          Tap any treatment for what is involved — nothing is confirmed until
-          you send the request on WhatsApp.
+          Tap any treatment to request it — nothing is confirmed until you
+          send the message on WhatsApp.
         </p>
       </div>
     </div>

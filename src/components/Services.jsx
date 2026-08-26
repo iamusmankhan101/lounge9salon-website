@@ -127,17 +127,14 @@ function Services() {
         <CategoryModal
           category={category}
           suspended={Boolean(openTreatment)}
-          onOpenTreatment={(treatment, options) =>
-            setOpenTreatment({ treatment, book: Boolean(options?.book) })
-          }
+          onOpenTreatment={setOpenTreatment}
           onClose={() => setOpenCategory(null)}
         />
       )}
 
       {openTreatment && (
         <TreatmentModal
-          treatment={openTreatment.treatment}
-          startBooking={openTreatment.book}
+          treatment={openTreatment}
           onClose={() => setOpenTreatment(null)}
         />
       )}

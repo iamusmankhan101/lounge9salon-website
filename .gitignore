@@ -26,3 +26,6 @@ dist-ssr
 # local secrets — never commit these
 .env
 .env.*
+
+# full-size photo originals — web copies live in public/gallery
+photos-original

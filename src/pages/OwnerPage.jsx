@@ -171,17 +171,34 @@ function OwnerPage() {
       <div
         ref={portraitsRef}
         className={`owner__portraits ${portraitsIn ? 'is-in' : ''}`}
+        // how far one copy runs, so the loop stays right as the list grows
+        style={{ '--count': PORTRAITS.length }}
       >
-        {PORTRAITS.map((src, i) => (
-          <span key={src} className="owner__portraits-frame" style={step(i)}>
-            <img
-              src={src}
-              alt=""
-              loading="lazy"
-              className="owner__portraits-image"
-            />
-          </span>
-        ))}
+        {/**
+         * The track holds the list twice and slides left by exactly one copy
+         * before restarting, which reads as an endless band. Both copies are
+         * rendered, since the second is what fills the gap the first leaves
+         * behind as it exits.
+         */}
+        <div className="owner__portraits-track">
+          {[...PORTRAITS, ...PORTRAITS].map((src, i) => (
+            <span
+              key={`${src}-${i}`}
+              className="owner__portraits-frame"
+              // the duplicate copy is scenery, not content
+              aria-hidden={i >= PORTRAITS.length ? 'true' : undefined}
+            >
+              {/* not lazy: a frame that loads as it slides in arrives blank,
+                  and the whole band is only a few hundred kilobytes */}
+              <img
+                src={src}
+                alt=""
+                decoding="async"
+                className="owner__portraits-image"
+              />
+            </span>
+          ))}
+        </div>
       </div>
 
       <section

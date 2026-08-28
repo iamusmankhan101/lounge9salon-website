@@ -15,13 +15,20 @@ export const OWNER = {
 }
 
 /**
- * Two more frames from the same shoot as OWNER.photo, shown as a band on the
- * owner page. Decorative — the intro portrait already carries her likeness, so
- * these are given empty alt text rather than repeating it to screen readers.
+ * More frames from the same shoot as OWNER.photo, run as a marquee on the owner
+ * page. Decorative — the intro portrait already carries her likeness, so these
+ * are given empty alt text rather than repeating it to screen readers.
+ *
+ * The marquee scrolls one full copy of this list and then jumps back, so the
+ * order reads as a loop: keep it long enough to overflow a wide screen, or the
+ * seam becomes visible.
  */
 export const PORTRAITS = [
+  '/owner/2V3A4136ARP.jpg',
   '/WhatsApp%20Image%202026-08-23%20at%2009.13.14.jpeg',
+  '/owner/2V3A4163ARP.jpg',
   '/WhatsApp%20Image%202026-08-23%20at%2009.13.15%20(1).jpeg',
+  '/owner/2V3A4168ARP.jpg',
 ]
 
 /** The three lines that sit under the portrait, above everything else. */

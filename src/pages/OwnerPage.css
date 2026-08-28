@@ -263,17 +263,47 @@
 
 /* ---------- portrait band ---------- */
 
+/**
+ * A marquee of frames from the shoot, running edge to edge under the page.
+ *
+ * The band is deliberately full-bleed — the surrounding sections are padded in,
+ * so letting this one run off both sides is what makes it read as continuous
+ * rather than as a row that happens to be moving.
+ */
 .owner__portraits {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(0.5rem, 1.5vw, 1.25rem);
-  padding: 0 clamp(1.5rem, 4vw, 4.5rem) clamp(2.5rem, 6vh, 4rem);
+  --frame-width: clamp(11rem, 17vw, 17rem);
+  --frame-gap: clamp(0.5rem, 1.5vw, 1.25rem);
+  --marquee-duration: 48s;
+
+  overflow: hidden;
+  padding-block: clamp(2.5rem, 6vh, 4rem);
   border-top: 1px solid #e4e0da;
-  padding-top: clamp(2.5rem, 6vh, 4rem);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.owner__portraits.is-in {
+  opacity: 1;
+}
+
+.owner__portraits-track {
+  display: flex;
+  /* the offset must land on a whole copy, so the spacing lives on the frames
+     rather than in a flex `gap` — a gap adds a half step the loop cannot undo */
+  width: max-content;
+  animation: owner-marquee var(--marquee-duration) linear infinite;
+}
+
+/* let a reader stop the band on anything that catches their eye */
+.owner__portraits:hover .owner__portraits-track,
+.owner__portraits:focus-within .owner__portraits-track {
+  animation-play-state: paused;
 }
 
 .owner__portraits-frame {
   display: block;
+  flex: 0 0 var(--frame-width);
+  margin-right: var(--frame-gap);
   overflow: hidden;
 }
 
@@ -284,19 +314,24 @@
   aspect-ratio: 2 / 3;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.08);
-  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(var(--i, 0) * 0.06s);
-}
-
-.owner__portraits.is-in .owner__portraits-image {
-  transform: scale(1);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .owner__portraits-frame:hover .owner__portraits-image {
   transform: scale(1.04);
-  transition-duration: 0.8s;
-  transition-delay: 0s;
+}
+
+/* one copy plus its trailing margin — the second copy lands exactly where the
+   first began, so there is no seam to see */
+@keyframes owner-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(
+      calc(-1 * var(--count) * (var(--frame-width) + var(--frame-gap)))
+    );
+  }
 }
 
 /* ---------- reveals ---------- */
@@ -316,7 +351,6 @@
 .owner__entry,
 .owner__qualification,
 .owner__skill,
-.owner__portraits-frame,
 .owner__closing-text,
 .owner__closing-cta {
   opacity: 0;
@@ -357,7 +391,6 @@
 .owner__section.is-in .owner__entry,
 .owner__section.is-in .owner__qualification,
 .owner__section.is-in .owner__skill,
-.owner__portraits.is-in .owner__portraits-frame,
 .owner__closing.is-in .owner__closing-text,
 .owner__closing.is-in .owner__closing-cta {
   opacity: 1;
@@ -424,9 +457,10 @@
     gap: 0.4rem;
   }
 
+  /* narrower frames keep two or three in view rather than one filling it */
   .owner__portraits {
-    grid-template-columns: 1fr;
-    max-width: 26rem;
+    --frame-width: clamp(9rem, 42vw, 13rem);
+    --marquee-duration: 34s;
   }
 }
 
@@ -451,12 +485,21 @@
   .owner__entry,
   .owner__qualification,
   .owner__skill,
-  .owner__portraits-frame,
   .owner__portraits-image,
   .owner__closing-text,
   .owner__closing-cta {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  /* a band that moves on its own is exactly what this asks us to stop; it
+     becomes a row the reader scrolls themselves */
+  .owner__portraits {
+    overflow-x: auto;
+  }
+
+  .owner__portraits-track {
+    animation: none;
   }
 }

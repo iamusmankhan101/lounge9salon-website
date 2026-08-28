@@ -13,7 +13,8 @@
 .story__bg {
   position: absolute;
   inset: 0;
-  background-image: url('/WhatsApp%20Image%202026-08-23%20at%2013.13.07.jpeg');
+  /* a wider crop than the gallery copy — this one runs full bleed */
+  background-image: url('/gallery/2V3A4543ARP-wide.jpg');
   background-size: cover;
   background-position: center;
   transform: scale(1.08);

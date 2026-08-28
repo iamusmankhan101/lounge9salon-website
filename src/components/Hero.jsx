@@ -9,11 +9,13 @@ const NAV_LINKS = [
 ]
 
 /**
- * The portrait the hero is built around. Swap this one line for the salon's
- * own campaign shot — the layout wants a vertical frame with the subject on
- * the right, since the left of the image fades out under the headline.
+ * The shot the hero is built around. Swap this one line to change it, but keep
+ * the frame vertical with the subject on the right: on desktop the left of the
+ * image fades out under the headline, and the top of it is what shows, so
+ * anything that matters needs to sit high and right. This crop of the shopfront
+ * is cut to those rules — the full-frame original is in photos-original/.
  */
-const HERO_IMAGE = '/f54cfe65d875e8e435ba3c93a34dedd5.jpg'
+const HERO_IMAGE = '/gallery/2V3A4516ARP-hero.jpg'
 
 function Hero() {
   return (

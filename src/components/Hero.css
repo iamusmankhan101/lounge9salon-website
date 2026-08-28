@@ -16,7 +16,8 @@
   position: absolute;
   inset: 0 0 0 38%;
   background-size: cover;
-  background-position: center top;
+  /* pulled up off the top edge so the sign sits a little higher in frame */
+  background-position: center -30px;
   /* studio grey sits too bright beside the black panel */
   filter: brightness(0.82) contrast(1.05) saturate(0.95);
   /* the left edge dissolves into the panel so the headline sits on black */

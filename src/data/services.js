@@ -32,10 +32,8 @@ const CATEGORY_META = {
   hair: {
     name: 'Hair',
     Icon: SparkIcon,
-    image:
-      'https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200&auto=format&fit=crop',
-    listImage:
-      'https://images.unsplash.com/photo-1521783593447-5702b9bfd267?q=80&w=1400&auto=format&fit=crop',
+    image: '/gallery/2V3A4543ARP-wide.jpg',
+    listImage: '/gallery/2V3A4543ARP-wide.jpg',
     blurb:
       'Cut, colour, and treatment work by stylists who plan around the hair you actually have.',
     description: [

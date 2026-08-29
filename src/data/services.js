@@ -73,10 +73,8 @@ const CATEGORY_META = {
   massage: {
     name: 'Massage & Body',
     Icon: WaveIcon,
-    image:
-      'https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=1200&auto=format&fit=crop',
-    listImage:
-      'https://images.unsplash.com/photo-1583416750470-965b2707b355?q=80&w=1400&auto=format&fit=crop',
+    image: '/gallery/2V3A4606ARP.jpg',
+    listImage: '/gallery/2V3A4606ARP.jpg',
     blurb:
       'Pressure, oil, and quiet — the part of the visit that is purely for you.',
     description: [
